@@ -20,7 +20,6 @@ def parseFile(g):
         if type(component) == Event:
             ret += [component]
             dtObject = normDT(component.get('dtstart').dt)
-            print(dtObject)
 
     # close file
     g.close()
@@ -28,34 +27,34 @@ def parseFile(g):
     # make sure events are in order
     return sorted(ret,key=lambda x: normDT(x.get('dtstart').dt))
 
-def selectTimeframe(events, timestamps, datetime1,datetime2):
+def selectTimeframe(events, timestamps, datetime1,datetime2=None):
     if not datetime2:
         datetime2 = datetime1 + (timedelta(days=1) - timedelta(seconds=1))
 
-    start = bisect.bisect_right( timestamps, datetime1 )
-    end   = bisect.bisect_left(  timestamps, datetime2 )
-
+    start = bisect.bisect_left(timestamps, datetime1 )
+    end   = bisect.bisect_right(timestamps, datetime2 )
     return events[start:end]
         
 def dayPadding():
     return '<span class="jzdb"><!--BLANK--></span>\n'
 
-def getTargetYearMonth(timestamps):
-    return timestamps[0].strftime("%B, %Y")
+def getTargetYearMonth(dt):
+    return dt.strftime("%B, %Y")
 
-def singleOverviewDay(numberOfDay, hasEvent):
+def singleOverviewDay(year, month, numberOfDay, hasEvent):
     if hasEvent:
-        html = '<a href={}> <span class="circle">{}</span> </a>'.format("#",numberOfDay)
+        link = 'day-{}&{}&{}.html'.format(year,month,numberOfDay)
+        html = '<a href={}> <span class="circle">{}</span> </a>'.format(link,numberOfDay)
     else:
-        html = '<span class="circle">{}</span>'.format(numberOfDay)
+        html = '<span>{}</span>'.format(numberOfDay)
     return html
 
-def createOverview(events, timestamps):
+def createOverview(events, timestamps, firstDate):
 
     # preparation
-    firstDate = timestamps[0]
     month   = firstDate.month
     weekday = firstDate.weekday() 
+    print(weekday)
     
     # create padding at start
     padding = ''.join([dayPadding() for x in range(0,weekday)])
@@ -71,40 +70,91 @@ def createOverview(events, timestamps):
 
     daysOfMonths = calendar.monthrange(firstDate.year, firstDate.month)[1]
     for x in range(1, daysOfMonths+1):
-        content += singleOverviewDay(x,x in exists)
+        content += singleOverviewDay(firstDate.year, firstDate.month, x, x in exists)
 
     # create padding at end
-    content += ''.join([dayPadding() for x in range(0,35 - daysOfMonths - weekday)])
+    print(weekday+daysOfMonths)
+    content += ''.join([dayPadding() for x in range(0, 7-(daysOfMonths + weekday)%7)])
 
     return content
 
-def createSingleDayView(events, day):
-    pass
+def createSingleDayView(events, timestamps, day):
 
+    # prepare colums
+    completeLeft  = ""
+    completeRight = ""
+
+    # prepare templates
+    leftItem  = '<div class="rectangle"> <p>{}</p> </div>'
+    rightItem = '<div class="rectangle"> <p>{}</p> </div>'
+
+    # find all relevant events
+    selectedEvents = selectTimeframe(events, timestamps, datetime1=day)
+    for event in selectedEvents:
+        time = event.get('dtstart').dt
+        if type(time) == date:
+            leftPart = leftItem.format("All day")
+        else:
+            leftPart = leftItem.format(time.strftime("%H:%M"))
+        
+        location = event.get('LOCATION')
+        if not location:
+            location = ""
+        buildDescription = "{}\n</br>{}".format(event.get('SUMMARY'),location)
+        rightPart = rightItem.format(buildDescription)
+        
+        # put it together
+        completeLeft  += leftPart
+        completeRight += rightPart
+
+    # format base html
+    return html_base_day.format(completeLeft,completeRight)
+    
+events = None
+timestamps = None
 def createBase(filename):
+    global events
+    global timestamps
+
     #read in file
     events = parseFile(open(filename,'rb'))
 
     # simplify search as we wont change events
     timestamps = [ normDT(x.get('dtstart').dt) for x in events ]
 
-    # build html
-    html_full = html_base.format(getTargetYearMonth(timestamps),\
-                                 createOverview(events, timestamps))
+def buildAll():
+    global events
+    global timestamps
 
-    with open("../test.html","w") as f:
-        f.write(html_full)
-    
-    # create single days
-    
+    # build month views
+    cur = datetime(timestamps[0].year,timestamps[0].month,1,tzinfo=pytz.utc)
+    while cur <= timestamps[-1]:
+        print(cur)
+        oneMonth = timedelta(days=calendar.monthrange(cur.year, cur.month)[1]);
+        # build html
+        html_full = html_base.format(getTargetYearMonth(cur),\
+                         createOverview(selectTimeframe(events, timestamps, cur, cur+oneMonth),\
+                         timestamps, cur))
+        fname = "build/month-{}&{}.html".format(cur.year,cur.month)
+        with open(fname,"w") as f:
+            f.write(html_full)
+        cur += oneMonth;
 
+    # build day views
+    cur = datetime(timestamps[0].year,timestamps[0].month,timestamps[0].day,tzinfo=pytz.utc)
+    while cur < timestamps[-1]:
+        fname = "build/day-{}&{}&{}.html".format(cur.year,cur.month, cur.day)
+        with open(fname,"w") as f:
+            f.write(createSingleDayView(events, timestamps, cur))
+        cur += timedelta(days=1) 
+    
 html_base = '''
 <!DOCTYPE html>
 <html lang="en" >
   <head>
     <meta charset="UTF-8">
-    <title>ATHQ</title>
-    <link rel="stylesheet" href="css/style.css">
+      <title>ATHQ</title>
+      <link rel="stylesheet" href="css/style.css">
   </head>
   <body>
     <div class="jzdbox1 jzdbasf jzdcal">
@@ -119,6 +169,31 @@ html_base = '''
       {}
     </div>
   </body>
-</html>'''
+</html>
+'''
+
+html_base_day = '''
+<!DOCTYPE html>
+<html lang="en" >
+  <head>
+    <meta charset="UTF-8">
+    <title>ATHQ-single</title>
+    <link rel="stylesheet" href="css/test.css">
+  </head>
+  <body>
+    <div class="row">
+        <div class="column1">
+            <h2>Zeit</h2>
+            {}
+        </div>
+        <div class="column2">
+            <h2>Termine</h2>
+            {}
+        </div>
+    </div>
+  </body>
+</html>
+'''
 
 createBase("test.ics")
+buildAll()
