@@ -38,6 +38,7 @@ a {
     
     margin 0;
 
+    text-align: start; 
     display: inline-block;
     vertical-align: middle;
     background-image: linear-gradient(to bottom, rgba(255,0,0,0.2), rgba(255,0,0,0));
