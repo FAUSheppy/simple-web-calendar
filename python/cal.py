@@ -5,6 +5,10 @@ from datetime import timedelta, datetime, date, tzinfo
 import calendar
 import pytz
 
+import pwd
+import grp
+import os
+
 def normDT(dt):
     if type(dt) == date:
         dtmp = datetime.combine(dt, datetime.min.time())
@@ -120,6 +124,11 @@ def createBase(filename):
     # simplify search as we wont change events
     timestamps = [ normDT(x.get('dtstart').dt) for x in events ]
 
+def fixPermissions(fname, group):
+    gid = grp.getgrnam(group).gr_gid
+    os.chown(fname,uid=-1,gid=gid)
+    os.chmod(fname,"640")
+
 def buildAll(targetDir, cssDir):
     global events
     global timestamps
@@ -135,6 +144,7 @@ def buildAll(targetDir, cssDir):
         fname = "{}/month-{}&{}.html".format(targetDir,cur.year,cur.month)
         with open(fname,"w") as f:
             f.write(html_full)
+        fixPermissions(fname, "www-data")
         cur += oneMonth;
 
     # build day views
@@ -143,6 +153,7 @@ def buildAll(targetDir, cssDir):
         fname = "{}/day-{}&{}&{}.html".format(targetDir, cur.year,cur.month, cur.day)
         with open(fname,"w") as f:
             f.write(createSingleDayView(events, timestamps, cur, cssDir))
+        fixPermissions(fname, "www-data")
         cur += timedelta(days=1) 
     
 html_base = '''
