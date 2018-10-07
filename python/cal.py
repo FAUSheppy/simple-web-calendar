@@ -175,6 +175,7 @@ html_base = '''
     <meta charset="UTF-8">
       <title>ATHQ</title>
       <link rel="stylesheet" href="{}/month.css">
+      <script type="text/javascript">navigator.serviceWorker.register('worker.js')</script>
   </head>
   <body>
     <div class="jzdbox1 jzdbasf jzdcal">
@@ -199,6 +200,7 @@ html_base_day = '''
     <meta charset="UTF-8">
     <title>ATHQ-single</title>
     <link rel="stylesheet" href="{}/day.css">
+    <script type="text/javascript">navigator.serviceWorker.register('worker.js')</script>
   </head>
   <body>
     <div class="row">
