@@ -61,7 +61,7 @@ def createOverview(events, timestamps, firstDate):
     # check which days will be highlighted
     exists = dict()
     for t in timestamps:
-        if (not t.day in exists) and (t.month == month):
+        if (not t.day in exists) and (t.month == month) and (t.year == firstDate.year):
                 exists.update({t.day:t.day})
     
     # create the actual content 
