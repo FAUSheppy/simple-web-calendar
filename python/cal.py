@@ -66,6 +66,9 @@ def createOverview(events, timestamps, firstDate):
     exists = dict()
     for t in timestamps:
         if (not t.day in exists) and (t.month == month) and (t.year == firstDate.year):
+                #print(events[timestamps.index(t)])
+                #print(t)
+                #print("---------------")
                 exists.update({t.day:t.day})
     
     # create the actual content 
@@ -125,9 +128,12 @@ def createBase(filename):
     timestamps = [ normDT(x.get('dtstart').dt) for x in events ]
 
 def fixPermissions(fname, group):
-    gid = grp.getgrnam(group).gr_gid
-    os.chown(fname,uid=-1,gid=gid)
-    os.chmod(fname,"640")
+    try:
+        gid = grp.getgrnam(group).gr_gid
+        os.chown(fname,uid=-1,gid=gid)
+        os.chmod(fname,"640")
+    except PermissionError:
+        pass
 
 def buildAll(targetDir, cssDir):
     global events
@@ -138,9 +144,15 @@ def buildAll(targetDir, cssDir):
     while cur <= timestamps[-1]:
         oneMonth = timedelta(days=calendar.monthrange(cur.year, cur.month)[1]);
         # build html
-        html_full = html_base.format(cssDir, getTargetYearMonth(cur),\
-                         createOverview(selectTimeframe(events, timestamps, cur, cur+oneMonth),\
-                         timestamps, cur))
+        html_full = html_base.format(
+                         cssDir, \
+                         getTargetYearMonth(cur),\
+                         createOverview(\
+                              selectTimeframe(events, timestamps, cur, cur+oneMonth),\
+                              selectTimeframe(timestamps,timestamps, cur, cur+oneMonth),
+                              cur),\
+                         )
+
         fname = "{}/month-{}&{}.html".format(targetDir,cur.year,cur.month)
         with open(fname,"w") as f:
             f.write(html_full)
