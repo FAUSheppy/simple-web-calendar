@@ -131,7 +131,7 @@ def fixPermissions(fname, group):
     try:
         gid = grp.getgrnam(group).gr_gid
         os.chown(fname,uid=-1,gid=gid)
-        os.chmod(fname,640)
+        os.chmod(fname,0o640)
     except PermissionError:
         pass
 
