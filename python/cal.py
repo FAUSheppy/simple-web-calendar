@@ -54,7 +54,6 @@ def createOverview(events, timestamps, firstDate):
     # preparation
     month   = firstDate.month
     weekday = firstDate.weekday() 
-    print(weekday)
     
     # create padding at start
     padding = ''.join([dayPadding() for x in range(0,weekday)])
@@ -73,12 +72,11 @@ def createOverview(events, timestamps, firstDate):
         content += singleOverviewDay(firstDate.year, firstDate.month, x, x in exists)
 
     # create padding at end
-    print(weekday+daysOfMonths)
     content += ''.join([dayPadding() for x in range(0, 7-(daysOfMonths + weekday)%7)])
 
     return content
 
-def createSingleDayView(events, timestamps, day):
+def createSingleDayView(events, timestamps, day, cssDir):
 
     # prepare colums
     completeLeft  = ""
@@ -108,7 +106,7 @@ def createSingleDayView(events, timestamps, day):
         completeRight += rightPart
 
     # format base html
-    return html_base_day.format(completeLeft,completeRight)
+    return html_base_day.format(cssDir, completeLeft,completeRight)
     
 events = None
 timestamps = None
@@ -122,20 +120,19 @@ def createBase(filename):
     # simplify search as we wont change events
     timestamps = [ normDT(x.get('dtstart').dt) for x in events ]
 
-def buildAll():
+def buildAll(targetDir, cssDir):
     global events
     global timestamps
 
     # build month views
     cur = datetime(timestamps[0].year,timestamps[0].month,1,tzinfo=pytz.utc)
     while cur <= timestamps[-1]:
-        print(cur)
         oneMonth = timedelta(days=calendar.monthrange(cur.year, cur.month)[1]);
         # build html
-        html_full = html_base.format(getTargetYearMonth(cur),\
+        html_full = html_base.format(cssDir, getTargetYearMonth(cur),\
                          createOverview(selectTimeframe(events, timestamps, cur, cur+oneMonth),\
                          timestamps, cur))
-        fname = "build/month-{}&{}.html".format(cur.year,cur.month)
+        fname = "{}/month-{}&{}.html".format(targetDir,cur.year,cur.month)
         with open(fname,"w") as f:
             f.write(html_full)
         cur += oneMonth;
@@ -143,9 +140,9 @@ def buildAll():
     # build day views
     cur = datetime(timestamps[0].year,timestamps[0].month,timestamps[0].day,tzinfo=pytz.utc)
     while cur < timestamps[-1]:
-        fname = "build/day-{}&{}&{}.html".format(cur.year,cur.month, cur.day)
+        fname = "{}/day-{}&{}&{}.html".format(targetDir, cur.year,cur.month, cur.day)
         with open(fname,"w") as f:
-            f.write(createSingleDayView(events, timestamps, cur))
+            f.write(createSingleDayView(events, timestamps, cur, cssDir))
         cur += timedelta(days=1) 
     
 html_base = '''
@@ -154,7 +151,7 @@ html_base = '''
   <head>
     <meta charset="UTF-8">
       <title>ATHQ</title>
-      <link rel="stylesheet" href="css/style.css">
+      <link rel="stylesheet" href="{}/month.css">
   </head>
   <body>
     <div class="jzdbox1 jzdbasf jzdcal">
@@ -178,16 +175,14 @@ html_base_day = '''
   <head>
     <meta charset="UTF-8">
     <title>ATHQ-single</title>
-    <link rel="stylesheet" href="css/test.css">
+    <link rel="stylesheet" href="{}/day.css">
   </head>
   <body>
     <div class="row">
         <div class="column1">
-            <h2>Zeit</h2>
             {}
         </div>
         <div class="column2">
-            <h2>Termine</h2>
             {}
         </div>
     </div>
@@ -195,5 +190,12 @@ html_base_day = '''
 </html>
 '''
 
-createBase("test.ics")
-buildAll()
+import argparse
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='AtlantisHQ CSS Calendar')
+    parser.add_argument('icsFile', type=str, help='ics file to parse')
+    parser.add_argument('targetDir', type=str, help='ics file to parse')
+    parser.add_argument('cssDir', type=str, help='ics file to parse')
+    args = parser.parse_args()
+    createBase(args.icsFile)
+    buildAll(args.targetDir,args.cssDir)
