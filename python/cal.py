@@ -214,6 +214,7 @@ def buildAll(targetDir, cssDir, jsDir):
             content = content.format(summary,location,description)
             content = html_base_event.format(cssDir, jsDir, content)
             f.write(content)
+        fixPermissions(uid, "www-data")
 
     # build detail views
     
