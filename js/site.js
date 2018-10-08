@@ -48,13 +48,15 @@ function runShit(){
     }
 
     /* upcoming */
-    link = "/day-" + date.getFullYear() + "&" + 
-                    (date.getMonth()+1) + "&" + 
-                     date.getDate() + ".html"
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = append;
-    xhttp.open("GET", link, true);
-    xhttp.send();
+    if(window.location.href.includes("month-")){
+      link = "/day-" + date.getFullYear() + "&" + 
+                      (date.getMonth()+1) + "&" + 
+                       date.getDate() + ".html"
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = append;
+      xhttp.open("GET", link, true);
+      xhttp.send();
+    }
 }
 
 window.onload = runShit
