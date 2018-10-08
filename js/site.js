@@ -1,14 +1,20 @@
 
 var runOnce = true
 function append(){
-    if(runOnce){
+    /* create pseudo doc for selection */
+    var doc = new DOMParser().parseFromString(this.responseText,"text/html")
+
+    /* cause reasons */
+    if(!doc.body.innerHTML){
+        return
+    }
+    else if(runOnce){
         runOnce = false
     }else{
         return
     }
-    /* create pseudo doc for selection */
-    var doc = new DOMParser().parseFromString(this.responseText,"text/html")
-    var menubar = menbar = doc.getElementsByClassName("menubar")[0]
+
+    var menubar = doc.getElementsByClassName("menubar")[0]
     menubar.innerText = "Today"
 
     /* put it together */
