@@ -109,9 +109,15 @@ def createSingleDayView(events, timestamps, day, cssDir, jsDir):
             leftPart = leftItem.format(time.strftime("%H:%M"))
         
         location = event.get('LOCATION')
+        hasDescription = event.get('DESCRIPTION')
         if not location:
             location = ""
-        buildDescription = "{}\n</br>{}".format(event.get('SUMMARY'),location)
+        if hasDescription:
+            description = '</br><a href={}.html>Details</a>'.format(event.get("UID"))
+        else:
+            description = ""
+        buildDescription = "{}\n</br><i>{}</i>{}".format(\
+                        event.get('SUMMARY'), location, description)
         rightPart = rightItem.format(buildDescription)
         
         # put it together
@@ -187,6 +193,30 @@ def buildAll(targetDir, cssDir, jsDir):
             f.write(createSingleDayView(events, timestamps, cur, cssDir, jsDir))
         fixPermissions(fname, "www-data")
         cur += timedelta(days=1) 
+
+    for e in events:
+        uid = "{}/{}.html".format(targetDir, e.get("UID"))
+        with open(uid,"w") as f:
+            
+            summary = e.get("SUMMARY")
+            if not summary:
+                summary = "Termin hat keinen Titel - meh"
+            
+            location    = e.get("LOCATION")
+            if not location:
+                location = "keine Angabe"
+            
+            description = e.get("DESCRIPTION")
+            if description:
+                description = description.replace("\n","\n</br>")
+
+            content = '<b>{}</br></br></b><i>Ort: {}</br></br></i><hr></br><b>Beschreibung:</b></br>{}'
+            content = content.format(summary,location,description)
+            content = html_base_event.format(cssDir, jsDir, content)
+            f.write(content)
+
+    # build detail views
+    
     
 html_base = '''
 <!DOCTYPE html>
@@ -244,6 +274,24 @@ html_base_day = '''
         <div class="column2">
             {}
         </div>
+    </div>
+  </body>
+</html>
+'''
+
+html_base_event = '''
+<!DOCTYPE html>
+<html lang="en" >
+  <head>
+    <meta charset="UTF-8">
+    <title>ATHQ-single</title>
+    <link rel="stylesheet" href="{}/day.css">
+    <script defer src="{}/site.js"></script>
+  </head>
+  <body>
+      <div class="eventview">
+            {}
+      </div>
     </div>
   </body>
 </html>

@@ -9,9 +9,14 @@ h2 {
 p {
     margin-left: 2vw;
     font-size: 5vw;
+    height: 60%;
+    overflow: hidden;
+    text-align: start;
 }
 a { 
+    font-size: 5vw;
     color: inherit;
+    text-align: right;
 } 
 
 /* Create two columns that floats next to each other */
@@ -19,8 +24,6 @@ a {
     float: left;
     width: 20%;
     background-image: linear-gradient(#fa739d,#c52a5a);
-
-
     text-align: center;
 }
 
@@ -29,16 +32,15 @@ a {
     width: 80%;
 	  background-color: red;
     background-image: linear-gradient(white,#ebbbca);
+    text-align: right;
 }
 
 /* actual box for time/description */
 .rectangle {
 		width: 100%;
 		height: 40vw;
-    
-    margin 0;
 
-    text-align: start; 
+    text-align: inherit; 
     display: inline-block;
     vertical-align: middle;
     background-image: linear-gradient(to bottom, rgba(255,0,0,0.2), rgba(255,0,0,0));
@@ -79,4 +81,13 @@ a {
   float:center; 
   width:4vw; 
   text-align:center; 
+}
+
+/* for events */
+.eventview {
+    float: left;
+    width: 100%;
+    padding: 40px;
+    background-image: linear-gradient(white,#ebbbca);
+    text-align: left;
 }
