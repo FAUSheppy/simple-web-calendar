@@ -85,6 +85,7 @@ a {
 
 /* for events */
 .eventview {
+    font-size: 4vw;
     float: left;
     width: 100%;
     padding: 40px;
