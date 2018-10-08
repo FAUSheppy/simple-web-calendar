@@ -1,6 +1,11 @@
 
-
+var runOnce = true
 function append(){
+    if(runOnce){
+        runOnce = false
+    }else{
+        return
+    }
     /* create pseudo doc for selection */
     var doc = new DOMParser().parseFromString(this.responseText,"text/html")
     var menubar = menbar = doc.getElementsByClassName("menubar")[0]
@@ -11,6 +16,7 @@ function append(){
 }
 
 function runShit(){
+    
     /* install service worker */
     if ('serviceWorker' in navigator && location.protocol != "file:") {
         navigator.serviceWorker.register('service-worker.js')
