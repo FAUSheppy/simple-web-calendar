@@ -63,3 +63,20 @@ a {
     display: table;
     clear: both;
 }
+
+.currentDate {
+  font:4vw 'Roboto'; 
+  font-weight:300; 
+  display:block; 
+  margin-top: 1vw; 
+  margin-bottom: 1vw; 
+  text-align:center; 
+  letter-spacing:1px;
+}
+.vspace {
+  height=10vw;
+  margin-bottom=10cm;
+  float:center; 
+  width:4vw; 
+  text-align:center; 
+}

@@ -28,15 +28,41 @@ body {
   background: linear-gradient(#749d9e, #b3a68b)!important;
 }
 
+.headerbar {
+  overflow: hidden;
+  text-align: center;
+}
+.hSpacer {
+  margin-left: 1cm !important;
+  margin-right: 1cm !important;
+}
+
 .jzdcalt {
   font:5vw 'Roboto'; 
   font-weight:700; 
   color:#f7f3eb; 
-  display:block; 
+  display:unset; 
   margin:18px 0 0 0; 
   text-transform:uppercase; 
   text-align:center; 
   letter-spacing:1px;
+}
+.currentDate {
+  font:4vw 'Roboto'; 
+  font-weight:300; 
+  color:#f7f3eb; 
+  display:block; 
+  margin-top: 1vw; 
+  margin-bottom: 1vw; 
+  text-align:center; 
+  letter-spacing:1px;
+}
+.vspace {
+  height=10vw;
+  margin-bottom=10cm;
+  float:center; 
+  width:4vw; 
+  text-align:center; 
 }
 
 .jzdcal span {
