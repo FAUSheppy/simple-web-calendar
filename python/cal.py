@@ -4,6 +4,7 @@ from icalendar import Event, Calendar
 from datetime import timedelta, datetime, date, tzinfo
 import calendar
 import pytz
+import locale
 
 import pwd
 import grp
@@ -44,13 +45,17 @@ def dayPadding():
 
 def getTargetYearMonth(dt):
     return dt.strftime("%B, %Y")
+def getMonthLink(dt):
+    return dt.strftime("%Y&%-m.html")
 
 def singleOverviewDay(year, month, numberOfDay, hasEvent):
+    dayId = "day-{}".format(numberOfDay)
     if hasEvent:
         link = 'day-{}&{}&{}.html'.format(year,month,numberOfDay)
-        html = '<a href={}> <span class="circle">{}</span> </a>'.format(link,numberOfDay)
+        html = '<a href={}> <span id="{}" class="circle">{}</span> </a>'.format(\
+                        link, dayId, numberOfDay)
     else:
-        html = '<span>{}</span>'.format(numberOfDay)
+        html = '<span id="{}">{}</span>'.format(dayId, numberOfDay)
     return html
 
 def createOverview(events, timestamps, firstDate):
@@ -83,7 +88,7 @@ def createOverview(events, timestamps, firstDate):
 
     return content
 
-def createSingleDayView(events, timestamps, day, cssDir):
+def createSingleDayView(events, timestamps, day, cssDir, jsDir):
 
     # prepare colums
     completeLeft  = ""
@@ -113,13 +118,19 @@ def createSingleDayView(events, timestamps, day, cssDir):
         completeRight += rightPart
 
     # format base html
-    return html_base_day.format(cssDir, completeLeft,completeRight)
+    return html_base_day.format(cssDir, jsDir, completeLeft,completeRight)
     
 events = None
 timestamps = None
 def createBase(filename):
     global events
     global timestamps
+    
+    # set time output language
+    try:
+        locale.setlocale(locale.LC_TIME, "de_DE.utf8")
+    except locale.Error:
+        print("Cannot set custom locale, using system default.")
 
     #read in file
     events = parseFile(open(filename,'rb'))
@@ -135,7 +146,7 @@ def fixPermissions(fname, group):
     except PermissionError:
         pass
 
-def buildAll(targetDir, cssDir):
+def buildAll(targetDir, cssDir, jsDir):
     global events
     global timestamps
 
@@ -143,10 +154,18 @@ def buildAll(targetDir, cssDir):
     cur = datetime(timestamps[0].year,timestamps[0].month,1,tzinfo=pytz.utc)
     while cur <= timestamps[-1]:
         oneMonth = timedelta(days=calendar.monthrange(cur.year, cur.month)[1]);
+
+        prevMonth = getMonthLink(cur-timedelta(days=1))
+        curMonth  = getTargetYearMonth(cur)
+        nextMonth = getMonthLink(cur+oneMonth)
+
         # build html
         html_full = html_base.format(
                          cssDir, \
-                         getTargetYearMonth(cur),\
+                         jsDir,\
+                         prevMonth,\
+                         curMonth,\
+                         nextMonth,\
                          createOverview(\
                               selectTimeframe(events, timestamps, cur, cur+oneMonth),\
                               selectTimeframe(timestamps,timestamps, cur, cur+oneMonth),
@@ -164,7 +183,7 @@ def buildAll(targetDir, cssDir):
     while cur < timestamps[-1]:
         fname = "{}/day-{}&{}&{}.html".format(targetDir, cur.year,cur.month, cur.day)
         with open(fname,"w") as f:
-            f.write(createSingleDayView(events, timestamps, cur, cssDir))
+            f.write(createSingleDayView(events, timestamps, cur, cssDir, jsDir))
         fixPermissions(fname, "www-data")
         cur += timedelta(days=1) 
     
@@ -175,19 +194,33 @@ html_base = '''
     <meta charset="UTF-8">
       <title>ATHQ</title>
       <link rel="stylesheet" href="{}/month.css">
-      <script type="text/javascript">navigator.serviceWorker.register('worker.js')</script>
+      <script defer src="{}/site.js"></script>
   </head>
   <body>
     <div class="jzdbox1 jzdbasf jzdcal">
-    <div class="jzdcalt">{}</div>
+    <div class="headerbar">
+        <div class="jzdcalt">
+            <a href=month-{}> PREV</a>    
+        </div>
+        <div class="jzdcalt hSpacer">{}</div>
+        <div class="jzdcalt">
+            <a href=month-{}> NEXT</a>
+        </div>
+    </div>
       <span>Mo</span>
-      <span>Tu</span>
-      <span>We</span>
-      <span>Th</span>
+      <span>Di</span>
+      <span>Mi</span>
+      <span>Do</span>
       <span>Fr</span>
       <span>Sa</span>
-      <span>Su</span>
+      <span>So</span>
       {}
+    <div class="vspace">
+        &nbsp; </br>
+    </div>
+    <div class="currentDate" id="time">
+          Datum/Uhrzeit nicht verfügbar.
+    </div>
     </div>
   </body>
 </html>
@@ -200,7 +233,7 @@ html_base_day = '''
     <meta charset="UTF-8">
     <title>ATHQ-single</title>
     <link rel="stylesheet" href="{}/day.css">
-    <script type="text/javascript">navigator.serviceWorker.register('worker.js')</script>
+    <script defer src="{}/site.js"></script>
   </head>
   <body>
     <div class="row">
@@ -221,6 +254,7 @@ if __name__ == "__main__":
     parser.add_argument('icsFile', type=str, help='ics file to parse')
     parser.add_argument('targetDir', type=str, help='ics file to parse')
     parser.add_argument('cssDir', type=str, help='ics file to parse')
+    parser.add_argument('jsDir', type=str, help='ics file to parse')
     args = parser.parse_args()
     createBase(args.icsFile)
-    buildAll(args.targetDir,args.cssDir)
+    buildAll(args.targetDir,args.cssDir, args.jsDir)
