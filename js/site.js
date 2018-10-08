@@ -21,3 +21,21 @@ if(window.location.href.includes("&"+(date.getMonth()+1).toString())){
       element.style.background = "orange"
     }
 }
+
+/* upcoming */
+function append(){
+    /* create pseudo doc for selection */
+    var doc = new DOMParser().parseFromString(this.responseText,"text/html")
+    var menubar = menbar = doc.getElementsByClassName("menubar")[0]
+    menubar.innerText = "Today"
+
+    /* put it together */
+    document.body.innerHTML += doc.body.innerHTML
+}
+link = "/day-" + date.getFullYear() + "&" + 
+                (date.getMonth()+1) + "&" + 
+                 date.getDate() + ".html"
+var xhttp = new XMLHttpRequest();
+xhttp.onreadystatechange = append;
+xhttp.open("GET", link, true);
+xhttp.send();

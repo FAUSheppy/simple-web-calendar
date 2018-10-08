@@ -8,6 +8,9 @@ a{
 	text-decoration: none;
   color: inherit;
 }
+p{
+	text-align: start !important;
+}
 
 .prev{
 	font-size: 10vw !important;
@@ -107,3 +110,38 @@ a{
   box-sizing:border-box!important; 
   border-radius:200vw!important;
 }
+.upcomingBox {
+}
+.rectangle {
+		width: 96%;
+  	margin-bottom:5vw; 
+  	margin-top:5vw;
+  	box-shadow:0 0 10px #201d1c; 
+  	margin:0 auto; 
+
+    text-align: inherit; 
+    display: inline-block;
+    vertical-align: middle;
+  	background: linear-gradient(#f4425c, #F7BEB2)!important;
+		font-size: 4vw;
+    /* wrap text */
+    word-wrap: break-word;
+	
+		/* hide text that is too long with */
+		text-overflow: ellipsis;
+		overflow: hidden;
+		text-align: right;
+
+    padding: 2vw;
+}
+.menubar {
+		margin-top: 3vw;
+		font-size: 5vw;
+    color: white;
+    background-color: #39464e;
+		padding: 2vw;
+}
+.upcomingLink {
+		text-decoration: underline !important;
+}
+

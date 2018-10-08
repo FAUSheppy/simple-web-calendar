@@ -176,6 +176,7 @@ def buildAll(targetDir, cssDir, jsDir):
         # build html
         html_full = html_base.format(
                          cssDir, \
+                         cssDir, \
                          jsDir,\
                          prevMonth,\
                          curMonth,\
@@ -234,6 +235,7 @@ html_base = '''
     <meta charset="UTF-8">
       <title>ATHQ</title>
       <link rel="stylesheet" href="{}/month.css">
+      <link rel="stylesheet" href="{}/day.css">
       <script defer src="{}/site.js"></script>
   </head>
   <body>
