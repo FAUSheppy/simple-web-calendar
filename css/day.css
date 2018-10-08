@@ -94,3 +94,13 @@ a {
     background-image: linear-gradient(white,#ebbbca);
     text-align: left;
 }
+
+.menubarLink {
+    font-size: 7vw !important;
+    text-decoration: none !important;
+}
+.menubar {
+    color: white;
+    background-color: #39464e;
+		padding: 2vw;
+}

@@ -45,6 +45,8 @@ def dayPadding():
 
 def getTargetYearMonth(dt):
     return dt.strftime("%B, %Y")
+def getDayLink(dt):
+    return dt.strftime("day-%Y&%-m&%-d.html")
 def getMonthLink(dt):
     return dt.strftime("%Y&%-m.html")
 
@@ -122,9 +124,15 @@ def createSingleDayView(events, timestamps, day, cssDir, jsDir):
         # put it together
         completeLeft  += leftPart
         completeRight += rightPart
+    
+    # reverse link
+    if selectedEvents:
+        backLink = "month-{}".format(getMonthLink(selectedEvents[0].get("dtstart").dt))
+    else:
+        backLink = "#"
 
     # format base html
-    return html_base_day.format(cssDir, jsDir, completeLeft,completeRight)
+    return html_base_day.format(cssDir, jsDir, backLink, completeLeft,completeRight)
     
 events = None
 timestamps = None
@@ -195,6 +203,7 @@ def buildAll(targetDir, cssDir, jsDir):
 
     for e in events:
         uid = "{}/{}.html".format(targetDir, e.get("UID"))
+        backLink = getDayLink(e.get("dtstart").dt)
         with open(uid,"w") as f:
             
             summary = e.get("SUMMARY")
@@ -211,7 +220,7 @@ def buildAll(targetDir, cssDir, jsDir):
 
             content = '<b>{}</br></br></b><i>Ort: {}</br></br></i><hr></br><b>Beschreibung:</b></br>{}'
             content = content.format(summary,location,description)
-            content = html_base_event.format(cssDir, jsDir, content)
+            content = html_base_event.format(cssDir, jsDir, backLink, content)
             f.write(content)
         fixPermissions(uid, "www-data")
 
@@ -231,7 +240,7 @@ html_base = '''
     <div class="jzdbox1 jzdbasf jzdcal">
     <div class="headerbar">
         <div class="jzdcalt prev">
-            <a class=prefNext href=month-{}>&laquo;</a>    
+            <a href=month-{}>&laquo;</a>    
         </div>
         <div class="jzdcalt">{}</div>
         <div class="jzdcalt next">
@@ -267,6 +276,9 @@ html_base_day = '''
     <script defer src="{}/site.js"></script>
   </head>
   <body>
+    <div class="menubar">                                                                           
+        <a class=menubarLink href="{}"> &laquo &laquo Monatsübersicht &laquo &laquo </a>
+    </div>
     <div class="row">
         <div class="column1">
             {}
@@ -289,6 +301,9 @@ html_base_event = '''
     <script defer src="{}/site.js"></script>
   </head>
   <body>
+    <div class="menubar">                                                                           
+        <a class=menubarLink href="{}"> &laquo &laquo Tagesübersicht &laquo &laquo </a>
+    </div>
       <div class="eventview">
             {}
       </div>
