@@ -14,6 +14,12 @@ function append(){
         return
     }
 
+    links = doc.getElementsByTagName("a")
+    for(i=1; i<links.length; i++){
+        links[i].style.textDecoration = "underline"                                                 
+    }
+
+
     var menubar = doc.getElementsByClassName("menubar")[0]
     menubar.innerText = "Today"
 
