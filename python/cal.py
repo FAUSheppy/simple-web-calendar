@@ -84,7 +84,8 @@ def createOverview(events, timestamps, firstDate):
         content += singleOverviewDay(firstDate.year, firstDate.month, x, x in exists)
 
     # create padding at end
-    content += ''.join([dayPadding() for x in range(0, 7-(daysOfMonths + weekday)%7)])
+    needed = (7 - (daysOfMonths + weekday)%7 )%7
+    content += ''.join([dayPadding() for x in range(0, needed)])
 
     return content
 
@@ -199,12 +200,12 @@ html_base = '''
   <body>
     <div class="jzdbox1 jzdbasf jzdcal">
     <div class="headerbar">
-        <div class="jzdcalt">
-            <a href=month-{}> PREV</a>    
+        <div class="jzdcalt prev">
+            <a class=prefNext href=month-{}>&laquo;</a>    
         </div>
-        <div class="jzdcalt hSpacer">{}</div>
-        <div class="jzdcalt">
-            <a href=month-{}> NEXT</a>
+        <div class="jzdcalt">{}</div>
+        <div class="jzdcalt next">
+            <a href=month-{}>&raquo;</a>
         </div>
     </div>
       <span>Mo</span>
