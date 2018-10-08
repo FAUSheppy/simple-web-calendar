@@ -96,8 +96,8 @@ def createSingleDayView(events, timestamps, day, cssDir, jsDir):
     completeRight = ""
 
     # prepare templates
-    leftItem  = '<div class="rectangle"> <p>{}</p> </div>'
-    rightItem = '<div class="rectangle"> <p>{}</p> </div>'
+    leftItem  = '<div class="rectangle"> <p>{}</p></div>'
+    rightItem = '<div class="rectangle"> <p>{}</p> {} </div>'
 
     # find all relevant events
     selectedEvents = selectTimeframe(events, timestamps, datetime1=day)
@@ -116,9 +116,8 @@ def createSingleDayView(events, timestamps, day, cssDir, jsDir):
             description = '</br><a href={}.html>Details</a>'.format(event.get("UID"))
         else:
             description = ""
-        buildDescription = "{}\n</br><i>{}</i>{}".format(\
-                        event.get('SUMMARY'), location, description)
-        rightPart = rightItem.format(buildDescription)
+        buildDescription = "{}\n</br><i>{}</i>".format(event.get('SUMMARY'), location)
+        rightPart = rightItem.format(buildDescription, description)
         
         # put it together
         completeLeft  += leftPart
