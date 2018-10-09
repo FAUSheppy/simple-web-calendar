@@ -19,7 +19,7 @@ do
 
     # copy css/js
     cp -f -r css/ ${DEPLOY}/css
-    cp -f -r css/ ${DEPLOY}/css
+    cp -f -r js/ ${DEPLOY}/js
     
     # fix permissions to be sure
     chown -R :www-data $DEPLOY
