@@ -3,6 +3,7 @@ body {
 }
 
 a{
+  font-size: 6vw;
 	text-decoration: none;
   color: inherit;
 }
@@ -131,7 +132,8 @@ p{
 		text-align: right;
 
     padding: 2vw;
-    padding-bottom: 10vw;
+    padding-bottom: 4vw;
+    padding-right: 4vw;
 }
 .menubar {
 		margin-top: 3vw;
