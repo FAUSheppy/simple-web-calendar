@@ -156,7 +156,7 @@ def createBase(filename):
         if not f.endswith(".ics"):
             continue
         #read in file
-        events += parseFile(open(os.path.join(filename ,f),'rb'))
+        events += parseFile(open(os.path.join(srcDir ,f),'rb'))
 
 
     # sort events
