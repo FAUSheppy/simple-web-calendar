@@ -20,11 +20,11 @@ today_2.setDate(today.getDate() + 2)
 
 var offlineFundamentals = [
   '',
-  'css/day.css',
-  'css/month.css',
-  'day-'+today.getFullYear()+"&"+today.getMonth()+"&"+today.getDate()+".html",
-  'day-'+today_1.getFullYear()+"&"+today_1.getMonth()+"&"+today_1.getDate()+".html",
-  'day-'+today_2.getFullYear()+"&"+today_2.getMonth()+"&"+today_2.getDate()+".html"
+  '/css/day.css',
+  '/css/month.css',
+  '/day-'+today.getFullYear()+"&"+today.getMonth()+"&"+today.getDate()+".html",
+  '/day-'+today_1.getFullYear()+"&"+today_1.getMonth()+"&"+today_1.getDate()+".html",
+  '/day-'+today_2.getFullYear()+"&"+today_2.getMonth()+"&"+today_2.getDate()+".html"
 ];
 
 /* The install event fires when the service worker is first installed.
