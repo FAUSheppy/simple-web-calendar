@@ -31,7 +31,7 @@ function runShit(){
     
     /* install service worker */
     if ('serviceWorker' in navigator && location.protocol != "file:") {
-        navigator.serviceWorker.register('service-worker.js')
+        navigator.serviceWorker.register('worker.js')
     }
     
     
