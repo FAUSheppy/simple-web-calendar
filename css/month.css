@@ -115,6 +115,7 @@ p{
 }
 .rectangle {
 		width: 96%;
+		height: 40vw;
   	margin-bottom:5vw; 
   	margin-top:5vw;
   	box-shadow:0 0 10px #201d1c; 
@@ -156,4 +157,25 @@ p{
     color: black;
     background-color: red;
 		padding: 2vw;
+}
+
+.column1 {
+    float: left;
+    width: 20%;
+    background-image: linear-gradient(#fa739d,#c52a5a);
+    text-align: center;
+}
+
+.column2 {
+    float: left;
+    width: 80%;
+	  background-color: red;
+    background-image: linear-gradient(white,#ebbbca);
+    text-align: right;
+}
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
 }
