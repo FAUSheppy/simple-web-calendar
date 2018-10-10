@@ -30,7 +30,7 @@ def parseFile(g):
     g.close()
 
     # make sure events are in order
-    return sorted(ret,key=lambda x: normDT(x.get('dtstart').dt))
+    return ret 
 
 def selectTimeframe(events, timestamps, datetime1,datetime2=None):
     if not datetime2:
@@ -134,8 +134,8 @@ def createSingleDayView(events, timestamps, day, cssDir, jsDir):
     # format base html
     return html_base_day.format(cssDir, jsDir, backLink, completeLeft,completeRight)
     
-events = None
-timestamps = None
+events = []
+timestamps = []
 def createBase(filename):
     global events
     global timestamps
@@ -145,10 +145,23 @@ def createBase(filename):
         locale.setlocale(locale.LC_TIME, "de_DE.utf8")
     except locale.Error:
         print("Cannot set custom locale, using system default.")
+    
+    files = [filename]
+    srcDir = ""
+    if os.path.isdir(filename):
+        srcDir = filename
+        files = os.listdir(filename)
 
-    #read in file
-    events = parseFile(open(filename,'rb'))
+    for f in files:
+        if not f.endswith(".ics"):
+            continue
+        #read in file
+        events += parseFile(open(os.path.join(filename ,f),'rb'))
 
+
+    # sort events
+    events = sorted(events,key=lambda x: normDT(x.get('dtstart').dt))
+    
     # simplify search as we wont change events
     timestamps = [ normDT(x.get('dtstart').dt) for x in events ]
 
