@@ -26,6 +26,6 @@ do
     chmod -R g+rX $DEPLOY
 
     # wait for changes
-    inotifywait -e modify $ICS
+    inotifywait -e modify -r $ICS
 
 done
