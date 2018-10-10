@@ -11,14 +11,16 @@ p{
 	text-align: start !important;
 }
 
+.bigLink{
+  font-size: 10vw !important;
+}
+
 .prev{
-	font-size: 10vw !important;
 	color: white;
 	margin-right: 5vw !important;
 }
 .next{
 	/* dunno why margin is fucked up */
-	font-size: 10vw !important;
 	color: white;
 	margin-left: 7vw !important;
 }
