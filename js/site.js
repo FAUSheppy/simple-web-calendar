@@ -21,7 +21,7 @@ function append(){
 
 
     var menubar = doc.getElementsByClassName("menubar")[0]
-    menubar.innerText = "Today"
+    menubar.innerText = "Heute"
 
     /* put it together */
     document.body.innerHTML += doc.body.innerHTML
