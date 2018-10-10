@@ -126,7 +126,7 @@ p{
     display: inline-block;
     vertical-align: middle;
   	background: linear-gradient(#f4425c, #F7BEB2)!important;
-		font-size: 4vw;
+		font-size: 6vw;
     /* wrap text */
     word-wrap: break-word;
 	
@@ -169,7 +169,7 @@ p{
 
 .column2 {
     float: left;
-    width: 80%;
+    width: 75%;
 	  background-color: red;
     background-image: linear-gradient(white,#ebbbca);
     text-align: right;
