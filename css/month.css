@@ -144,3 +144,12 @@ p{
 		text-decoration: underline !important;
 }
 
+#offlineInfo {
+		display: none;
+		margin-top: 3vw;
+		text-align: center;
+		font-size: 5vw;
+    color: black;
+    background-color: red;
+		padding: 2vw;
+}

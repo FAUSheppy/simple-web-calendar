@@ -252,6 +252,7 @@ html_base = '''
       <script defer src="{}/site.js"></script>
   </head>
   <body>
+    <div id="offlineInfo"><b>OFFLINE MODUS</b></div>    
     <div class="jzdbox1 jzdbasf jzdcal">
     <div class="headerbar">
         <div class="jzdcalt prev">
@@ -291,6 +292,7 @@ html_base_day = '''
     <script defer src="{}/site.js"></script>
   </head>
   <body>
+    <div id="offlineInfo"><b>OFFLINE MODUS</b></div>    
     <div class="menubar">                                                                           
         <a class=menubarLink href="{}"> &laquo &laquo Monatsübersicht &laquo &laquo </a>
     </div>
@@ -316,6 +318,7 @@ html_base_event = '''
     <script defer src="{}/site.js"></script>
   </head>
   <body>
+    <div id="offlineInfo"><b>OFFLINE MODUS</b></div>    
     <div class="menubar">                                                                           
         <a class=menubarLink href="{}"> &laquo &laquo Tagesübersicht &laquo &laquo </a>
     </div>

@@ -65,4 +65,15 @@ function runShit(){
     }
 }
 
+function goOffline(event) {
+    el = document.getElementById("offlineInfo")
+    el.style.display="block"
+}
+function goOnline(event) {
+    el = document.getElementById("offlineInfo")
+    el.style.display="none"
+}
+
+window.addEventListener('online', goOnline);
+window.addEventListener('offline', goOffline);
 window.onload = runShit
