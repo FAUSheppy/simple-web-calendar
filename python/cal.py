@@ -189,7 +189,6 @@ def buildAll(targetDir, cssDir, jsDir):
         # build html
         html_full = html_base.format(
                          cssDir, \
-                         cssDir, \
                          jsDir,\
                          prevMonth,\
                          curMonth,\
