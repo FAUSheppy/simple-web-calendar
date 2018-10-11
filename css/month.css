@@ -111,7 +111,7 @@ p{
 .upcomingBox {
 }
 .rectangle {
-		width: 96%;
+	width: 92.5%;
   	margin-bottom:5vw; 
   	margin-top:5vw;
   	box-shadow:0 0 10px #201d1c; 
@@ -121,14 +121,16 @@ p{
     display: inline-block;
     vertical-align: middle;
   	background: linear-gradient(#f4425c, #F7BEB2)!important;
-		font-size: 4vw;
+	font-size: 4vw;
     /* wrap text */
     word-wrap: break-word;
 	
-		/* hide text that is too long with */
-		text-overflow: ellipsis;
-		overflow: hidden;
-		text-align: right;
+	/* hide text that is too long with */
+	text-overflow: ellipsis;
+	overflow: hidden;
+	text-align: right;
+
+    float: left;
 
     padding: 2vw;
     padding-bottom: 10vw;
