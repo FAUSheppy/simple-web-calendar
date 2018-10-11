@@ -156,7 +156,7 @@ def createBase(filename):
         if not f.endswith(".ics"):
             continue
         #read in file
-        events += parseFile(open(os.path.join(filename ,f),'rb'))
+        events += parseFile(open(os.path.join(srcDir ,f),'rb'))
 
 
     # sort events
@@ -188,7 +188,6 @@ def buildAll(targetDir, cssDir, jsDir):
 
         # build html
         html_full = html_base.format(
-                         cssDir, \
                          cssDir, \
                          jsDir,\
                          prevMonth,\
@@ -248,18 +247,18 @@ html_base = '''
     <meta charset="UTF-8">
       <title>ATHQ</title>
       <link rel="stylesheet" href="{}/month.css">
-      <link rel="stylesheet" href="{}/day.css">
       <script defer src="{}/site.js"></script>
   </head>
   <body>
+    <div id="offlineInfo"><b>OFFLINE MODUS</b></div>    
     <div class="jzdbox1 jzdbasf jzdcal">
     <div class="headerbar">
         <div class="jzdcalt prev">
-            <a href=month-{}>&laquo;</a>    
+            <a class="bigLink" href=month-{}>&laquo;&laquo;</a>    
         </div>
         <div class="jzdcalt">{}</div>
         <div class="jzdcalt next">
-            <a href=month-{}>&raquo;</a>
+            <a class="bigLink" href=month-{}>&raquo;&raquo;</a>
         </div>
     </div>
       <span>Mo</span>
@@ -291,6 +290,7 @@ html_base_day = '''
     <script defer src="{}/site.js"></script>
   </head>
   <body>
+    <div id="offlineInfo"><b>OFFLINE MODUS</b></div>    
     <div class="menubar">                                                                           
         <a class=menubarLink href="{}"> &laquo &laquo Monatsübersicht &laquo &laquo </a>
     </div>
@@ -316,6 +316,7 @@ html_base_event = '''
     <script defer src="{}/site.js"></script>
   </head>
   <body>
+    <div id="offlineInfo"><b>OFFLINE MODUS</b></div>    
     <div class="menubar">                                                                           
         <a class=menubarLink href="{}"> &laquo &laquo Tagesübersicht &laquo &laquo </a>
     </div>

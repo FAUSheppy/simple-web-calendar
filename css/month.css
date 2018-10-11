@@ -3,21 +3,25 @@ body {
 }
 
 a{
+  font-size: 6vw;
 	text-decoration: none;
   color: inherit;
 }
 p{
 	text-align: start !important;
+  height: 30%;
+}
+
+.bigLink{
+  font-size: 10vw !important;
 }
 
 .prev{
-	font-size: 10vw !important;
 	color: white;
 	margin-right: 5vw !important;
 }
 .next{
 	/* dunno why margin is fucked up */
-	font-size: 10vw !important;
 	color: white;
 	margin-left: 7vw !important;
 }
@@ -112,6 +116,7 @@ p{
 }
 .rectangle {
 	width: 92.5%;
+	height: 40vw;
   	margin-bottom:5vw; 
   	margin-top:5vw;
   	box-shadow:0 0 10px #201d1c; 
@@ -121,7 +126,8 @@ p{
     display: inline-block;
     vertical-align: middle;
   	background: linear-gradient(#f4425c, #F7BEB2)!important;
-	font-size: 4vw;
+	font-size: 6vw;
+
     /* wrap text */
     word-wrap: break-word;
 	
@@ -133,7 +139,8 @@ p{
     float: left;
 
     padding: 2vw;
-    padding-bottom: 10vw;
+    padding-bottom: 4vw;
+    padding-right: 4vw;
 }
 .menubar {
 		margin-top: 3vw;
@@ -146,3 +153,33 @@ p{
 		text-decoration: underline !important;
 }
 
+#offlineInfo {
+		display: none;
+		margin-top: 3vw;
+		text-align: center;
+		font-size: 5vw;
+    color: black;
+    background-color: red;
+		padding: 2vw;
+}
+
+.column1 {
+    float: left;
+    width: 20%;
+    background-image: linear-gradient(#fa739d,#c52a5a);
+    text-align: center;
+}
+
+.column2 {
+    float: left;
+    width: 75%;
+	  background-color: red;
+    background-image: linear-gradient(white,#ebbbca);
+    text-align: right;
+}
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}

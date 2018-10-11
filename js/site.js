@@ -21,7 +21,7 @@ function append(){
 
 
     var menubar = doc.getElementsByClassName("menubar")[0]
-    menubar.innerText = "Today"
+    menubar.innerText = "Heute"
 
     /* put it together */
     document.body.innerHTML += doc.body.innerHTML
@@ -31,7 +31,7 @@ function runShit(){
     
     /* install service worker */
     if ('serviceWorker' in navigator && location.protocol != "file:") {
-        navigator.serviceWorker.register('worker.js')
+        navigator.serviceWorker.register('js/worker.js')
     }
     
     
@@ -65,4 +65,15 @@ function runShit(){
     }
 }
 
+function goOffline(event) {
+    el = document.getElementById("offlineInfo")
+    el.style.display="block"
+}
+function goOnline(event) {
+    el = document.getElementById("offlineInfo")
+    el.style.display="none"
+}
+
+window.addEventListener('online', goOnline);
+window.addEventListener('offline', goOffline);
 window.onload = runShit
