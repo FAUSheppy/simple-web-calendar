@@ -126,7 +126,7 @@ p{
     display: inline-block;
     vertical-align: middle;
   	background: linear-gradient(#f4425c, #F7BEB2)!important;
-	font-size: 6vw;
+	font-size: 4vw;
 
     /* wrap text */
     word-wrap: break-word;
