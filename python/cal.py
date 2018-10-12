@@ -28,6 +28,7 @@ def phoneRecogAudit(substr):
 
 phoneCleaner = str.maketrans(dict.fromkeys('-/ '))
 def searchAndAmorPhoneNumbers(string):
+    counter = 0
     ret = string
     regex = re.compile(r"[-0-9/ ]{7,20}")
     phone_base = "<a class=phone href='tel:{}'>{}</a> "
@@ -43,8 +44,10 @@ def searchAndAmorPhoneNumbers(string):
         if len(substr)-spaces < 7:
             continue
         substr = phone_base.format(substr.translate(phoneCleaner),substr)
-        ret = ret[:start] + substr + ret[end:]
-        #input(ret)
+        ret = ret[:start+counter] + substr + ret[end+counter:]
+
+        #remeber induced offset
+        counter = len(ret) - len(string)
     return ret
 
 def parseFile(g):
