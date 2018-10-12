@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+import re
 import bisect
 from icalendar import Event, Calendar
 from datetime import timedelta, datetime, date, tzinfo
@@ -15,6 +16,36 @@ def normDT(dt):
         dtmp = datetime.combine(dt, datetime.min.time())
         return pytz.utc.localize(dtmp,pytz.utc)
     return dt
+
+def phoneRecogAudit(substr):
+    spaces = sum(" " in s for s in substr)
+    if len(substr)-spaces >= 7:
+        print("Accepted: '{}'".format(substr))
+        return
+    new = substr.strip(" ")
+    if len(new) > 0:
+        print("                                   Discarded: '{}'".format(substr))
+
+phoneCleaner = str.maketrans(dict.fromkeys('-/ '))
+def searchAndAmorPhoneNumbers(string):
+    ret = string
+    regex = re.compile(r"[-0-9/ ]{7,20}")
+    phone_base = "<a class=phone href='tel:{}'>{}</a> "
+    for el in list(regex.finditer(string)):
+        start = el.regs[0][0]
+        end   = el.regs[0][1]
+        substr = string[start:end]
+        spaces = sum( (" " in s)or("-" in s)or("/" in s) for s in substr)
+        
+        # debug #
+        #phoneRecogAudit(substr)
+        
+        if len(substr)-spaces < 7:
+            continue
+        substr = phone_base.format(substr.translate(phoneCleaner),substr)
+        ret = ret[:start] + substr + ret[end:]
+        #input(ret)
+    return ret
 
 def parseFile(g):
     ret = []
@@ -161,6 +192,13 @@ def createBase(filename):
 
     # sort events
     events = sorted(events,key=lambda x: normDT(x.get('dtstart').dt))
+
+    # link phone numbers
+    for e in events:
+        try:
+            e['description'] = searchAndAmorPhoneNumbers(e['description'])
+        except KeyError:
+            pass
     
     # simplify search as we wont change events
     timestamps = [ normDT(x.get('dtstart').dt) for x in events ]
@@ -210,7 +248,9 @@ def buildAll(targetDir, cssDir, jsDir):
     while cur < timestamps[-1]:
         fname = "{}/day-{}&{}&{}.html".format(targetDir, cur.year,cur.month, cur.day)
         with open(fname,"w") as f:
-            f.write(createSingleDayView(events, timestamps, cur, cssDir, jsDir))
+            outputstring = createSingleDayView(events, timestamps, cur, cssDir, jsDir)
+            #outputstring = searchAndAmorPhoneNumbers(outputstring)
+            f.write(outputstring)
         fixPermissions(fname, "www-data")
         cur += timedelta(days=1) 
 
@@ -234,6 +274,7 @@ def buildAll(targetDir, cssDir, jsDir):
             content = '<b>{}</br></br></b><i>Ort: {}</br></br></i><hr></br><b>Beschreibung:</b></br>{}'
             content = content.format(summary,location,description)
             content = html_base_event.format(cssDir, jsDir, backLink, content)
+            #content = searchAndAmorPhoneNumbers(content)
             f.write(content)
         fixPermissions(uid, "www-data")
 
