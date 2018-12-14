@@ -29,14 +29,13 @@ This will send the script the relevant signal and cause it to rebuild the calend
 ---
 
 # Pictures
+## Month View/Main View
 ![month view](https://media.atlantishq.de/month-view.png)
 
----
-
+## Single-Day View
 ![day view](https://media.atlantishq.de/day-view.png)
 
----
-
+## Single-Event/Detailed View
 ![single event view](https://media.atlantishq.de/event-view.png)
 
 
