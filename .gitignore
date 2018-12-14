@@ -2,4 +2,5 @@
 *.html
 *.ics
 build/
+test-scattered/
 *.pyc
