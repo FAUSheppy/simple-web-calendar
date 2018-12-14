@@ -12,7 +12,7 @@ The smart-deploy script, is called in the same fashion. However, after the first
 
 Once the smart deploy script is running in one way or another, you can add the following line in ``[storage]``:
 
-   hook = killall -s USR1 smart-deploy.py
+    hook = killall -s USR1 smart-deploy.py
 
 This will send the script the relevant signal and cause it to rebuild the calendar. Note that this option only exists for radicale version >2.0.
 
