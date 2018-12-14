@@ -1,0 +1,12 @@
+[Service]
+User=ths
+Type=simple
+
+ExecStart=/PATH/TO/smart-deploy.py /PATH/TO/ICS /PATH/TO/TARGET/DIR/
+ExecStop=/usr/bin/killall -s TERM smart-deploy.py
+
+TimeoutStopSec=5
+CPUQuota=100%
+
+[Install]
+WantedBy=multi-user.target
