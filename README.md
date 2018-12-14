@@ -16,8 +16,6 @@ Once the smart deploy script is running in one way or another, you can add the f
 
 This will send the script the relevant signal and cause it to rebuild the calendar. Note that this option only exists for radicale version >2.0.
 
----
-
 # Known problems
 * site is poorly sized on bigger screens, meaning mostly desktop computers in general
 * pages are not replaced atomically, meaning *404 Errors* are sometimes possible
@@ -25,8 +23,6 @@ This will send the script the relevant signal and cause it to rebuild the calend
 
 # Future Features planned
 * client side javascript to modify calendar entries
-
----
 
 # Pictures
 ## Month View/Main View
