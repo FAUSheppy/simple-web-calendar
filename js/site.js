@@ -19,7 +19,6 @@ function append(){
         links[i].style.textDecoration = "underline"                                                 
     }
 
-
     var menubar = doc.getElementsByClassName("menubar")[0]
     menubar.innerText = "Heute"
 
@@ -45,10 +44,13 @@ function runShit(){
     
     /* highlight current day */
     var date = new Date()
-    if(window.location.href.includes("&"+(date.getMonth()+1).toString())){
+    month = date.getMonth() + 1
+    if(month < 10){
+        monthStr = "0" + month.toString()
+    }
+    if(window.location.href.includes("&" + monthStr)){
         element = document.getElementById("day-"+date.getDate())
         if(element){
-        
           element.style.background = "orange"
         }
     }
