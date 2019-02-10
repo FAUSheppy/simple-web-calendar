@@ -29,9 +29,9 @@ function append(){
 function runShit(){
     
     /* install service worker */
-    if ('serviceWorker' in navigator && location.protocol != "file:") {
-        navigator.serviceWorker.register('js/worker.js')
-    }
+    //if ('serviceWorker' in navigator && location.protocol != "file:") {
+    //    navigator.serviceWorker.register('js/worker.js')
+    //}
     
     
     /* input time */
@@ -57,9 +57,9 @@ function runShit(){
 
     /* upcoming */
     if(window.location.href.includes("month-")){
-      link = "/day-" + date.getFullYear() + "&" + 
-                      (date.getMonth()+1) + "&" + 
-                       date.getDate() + ".html"
+      link = "/day-" + date.getFullYear()   + "&" + 
+                       monthStr             + "&" + 
+                       date.getDate()       + ".html"
       var xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = append;
       xhttp.open("GET", link, true);
