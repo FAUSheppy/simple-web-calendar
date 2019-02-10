@@ -59,6 +59,8 @@ def parseFile(g):
         if type(component) == Event:
             ret += [component]
             dtObject = normDT(component.get('dtstart').dt)
+        else:
+            pass
 
     # close file
     g.close()
@@ -80,14 +82,16 @@ def dayPadding():
 def getTargetYearMonth(dt):
     return dt.strftime("%B, %Y")
 def getDayLink(dt):
-    return dt.strftime("day-%Y&%-m&%-d.html")
+    return dt.strftime("day-%Y&%m&%-d.html")
 def getMonthLink(dt):
-    return dt.strftime("%Y&%-m.html")
+    return dt.strftime("month-%Y&%m.html")
 
 def singleOverviewDay(year, month, numberOfDay, hasEvent):
+    if month < 10:
+        month = "0{}".format(month)
     dayId = "day-{}".format(numberOfDay)
     if hasEvent:
-        link = 'day-{}&{}&{}.html'.format(year,month,numberOfDay)
+        link = 'day-{}&{}&{}.html'.format(year, month, numberOfDay)
         html = '<a href={}> <span id="{}" class="circle">{}</span> </a>'.format(\
                         link, dayId, numberOfDay)
     else:
@@ -107,9 +111,6 @@ def createOverview(events, timestamps, firstDate):
     exists = dict()
     for t in timestamps:
         if (not t.day in exists) and (t.month == month) and (t.year == firstDate.year):
-                #print(events[timestamps.index(t)])
-                #print(t)
-                #print("---------------")
                 exists.update({t.day:t.day})
     
     # create the actual content 
@@ -161,7 +162,7 @@ def createSingleDayView(events, timestamps, day, cssDir, jsDir):
     
     # reverse link
     if selectedEvents:
-        backLink = "month-{}".format(getMonthLink(selectedEvents[0].get("dtstart").dt))
+        backLink = getMonthLink(selectedEvents[0].get("dtstart").dt)
     else:
         backLink = "#"
 
@@ -236,11 +237,11 @@ def buildAll(targetDir, cssDir, jsDir):
                          nextMonth,\
                          createOverview(\
                               selectTimeframe(events, timestamps, cur, cur+oneMonth),\
-                              selectTimeframe(timestamps,timestamps, cur, cur+oneMonth),
+                              selectTimeframe(timestamps, timestamps, cur, cur+oneMonth),
                               cur),\
                          )
 
-        fname = "{}/month-{}&{}.html".format(targetDir,cur.year,cur.month)
+        fname = targetDir + "/" + getMonthLink(cur)
         with open(fname,"w") as f:
             f.write(html_full)
         fixPermissions(fname, "www-data")
@@ -249,7 +250,7 @@ def buildAll(targetDir, cssDir, jsDir):
     # build day views
     cur = datetime(timestamps[0].year,timestamps[0].month,timestamps[0].day,tzinfo=pytz.utc)
     while cur < timestamps[-1]:
-        fname = "{}/day-{}&{}&{}.html".format(targetDir, cur.year,cur.month, cur.day)
+        fname = targetDir + "/" + getDayLink(cur)
         with open(fname,"w") as f:
             outputstring = createSingleDayView(events, timestamps, cur, cssDir, jsDir)
             #outputstring = searchAndAmorPhoneNumbers(outputstring)
