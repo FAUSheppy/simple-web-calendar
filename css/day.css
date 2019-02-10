@@ -102,7 +102,17 @@ a {
 .menubar {
     color: white;
     background-color: #39464e;
-		padding: 2vw;
+	padding: 2vw;
+}
+.menubarDate {
+    color: white;
+    background-color: #39464e;
+	padding: 2vw;
+    position: fixed;
+    bottom: 0;
+    z-index: 999;
+    margin-right: 1vw;
+    width: 98.5%;
 }
 
 #offlineInfo {

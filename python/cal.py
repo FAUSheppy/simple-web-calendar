@@ -167,7 +167,8 @@ def createSingleDayView(events, timestamps, day, cssDir, jsDir):
         backLink = "#"
 
     # format base html
-    return html_base_day.format(cssDir, jsDir, backLink, completeLeft,completeRight)
+    dateOfView = day.strftime("%A, %d. %B")
+    return html_base_day.format(cssDir, jsDir, backLink, dateOfView, completeLeft, completeRight)
     
 events = []
 timestamps = []
@@ -338,6 +339,9 @@ html_base_day = '''
     <div id="offlineInfo"><b>OFFLINE MODUS</b></div>    
     <div class="menubar">                                                                           
         <a class=menubarLink href="{}"> &laquo &laquo Monatsübersicht &laquo &laquo </a>
+    </div>
+    <div class="menubarDate"">
+        <class=currentDate style="font-size: 5vw;">{}</a>
     </div>
     <div class="row">
         <div class="column1">
