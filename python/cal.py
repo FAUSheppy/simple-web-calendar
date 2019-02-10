@@ -299,11 +299,11 @@ html_base = '''
     <div class="jzdbox1 jzdbasf jzdcal">
     <div class="headerbar">
         <div class="jzdcalt prev">
-            <a class="bigLink" href=month-{}>&laquo;&laquo;</a>    
+            <a class="bigLink" href={}>&laquo;&laquo;</a>    
         </div>
         <div class="jzdcalt">{}</div>
         <div class="jzdcalt next">
-            <a class="bigLink" href=month-{}>&raquo;&raquo;</a>
+            <a class="bigLink" href={}>&raquo;&raquo;</a>
         </div>
     </div>
       <span>Mo</span>
