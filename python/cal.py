@@ -5,6 +5,7 @@ from icalendar import Event, Calendar
 from datetime import timedelta, datetime, date, tzinfo
 import calendar
 import pytz
+import unidecode
 import locale
 
 import pwd
@@ -29,7 +30,7 @@ def phoneRecogAudit(substr):
 phoneCleaner = str.maketrans(dict.fromkeys('-/ '))
 def searchAndAmorPhoneNumbers(string):
     counter = 0
-    ret = string
+    ret = unidecode.unidecode(string)
     regex = re.compile(r"[-0-9/ ]{7,20}")
     phone_base = "<a class=phone href='tel:{}'>{}</a> "
     for el in list(regex.finditer(string)):
@@ -285,15 +286,15 @@ def buildAll(targetDir, cssDir, jsDir):
     
     
 html_base = ""
-with open("../html-snippets/month-view.html") as f:
+with open("html-snippets/month-view.html") as f:
     html_base = f.read()
 
 html_base_day = ""
-with open("../html-snippets/day-view.html") as f:
+with open("html-snippets/day-view.html") as f:
     html_base_day = f.read()
 
 html_base_event = ""
-with open("../html-snippets/event-view.html") as f:
+with open("html-snippets/event-view.html") as f:
     html_base_event = f.read()
 
 import argparse
