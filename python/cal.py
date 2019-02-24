@@ -254,7 +254,6 @@ def buildAll(targetDir, cssDir, jsDir):
         fname = targetDir + "/" + getDayLink(cur)
         with open(fname,"w") as f:
             outputstring = createSingleDayView(events, timestamps, cur, cssDir, jsDir)
-            #outputstring = searchAndAmorPhoneNumbers(outputstring)
             f.write(outputstring)
         fixPermissions(fname, "www-data")
         cur += timedelta(days=1) 
@@ -279,103 +278,23 @@ def buildAll(targetDir, cssDir, jsDir):
             content = '<b>{}</br></br></b><i>Ort: {}</br></br></i><hr></br><b>Beschreibung:</b></br>{}'
             content = content.format(summary,location,description)
             content = html_base_event.format(cssDir, jsDir, backLink, content)
-            #content = searchAndAmorPhoneNumbers(content)
             f.write(content)
         fixPermissions(uid, "www-data")
 
     # build detail views
     
     
-html_base = '''
-<!DOCTYPE html>
-<html lang="en" >
-  <head>
-    <meta charset="UTF-8">
-      <title>ATHQ</title>
-      <link rel="stylesheet" href="{}/month.css">
-      <script defer src="{}/site.js"></script>
-  </head>
-  <body>
-    <div id="offlineInfo"><b>OFFLINE MODUS</b></div>    
-    <div class="jzdbox1 jzdbasf jzdcal">
-    <div class="headerbar">
-        <div class="jzdcalt prev">
-            <a class="bigLink" href={}>&laquo;&laquo;</a>    
-        </div>
-        <div class="jzdcalt">{}</div>
-        <div class="jzdcalt next">
-            <a class="bigLink" href={}>&raquo;&raquo;</a>
-        </div>
-    </div>
-      <span>Mo</span>
-      <span>Di</span>
-      <span>Mi</span>
-      <span>Do</span>
-      <span>Fr</span>
-      <span>Sa</span>
-      <span>So</span>
-      {}
-    <div class="vspace">
-        &nbsp; </br>
-    </div>
-    <div class="currentDate" id="time">
-          Datum/Uhrzeit nicht verfügbar.
-    </div>
-    </div>
-  </body>
-</html>
-'''
+html_base = ""
+with open("../html-snippets/month-view.html") as f:
+    html_base = f.read()
 
-html_base_day = '''
-<!DOCTYPE html>
-<html lang="en" >
-  <head>
-    <meta charset="UTF-8">
-    <title>ATHQ-single</title>
-    <link rel="stylesheet" href="{}/day.css">
-    <script defer src="{}/site.js"></script>
-  </head>
-  <body>
-    <div id="offlineInfo"><b>OFFLINE MODUS</b></div>    
-    <div class="menubar">                                                                           
-        <a class=menubarLink href="{}"> &laquo &laquo Monatsübersicht &laquo &laquo </a>
-    </div>
-    <div class="menubarDate" id="menubarDate">
-        <class=currentDate style="font-size: 5vw;">{}</a>
-    </div>
-    <div class="row">
-        <div class="column1">
-            {}
-        </div>
-        <div class="column2">
-            {}
-        </div>
-    </div>
-  </body>
-</html>
-'''
+html_base_day = ""
+with open("../html-snippets/day-view.html") as f:
+    html_base_day = f.read()
 
-html_base_event = '''
-<!DOCTYPE html>
-<html lang="en" >
-  <head>
-    <meta charset="UTF-8">
-    <title>ATHQ-single</title>
-    <link rel="stylesheet" href="{}/day.css">
-    <script defer src="{}/site.js"></script>
-  </head>
-  <body>
-    <div id="offlineInfo"><b>OFFLINE MODUS</b></div>    
-    <div class="menubar">                                                                           
-        <a class=menubarLink href="{}"> &laquo &laquo Tagesübersicht &laquo &laquo </a>
-    </div>
-      <div class="eventview">
-            {}
-      </div>
-    </div>
-  </body>
-</html>
-'''
+html_base_event = ""
+with open("../html-snippets/event-view.html") as f:
+    html_base_event = f.read()
 
 import argparse
 if __name__ == "__main__":
