@@ -1,4 +1,3 @@
-
 var runOnce = true
 function append(){
     /* create pseudo doc for selection */
@@ -22,6 +21,9 @@ function append(){
     var menubar = doc.getElementsByClassName("menubar")[0]
     menubar.innerText = "Heute"
 
+    var elem = doc.getElementById("menubarDate");
+    elem.parentNode.removeChild(elem);
+
     /* put it together */
     document.body.innerHTML += doc.body.innerHTML
 }
@@ -32,7 +34,6 @@ function runShit(){
     //if ('serviceWorker' in navigator && location.protocol != "file:") {
     //    navigator.serviceWorker.register('js/worker.js')
     //}
-    
     
     /* input time */
     element = document.getElementById("time")

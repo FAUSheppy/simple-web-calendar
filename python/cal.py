@@ -340,7 +340,7 @@ html_base_day = '''
     <div class="menubar">                                                                           
         <a class=menubarLink href="{}"> &laquo &laquo Monatsübersicht &laquo &laquo </a>
     </div>
-    <div class="menubarDate"">
+    <div class="menubarDate" id="menubarDate">
         <class=currentDate style="font-size: 5vw;">{}</a>
     </div>
     <div class="row">
