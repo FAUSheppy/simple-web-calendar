@@ -5,3 +5,5 @@ deploy/
 build/
 test-scattered/
 *.pyc
+js/ical.js
+package-lock.json
