@@ -285,15 +285,15 @@ def buildAll(targetDir, cssDir, jsDir):
     
     
 html_base = ""
-with open("../html-snippets/month-view.html") as f:
+with open("html-snippets/month-view.html") as f:
     html_base = f.read()
 
 html_base_day = ""
-with open("../html-snippets/day-view.html") as f:
+with open("html-snippets/day-view.html") as f:
     html_base_day = f.read()
 
 html_base_event = ""
-with open("../html-snippets/event-view.html") as f:
+with open("html-snippets/event-view.html") as f:
     html_base_event = f.read()
 
 import argparse
