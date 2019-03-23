@@ -77,6 +77,58 @@ function goOnline(event) {
     el.style.display="none"
 }
 
+function detectswipe(el,func) {
+  swipe_det = new Object();
+
+  swipe_det.sX = 0; 
+	swipe_det.sY = 0;
+  swipe_det.eX = 0;
+	swipe_det.eY = 0;
+
+  var min_x = 250;  //min x swipe for horizontal swipe
+  var max_y = 10;  //max y difference for horizontal swipe
+
+  var direc = "";
+  el.addEventListener('touchstart', function(e){
+    var t = e.touches[0];
+    swipe_det.sX = t.screenX; 
+    swipe_det.sY = t.screenY;
+  }, false);
+  el.addEventListener('touchmove', function(e){
+    e.preventDefault();
+    var t = e.touches[0];
+    swipe_det.eX = t.screenX; 
+    swipe_det.eY = t.screenY;    
+  }, false);
+  el.addEventListener('touchend',function(e){
+    if (( swipe_det.eX - min_x > swipe_det.sX || swipe_det.eX + min_x < swipe_det.sX ) && 
+				( swipe_det.eY < swipe_det.sY + max_y && swipe_det.sY > swipe_det.eY - max_y   && 
+					swipe_det.eX > 0)){
+      if(swipe_det.eX > swipe_det.sX){
+				direc = "r";
+			}else{
+				 direc = "l";
+			}
+    }
+
+    if (direc != "") {
+    	func(el, direc);
+    }
+
+    direc = "";
+  }, false);  
+}
+
+function myfunction(el, d) {
+	if(!window.location.includes("day-")){
+		return
+	}
+	if(d == "r"){
+		alert("lol")
+	}
+}
+
+detectswipe(document.body,myfunction);
 window.addEventListener('online', goOnline);
 window.addEventListener('offline', goOffline);
 window.onload = runShit
