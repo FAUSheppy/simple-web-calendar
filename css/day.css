@@ -25,14 +25,16 @@ a {
     width: 20%;
     background-image: linear-gradient(#fa739d,#c52a5a);
     text-align: center;
+    margin-bottom: 8vw;
 }
 
 .column2 {
     float: left;
     width: 80%;
-	  background-color: red;
+	background-color: red;
     background-image: linear-gradient(white,#ebbbca);
     text-align: right;
+    margin-bottom: 8vw;
 }
 
 /* actual box for time/description */

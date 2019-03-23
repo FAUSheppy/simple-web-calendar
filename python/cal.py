@@ -5,6 +5,7 @@ from icalendar import Event, Calendar
 from datetime import timedelta, datetime, date, tzinfo
 import calendar
 import pytz
+import unidecode
 import locale
 
 import pwd
@@ -26,13 +27,14 @@ def phoneRecogAudit(substr):
     if len(new) > 0:
         print("                                   Discarded: '{}'".format(substr))
 
-phoneCleaner = str.maketrans(dict.fromkeys('-/ '))
+phoneCleaner = str.maketrans(dict.fromkeys('-/ –'))
 def searchAndAmorPhoneNumbers(string):
     counter = 0
     ret = string
     regex = re.compile(r"[-0-9/ ]{7,20}")
     phone_base = "<a class=phone href='tel:{}'>{}</a> "
-    for el in list(regex.finditer(string)):
+    tmpString = unidecode.unidecode(string)
+    for el in list(regex.finditer(tmpString)):
         start = el.regs[0][0]
         end   = el.regs[0][1]
         substr = string[start:end]
