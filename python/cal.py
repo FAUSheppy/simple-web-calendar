@@ -170,7 +170,15 @@ def createSingleDayView(events, timestamps, day, cssDir, jsDir):
 
     # format base html
     dateOfView = day.strftime("%A, %d. %B")
-    return html_base_day.format(cssDir, jsDir, backLink, dateOfView, completeLeft, completeRight)
+    
+
+    nextDayLink = getDayLink(day + timedelta(days=1))
+    prevDayLink = getDayLink(day - timedelta(days=1))
+    
+    return html_base_day.format(cssDir=cssDir, jsDir=jsDir,
+                                    nextDay=nextDayLink, prevDay=prevDayLink, \
+                                    backLink=backLink, dateOfView=dateOfView, \
+                                    left=completeLeft, right=completeRight)
     
 events = []
 timestamps = []

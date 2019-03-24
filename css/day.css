@@ -126,3 +126,7 @@ a {
     background-color: red;
 		padding: 2vw;
 }
+
+.hidden {
+    display: none;
+}
