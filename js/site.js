@@ -86,7 +86,7 @@ function addSwipeListeners() {
     swipe_det.eY = 0;
 
     var min_x = 250;  //min x swipe-length for horizontal swipe
-    var max_y = 10;   //max y difference   for horizontal swipe
+    var max_y = 5;   //max y difference   for horizontal swipe
 
     var direction = "";
 
