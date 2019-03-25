@@ -7,3 +7,4 @@ test-scattered/
 *.pyc
 js/ical.js
 package-lock.json
+node_modules/
