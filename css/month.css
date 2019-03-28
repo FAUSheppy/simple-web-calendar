@@ -183,3 +183,7 @@ p{
     display: table;
     clear: both;
 }
+
+.hidden {
+    display: none;
+}
