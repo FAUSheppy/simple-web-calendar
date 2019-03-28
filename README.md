@@ -23,6 +23,7 @@ This will send the script the relevant signal and cause it to rebuild the calend
 
 # Future Features planned
 * client side javascript to modify calendar entries
+* radicale web integration
 
 # Pictures
 ## Month View/Main View
