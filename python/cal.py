@@ -70,10 +70,9 @@ def parseFile(g):
     # make sure events are in order
     return ret 
 
-def selectTimeframe(events, timestamps, datetime1,datetime2=None):
+def selectTimeframe(events, timestamps, datetime1, datetime2=None):
     if not datetime2:
         datetime2 = datetime1 + (timedelta(days=1) - timedelta(seconds=1))
-
     start = bisect.bisect_left(timestamps, datetime1 )
     end   = bisect.bisect_right(timestamps, datetime2 )
     return events[start:end]
@@ -309,10 +308,10 @@ with open("html-snippets/event-view.html") as f:
 import argparse
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='AtlantisHQ CSS Calendar')
-    parser.add_argument('icsFile', type=str, help='ics file to parse')
-    parser.add_argument('targetDir', type=str, help='ics file to parse')
-    parser.add_argument('cssDir', type=str, help='ics file to parse')
-    parser.add_argument('jsDir', type=str, help='ics file to parse')
+    parser.add_argument('icsFile',   help='ICS file to parse')
+    parser.add_argument('targetDir', help='Target location of the html files.')
+    parser.add_argument('cssDir',    help='Location of the css files')
+    parser.add_argument('jsDir',     help='Localtion of the javascript files')
     args = parser.parse_args()
     createBase(args.icsFile)
     buildAll(args.targetDir,args.cssDir, args.jsDir)
