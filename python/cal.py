@@ -308,10 +308,24 @@ with open("html-snippets/event-view.html") as f:
 import argparse
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='AtlantisHQ CSS Calendar')
-    parser.add_argument('icsFile',   help='ICS file to parse')
-    parser.add_argument('targetDir', help='Target location of the html files.')
-    parser.add_argument('cssDir',    help='Location of the css files')
-    parser.add_argument('jsDir',     help='Localtion of the javascript files')
+    
+
+    parser.add_argument('--icsFile',  help='ICS file to parse')
+    parser.add_argument('--url',      help='URL of an supported remote calander')
+    parser.add_argument('--radicale', help='Act as a radicale plugin'
+
+    parser.add_argument('--auth-file', defualt="auth.token", help='URL of an supported remote calander')
+    parser.add_argument('--targetDir', default="build/", help='Target location of the html files.')
+    parser.add_argument('--cssDir',    default="css/", help='Location of the css files')
+    parser.add_argument('--jsDir',     default="js/", help='Localtion of the javascript files')
     args = parser.parse_args()
-    createBase(args.icsFile)
-    buildAll(args.targetDir,args.cssDir, args.jsDir)
+
+    if args.icsFile:
+        createBase(args.icsFile)
+        buildAll(args.targetDir,args.cssDir, args.jsDir)
+    elif args.url:
+        pass
+    elif args.radicale:
+        pass
+    else:
+        raise NotImplementedError() 
