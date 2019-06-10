@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" >
+  <head>
+    <meta charset="UTF-8">
+    <title>ATHQ-single</title>
+    <link rel="stylesheet" href="{cssDir}/day.css">
+    <script defer src="{jsDir}/site.js"></script>
+  </head>
+  <body>
+
+    <!-- URLs for swiping -->
+    <div class="hidden" id="nextDay">{nextDay}</div>
+    <div class="hidden" id="prevDay">{prevDay}</div>
+
+    <div id="offlineInfo"><b>OFFLINE MODUS</b></div>    
+    <div class="menubar">                                                                           
+        <a class=menubarLink href="{backLink}"> &laquo &laquo Monatsübersicht &laquo &laquo </a>
+    </div>
+    <div class="menubarDate" id="menubarDate">
+        <class=currentDate style="font-size: 5vw;">{dateOfView}</a>
+    </div>
+    <div class="row">
+        <div class="column1">
+            {left}
+        </div>
+        <div class="column2">
+            {right}
+        </div>
+    </div>
+  </body>
+</html>
