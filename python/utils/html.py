@@ -2,7 +2,6 @@
 import re
 import bisect
 from icalendar import Event, Calendar
-from datetime import timedelta, datetime, date, tzinfo
 import calendar
 import pytz
 import unidecode
@@ -12,91 +11,25 @@ import pwd
 import grp
 import os
 
-def normDT(dt):
-    if type(dt) == date:
-        dtmp = datetime.combine(dt, datetime.min.time())
-        return pytz.utc.localize(dtmp,pytz.utc)
-    return dt
-
-def phoneRecogAudit(substr):
-    spaces = sum(" " in s for s in substr)
-    if len(substr)-spaces >= 7:
-        print("Accepted: '{}'".format(substr))
-        return
-    new = substr.strip(" ")
-    if len(new) > 0:
-        print("                                   Discarded: '{}'".format(substr))
-
-phoneCleaner = str.maketrans(dict.fromkeys('-/ –'))
-def searchAndAmorPhoneNumbers(string):
-    counter = 0
-    ret = string
-    regex = re.compile(r"[-0-9/ ]{7,20}")
-    phone_base = "<a class=phone href='tel:{}'>{}</a> "
-    tmpString = unidecode.unidecode(string)
-    for el in list(regex.finditer(tmpString)):
-        start = el.regs[0][0]
-        end   = el.regs[0][1]
-        substr = string[start:end]
-        spaces = sum( (" " in s)or("-" in s)or("/" in s) for s in substr)
-        
-        # debug #
-        #phoneRecogAudit(substr)
-        
-        if len(substr)-spaces < 7:
-            continue
-        substr = phone_base.format(substr.translate(phoneCleaner),substr)
-        ret = ret[:start+counter] + substr + ret[end+counter:]
-
-        #remeber induced offset
-        counter = len(ret) - len(string)
-    return ret
-
-def parseFile(g):
-    ret = []
-    gcal = Calendar.from_ical(g.read())
-    for component in gcal.walk():
-        
-        # only want events
-        if type(component) == Event:
-            ret += [component]
-            dtObject = normDT(component.get('dtstart').dt)
-        else:
-            pass
-
-    # close file
-    g.close()
-
-    # make sure events are in order
-    return ret 
-
-def selectTimeframe(events, timestamps, datetime1, datetime2=None):
-    if not datetime2:
-        datetime2 = datetime1 + (timedelta(days=1) - timedelta(seconds=1))
-    start = bisect.bisect_left(timestamps, datetime1 )
-    end   = bisect.bisect_right(timestamps, datetime2 )
-    return events[start:end]
-        
 def dayPadding():
     return '<span class="jzdb"><!--BLANK--></span>\n'
 
 def getTargetYearMonth(dt):
     return dt.strftime("%B, %Y")
+    
 def getDayLink(dt):
-    return dt.strftime("day-%Y&%m&%-d.html")
-def getMonthLink(dt):
-    return dt.strftime("month-%Y&%m.html")
+    return dt.strftime("dayview?year=%Y&month=%m&day=%-d.html")
 
-def singleOverviewDay(year, month, numberOfDay, hasEvent):
-    if month < 10:
-        month = "0{}".format(month)
-    dayId = "day-{}".format(numberOfDay)
+def getMonthLink(dt):
+    return dt.strftime("monthview?&year=%Y&month=%m.html")
+
+def singleOverviewDay(date, hasEvent):
+    monthString = date.strftime("%-d")
     if hasEvent:
-        link = 'day-{}&{}&{}.html'.format(year, month, numberOfDay)
-        html = '<a href={}> <span id="{}" class="circle">{}</span> </a>'.format(\
-                        link, dayId, numberOfDay)
+        html = '<a href={link}> <span id="day-{day}" class="circle">{day}</span> </a>'.format(\
+                        link=getDayLink(date), day=date.day)
     else:
-        html = '<span id="{}">{}</span>'.format(dayId, numberOfDay)
+        html = '<span id="day-{day}">{day}</span>'.format(day.day)
     return html
 
 def createOverview(events, timestamps, firstDate):
