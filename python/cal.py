@@ -312,9 +312,11 @@ if __name__ == "__main__":
 
     parser.add_argument('--icsFile',  help='ICS file to parse')
     parser.add_argument('--url',      help='URL of an supported remote calander')
-    parser.add_argument('--radicale', help='Act as a radicale plugin'
+    parser.add_argument('--radicale', help='Act as a radicale plugin')
 
-    parser.add_argument('--auth-file', defualt="auth.token", help='URL of an supported remote calander')
+    parser.add_argument('--auth-file', default="auth.token", \
+                                        help='URL of an supported remote calander')
+
     parser.add_argument('--targetDir', default="build/", help='Target location of the html files.')
     parser.add_argument('--cssDir',    default="css/", help='Location of the css files')
     parser.add_argument('--jsDir',     default="js/", help='Localtion of the javascript files')
