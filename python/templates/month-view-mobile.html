@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" >
+  <head>
+    {% include 'header.html' %}
+  </head>
+  <body>
+    <div class="jzdbox1 jzdbasf jzdcal">
+    <div class="headerbar">
+        <div class="jzdcalt prev">
+            <a class="bigLink" href={{ hrefPrevMonth }}>&laquo;&laquo;</a>    
+        </div>
+        <div class="jzdcalt">{{ hrefCurrentMonth }}</div>
+        <div class="jzdcalt next">
+            <a class="bigLink" href={{ hrefNextMonth }}>&raquo;&raquo;</a>
+        </div>
+    </div>
+      <span>Mo</span>
+      <span>Di</span>
+      <span>Mi</span>
+      <span>Do</span>
+      <span>Fr</span>
+      <span>Sa</span>
+      <span>So</span>
+      
+      {# padding #}
+      {% for x in paddingStart %}
+        <span class="jzdb"><!-- Day in this week not in this month --></span>
+      {% endfor %}
+      
+      {# actual month #}
+      {% for mark in eventsOnDay %}
+        {% set day = loop.index +1 %}
+        {% if mark %}
+        <a href={{ "/dayview?year={}&month={}&day={}".format(year, month, day) }}>
+                <span id="day-{{ day }}" class="circle">{{ day }}</span>
+            </a>
+        {% else %}
+            <span id="day-{{ day }}">{{ day} }</span>
+        {% endif %}
+        
+      {# padding #}
+      {% for x in paddingEnd %}
+        <span class="jzdb"><!-- Day in this week not in this month --></span>
+      {% endfor %}
+
+    <div class="vspace">
+        &nbsp; </br>
+    </div>
+    <div class="currentDate" id="time">
+          Datum/Uhrzeit nicht verfügbar.
+    </div>
+    </div>
+  </body>
+</html>
