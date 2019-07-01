@@ -23,43 +23,6 @@ def getDayLink(dt):
 def getMonthLink(dt):
     return dt.strftime("monthview?&year=%Y&month=%m.html")
 
-def singleOverviewDay(date, hasEvent):
-    monthString = date.strftime("%-d")
-    if hasEvent:
-        html = '<a href={link}> <span id="day-{day}" class="circle">{day}</span> </a>'.format(\
-                        link=getDayLink(date), day=date.day)
-    else:
-        html = '<span id="day-{day}">{day}</span>'.format(day.day)
-    return html
-
-def createOverview(events, timestamps, firstDate):
-
-    # preparation
-    month   = firstDate.month
-    weekday = firstDate.weekday() 
-    
-    # create padding at start
-    padding = ''.join([dayPadding() for x in range(0,weekday)])
-    
-    # check which days will be highlighted
-    exists = dict()
-    for t in timestamps:
-        if (not t.day in exists) and (t.month == month) and (t.year == firstDate.year):
-                exists.update({t.day:t.day})
-    
-    # create the actual content 
-    content = padding
-
-    daysOfMonths = calendar.monthrange(firstDate.year, firstDate.month)[1]
-    for x in range(1, daysOfMonths+1):
-        content += singleOverviewDay(firstDate.year, firstDate.month, x, x in exists)
-
-    # create padding at end
-    needed = (7 - (daysOfMonths + weekday)%7 )%7
-    content += ''.join([dayPadding() for x in range(0, needed)])
-
-    return content
-
 def createSingleDayView(events, timestamps, day, cssDir, jsDir):
 
     # prepare colums
@@ -111,52 +74,7 @@ def createSingleDayView(events, timestamps, day, cssDir, jsDir):
                                     nextDay=nextDayLink, prevDay=prevDayLink, \
                                     backLink=backLink, dateOfView=dateOfView, \
                                     left=completeLeft, right=completeRight)
-    
-events = []
-timestamps = []
-def createBase(filename):
-    global events
-    global timestamps
-    
-    # set time output language
-    try:
-        locale.setlocale(locale.LC_TIME, "de_DE.utf8")
-    except locale.Error:
-        print("Cannot set custom locale, using system default.")
-    
-    files = [filename]
-    srcDir = ""
-    if os.path.isdir(filename):
-        srcDir = filename
-        files = os.listdir(filename)
 
-    for f in files:
-        if not f.endswith(".ics"):
-            continue
-        #read in file
-        events += parseFile(open(os.path.join(srcDir ,f),'rb'))
-
-
-    # sort events
-    events = sorted(events,key=lambda x: normDT(x.get('dtstart').dt))
-
-    # link phone numbers
-    for e in events:
-        try:
-            e['description'] = searchAndAmorPhoneNumbers(e['description'])
-        except KeyError:
-            pass
-    
-    # simplify search as we wont change events
-    timestamps = [ normDT(x.get('dtstart').dt) for x in events ]
-
-def fixPermissions(fname, group):
-    try:
-        gid = grp.getgrnam(group).gr_gid
-        os.chown(fname,uid=-1,gid=gid)
-        os.chmod(fname,0o640)
-    except PermissionError:
-        pass
 
 def buildAll(targetDir, cssDir, jsDir):
     global events
@@ -223,9 +141,6 @@ def buildAll(targetDir, cssDir, jsDir):
             f.write(content)
         fixPermissions(uid, "www-data")
 
-    # build detail views
-    
-    
 html_base = ""
 with open("html-snippets/month-view.html") as f:
     html_base = f.read()
@@ -237,28 +152,3 @@ with open("html-snippets/day-view.html") as f:
 html_base_event = ""
 with open("html-snippets/event-view.html") as f:
     html_base_event = f.read()
-
-import argparse
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='AtlantisHQ CSS Calendar')
-    
-
-    parser.add_argument('--icsFile',  help='ICS file to parse')
-    parser.add_argument('--url',      help='URL of an supported remote calander')
-    parser.add_argument('--radicale', help='Act as a radicale plugin'
-
-    parser.add_argument('--auth-file', defualt="auth.token", help='URL of an supported remote calander')
-    parser.add_argument('--targetDir', default="build/", help='Target location of the html files.')
-    parser.add_argument('--cssDir',    default="css/", help='Location of the css files')
-    parser.add_argument('--jsDir',     default="js/", help='Localtion of the javascript files')
-    args = parser.parse_args()
-
-    if args.icsFile:
-        createBase(args.icsFile)
-        buildAll(args.targetDir,args.cssDir, args.jsDir)
-    elif args.url:
-        pass
-    elif args.radicale:
-        pass
-    else:
-        raise NotImplementedError() 

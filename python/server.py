@@ -6,15 +6,38 @@ import utils.timeframe
 
 backend = backends.filesystem
 
+backendparam = "./data/"
+
 @app.route("/monthview")
 def monthView():
-    month = flask.request.get("month")
-    year  = flask.request.get("year")
+    month = int(flask.request.get("month"))
+    year  = int(flask.request.get("year"))
+    daysInMonth = calendar.monthrange(year, month)[1]
 
-    events = backend.getEventTimestampsTupel()
-    utils.timeframe.
+    start = datetime(year, month, day=1, tzinfo=pytz.utc)
+    end   = datetime(year, month + 1, tzinfo=pytz.utc) - timedelta(milliseconds=1)
 
-    return flask.render_template()
+    events = backend.getEvents(start, end, backendparam)
+    
+    # mark all days with event #
+    eventsOnDay = [ False for x in range(0, daysInMonth)]
+    for e in events:
+        eventsOnDay[events.get('dtstart').dt.day % daysInMonth] = True
+
+    # generate navigation links
+    hrefPrevMonth = ""
+    hrefCurrMonth = ""
+    hrefNextMonth = ""
+
+    return flask.render_template("month-view-mobile.html", \
+                                        year=year, \
+                                        month=month, \
+                                        eventsOnDay=eventsOnDay, \
+                                        hrefPrevMonth=hrefPrevMonth, \
+                                        hrefNextMonth=hrefNextMonth, \
+                                        hrefCurrent=hrefCurrMonth
+                                        paddingStart=start.weekday(), \
+                                        paddingEnd=(7 - (daysInMonths + start.weekday())%7 )%7)
 
 @app.route("/dayview")
 def dayView():
@@ -26,6 +49,9 @@ def dayView():
 
 @app.route("/eventview")
 def eventView():
+    events, timestamps = backend.getEvents(start, end, icsDataPath)
+    
+
     return ""
 
 @app.route("/static/<path:path>")
@@ -53,6 +79,7 @@ if __name__ == "__main__":
     #  set backend #
     if args.backend == "fileystem":
         backend = backends.fileystem
+        icsDataPath = args.fs_backend_path
     else:
         print("Unsupportet backend", file=sys.stderr)
         sys.exit(1)
