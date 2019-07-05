@@ -1,0 +1,9 @@
+<html>
+    <head>
+        {% set url = "/monthview?year={}&month={}".format(dt.year, dt.month) %}
+        <meta http-equiv="Refresh" content="0; url="{{ url }}"/>
+    </head>
+    <body>
+            <p>Please goto<a href="{{ url }}">the current month</a></p>
+    </body>
+</html>

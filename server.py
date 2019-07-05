@@ -1,25 +1,37 @@
 #!/usr/bin/python3
 
 import flask
+
 import sys
+import argparse
 
 import backends.filesystem
 import utils.timeframe
-import argparse
+
+import datetime
+import calendar
+import pytz
 
 backend = backends.filesystem
 backendparam = "./data/"
 
 app = flask.Flask("epic-open-calendar-frontend")
 
+oneMillisecond  = datetime.timedelta(milliseconds=1)
+
+@app.route("/")
+def htmlRedirect():
+    # do html redirect because some browsers (i.e. safari) #
+    # will not let you bookmark a page that returns 30X :( #
+    return flask.render_template("redirectRoot.html", dt=datetime.datetime.now())
+
 @app.route("/monthview")
 def monthView():
-    month = int(flask.request.get("month"))
-    year  = int(flask.request.get("year"))
-    daysInMonth = calendar.monthrange(year, month)[1]
+    month = int(flask.request.args.get("month"))
+    year  = int(flask.request.args.get("year"))
 
-    start = datetime(year, month, day=1, tzinfo=pytz.utc)
-    end   = datetime(year, month + 1, tzinfo=pytz.utc) - timedelta(milliseconds=1)
+    start  = datetime.datetime(year, month,     day=1, tzinfo=pytz.utc)
+    end    = datetime.datetime(year, month + 1, day=1, tzinfo=pytz.utc) - oneMillisecond
 
     events = backend.getEvents(start, end, backendparam)
     
@@ -95,4 +107,4 @@ if __name__ == "__main__":
 
     # startup #
     args = parser.parse_args()
-    app.run(interface=args.interface, port=args.port)
+    app.run(host=args.interface, port=args.port)
