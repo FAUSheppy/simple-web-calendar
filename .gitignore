@@ -1,7 +1,6 @@
 *.token
 *.swp
 deploy/
-*.html
 *.ics
 build/
 test-scattered/
