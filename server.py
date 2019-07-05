@@ -36,14 +36,17 @@ def monthView():
     events = backend.getEvents(start, end, backendparam)
     
     # mark all days with event #
-    eventsOnDay = [ False for x in range(0, daysInMonth)]
+    firstDayWeekdayCount, totalDaysInMonth = calendar.monthrange(year, month)
+    eventsOnDay = [ False for x in range(0, totalDaysInMonth)]
     for e in events:
-        eventsOnDay[events.get('dtstart').dt.day % daysInMonth] = True
+        eventsOnDay[events.get('dtstart').dt.day % totalDaysInMonth] = True
 
     # generate navigation links
     hrefPrevMonth = ""
     hrefCurrMonth = ""
     hrefNextMonth = ""
+
+    weekDayPaddingEnd = (7 - (totalDaysInMonth + firstDayWeekdayCount)%7 )%7
 
     return flask.render_template("month-view-mobile.html", \
                                         year=year, \
@@ -52,8 +55,8 @@ def monthView():
                                         hrefPrevMonth=hrefPrevMonth, \
                                         hrefNextMonth=hrefNextMonth, \
                                         hrefCurrent=hrefCurrMonth, \
-                                        paddingStart=start.weekday(), \
-                                        paddingEnd=(7 - (daysInMonths + start.weekday())%7 )%7)
+                                        paddingStart=firstDayWeekdayCount, \
+                                        paddingEnd=weekDayPaddingEnd)
 
 @app.route("/dayview")
 def dayView():

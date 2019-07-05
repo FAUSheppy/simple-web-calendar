@@ -1,20 +1,21 @@
 #!/usr/bin/python3
+import os
 import re
-from icalendar import Event, Calendar
-from datetime import timedelta, datetime, date, tzinfo
-import calendar
+
 import pytz
 import locale
+
+import icalendar
 
 def _parseFile(fd):
     '''Read in a single ICS file from a filedescriptor'''
 
     ret = []
-    gcal = Calendar.from_ical(fd.read())
+    gcal = icalendar.Calendar.from_ical(fd.read())
     for component in gcal.walk():
         
         # only select events #
-        if type(component) == Event:
+        if type(component) == icalendar.Event:
             ret += [component]
             dtObject = normDT(component.get('dtstart').dt)
         else:
@@ -32,16 +33,16 @@ def getEventTimestampsTupel(dirOrFileName):
     events = []
     timestamps = []
     
-    files = [filename]
     srcDir = ""
-    if os.path.isdir(filename):
-        srcDir = filename
-        files = os.listdir(filename)
+    if os.path.isdir(dirOrFileName):
+        srcDir = dirOrFileName
+        files = os.listdir(dirOrFileName)
+    else:
+        files  = [dirOrFileName]
 
     for f in files:
         if not f.endswith(".ics"):
             continue
-        #read in file
         events += _parseFile(open(os.path.join(srcDir ,f),'rb'))
 
 
@@ -58,3 +59,6 @@ def getEventTimestampsTupel(dirOrFileName):
     # simplify search as we wont change events
     timestamps = [ normDT(x.get('dtstart').dt) for x in events ]
     return (events, timestamps)
+
+def getEvents(start, end, dirOrFileName):
+    return getEventTimestampsTupel(dirOrFileName)[0]
