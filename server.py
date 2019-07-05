@@ -1,12 +1,16 @@
+#!/usr/bin/python3
+
 import flask
 import sys
 
 import backends.filesystem
 import utils.timeframe
+import argparse
 
 backend = backends.filesystem
-
 backendparam = "./data/"
+
+app = flask.Flask("epic-open-calendar-frontend")
 
 @app.route("/monthview")
 def monthView():
@@ -35,7 +39,7 @@ def monthView():
                                         eventsOnDay=eventsOnDay, \
                                         hrefPrevMonth=hrefPrevMonth, \
                                         hrefNextMonth=hrefNextMonth, \
-                                        hrefCurrent=hrefCurrMonth
+                                        hrefCurrent=hrefCurrMonth, \
                                         paddingStart=start.weekday(), \
                                         paddingEnd=(7 - (daysInMonths + start.weekday())%7 )%7)
 
@@ -76,9 +80,11 @@ if __name__ == "__main__":
     parser.add_argument("--fs-backend-path", default="data", \
                             help="Path for locale file if backend 'filesystem' is used")
     
+    args = parser.parse_args()
+
     #  set backend #
-    if args.backend == "fileystem":
-        backend = backends.fileystem
+    if args.backend == "filesystem":
+        backend = backends.filesystem
         icsDataPath = args.fs_backend_path
     else:
         print("Unsupportet backend", file=sys.stderr)
@@ -89,5 +95,4 @@ if __name__ == "__main__":
 
     # startup #
     args = parser.parse_args()
-    app = flask.Flask("epic-open-calendar-frontend")
     app.run(interface=args.interface, port=args.port)
