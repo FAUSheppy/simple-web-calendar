@@ -1,4 +1,7 @@
 icalendar
+flask
+flask-caching
+unidecode
 google-api-python-client
 google-auth-httplib2
 google-auth-oauthlib
