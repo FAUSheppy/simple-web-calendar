@@ -9,7 +9,7 @@
         <div class="jzdcalt prev">
             <a class="bigLink" href={{ hrefPrevMonth }}>&laquo;&laquo;</a>    
         </div>
-        <div class="jzdcalt">{{ hrefCurrentMonth }}</div>
+        <div class="jzdcalt">{{ currentMonthString }}</div>
         <div class="jzdcalt next">
             <a class="bigLink" href={{ hrefNextMonth }}>&raquo;&raquo;</a>
         </div>
@@ -29,7 +29,7 @@
       
       {# actual month #}
       {% for mark in eventsOnDay %}
-        {% set day = loop.index +1 %}
+        {% set day = loop.index %}
         {% if mark %}
         <a href={{ "/dayview?year={}&month={}&day={}".format(year, month, day) }}>
                 <span id="day-{{ day }}" class="circle">{{ day }}</span>
