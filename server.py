@@ -9,6 +9,7 @@ import backends.filesystem
 import utils.timeframe
 
 import datetime
+import dateutil.relativedelta as dateutil
 import calendar
 import pytz
 
@@ -18,6 +19,7 @@ backendparam = "./data/"
 app = flask.Flask("epic-open-calendar-frontend")
 
 oneMillisecond  = datetime.timedelta(milliseconds=1)
+oneMonth        = dateutil.relativedelta(months=1)
 
 @app.route("/")
 def htmlRedirect():
@@ -30,8 +32,11 @@ def monthView():
     month = int(flask.request.args.get("month"))
     year  = int(flask.request.args.get("year"))
 
-    start  = datetime.datetime(year, month,     day=1, tzinfo=pytz.utc)
-    end    = datetime.datetime(year, month + 1, day=1, tzinfo=pytz.utc) - oneMillisecond
+    start  = datetime.datetime(year, month, day=1, tzinfo=pytz.utc)
+    end    = start + oneMonth - oneMillisecond
+
+    prevMonth = start - oneMonth
+    nextMonth = start + oneMonth
 
     events = backend.getEvents(start, end, backendparam)
     
@@ -42,9 +47,8 @@ def monthView():
         eventsOnDay[events.get('dtstart').dt.day % totalDaysInMonth] = True
 
     # generate navigation links
-    hrefPrevMonth = ""
-    hrefCurrMonth = ""
-    hrefNextMonth = ""
+    hrefPrevMonth = "/monthview?year={}&month={}".format(prevMonth.year, prevMonth.month)
+    hrefNextMonth = "/monthview?year={}&month={}".format(nextMonth.year, nextMonth.month)
 
     weekDayPaddingEnd = (7 - (totalDaysInMonth + firstDayWeekdayCount)%7 )%7
 
@@ -54,7 +58,7 @@ def monthView():
                                         eventsOnDay=eventsOnDay, \
                                         hrefPrevMonth=hrefPrevMonth, \
                                         hrefNextMonth=hrefNextMonth, \
-                                        hrefCurrent=hrefCurrMonth, \
+                                        currentMonthString=start.strftime("%B"), \
                                         paddingStart=firstDayWeekdayCount, \
                                         paddingEnd=weekDayPaddingEnd)
 
