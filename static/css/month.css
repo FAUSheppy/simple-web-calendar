@@ -144,15 +144,15 @@ a{
   .calendar-box span {
     font:        50px 'Roboto'; 
     margin-top:  20px;
-    margin-left: 10px;
-    width:       130px; 
+    margin-left: 20px;
+    width:       115px; 
     height:      100px; 
     line-height: 85px;
   }
   
   .circle-enclosed {
-    border:5px solid #f7f3eb; 
-    border-radius: 5px!important;
+    border: 3px solid #f7f3eb; 
+    border-radius: 50px !important;
   }
   
   .currentDate {

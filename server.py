@@ -20,6 +20,7 @@ app = flask.Flask("epic-open-calendar-frontend")
 
 oneMillisecond  = datetime.timedelta(milliseconds=1)
 oneMonth        = dateutil.relativedelta(months=1)
+oneDay          = dateutil.relativedelta(days=1)
 
 @app.route("/")
 def htmlRedirect():
@@ -64,11 +65,27 @@ def monthView():
 
 @app.route("/dayview")
 def dayView():
-    day   = flask.request.get("day")
-    month = flask.request.get("month")
-    year  = flask.request.get("year")
+    day   = int(flask.request.args.get("day"))
+    month = int(flask.request.args.get("month"))
+    year  = int(flask.request.args.get("year"))
 
-    return flask.render_template()
+    start  = datetime.datetime(year, month, day, tzinfo=pytz.utc)
+    end    = datetime.datetime(year, month, day, tzinfo=pytz.utc) + oneDay - oneMillisecond 
+
+    events = backend.getEvents(start, end, backendparam)
+
+    preparedTimeStrings = []
+    for e in events:
+        time = e.get('dtstart').dt
+        if type(time) == datetime.date:
+            preparedTimeStrings += ["All Day"]
+        else:
+            preparedTimeStrings += [time.strftime("%H:%M")]
+
+    return flask.render_template("day-view.html", events=events, \
+                                    preparedTimeStrings=preparedTimeStrings, \
+                                    prevDay="TODO",\
+                                    nextDay="TODO")
 
 @app.route("/eventview")
 def eventView():
