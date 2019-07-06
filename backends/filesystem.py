@@ -4,6 +4,7 @@ import re
 
 import pytz
 import locale
+import flask
 
 import icalendar
 
@@ -58,7 +59,8 @@ def getEvents(start, end, dirOrFileName):
     # link phone numbers
     for e in events:
         try:
-            e['description'] = parsing.searchAndAmorPhoneNumbers(e['description'])
+            # phone numbers will be encoded as html, use markup to prevent escaping #
+            e['description'] = flask.Markup(parsing.searchAndAmorPhoneNumbers(e['description']))
         except KeyError:
             pass
     
