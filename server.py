@@ -105,10 +105,9 @@ def dayView():
 
 @app.route("/eventview")
 def eventView():
-    events, timestamps = backend.getEvents(start, end, icsDataPath)
-    
-
-    return ""
+    eventID = flask.request.args.get("uid")
+    backget.getEventById(eventID)
+    return flask.render_template("single-event-view")
 
 @app.route("/static/<path:path>")
 def sendStatic(path):
