@@ -106,8 +106,16 @@ def dayView():
 @app.route("/eventview")
 def eventView():
     eventID = flask.request.args.get("uid")
-    backget.getEventById(eventID)
-    return flask.render_template("single-event-view")
+    event   = backend.getEventById(eventID, backendparam)
+
+    if not event:
+        return flask.Response("", status=404)
+
+    dt = event.get("dtstart").dt
+    backlinkDayView = dayLinkFormatString.format(dt.year, dt.month, dt.day)
+
+    return flask.render_template("single-event-view.html", event=event,
+                                    backlinkDayView=backlinkDayView)
 
 @app.route("/static/<path:path>")
 def sendStatic(path):

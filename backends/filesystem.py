@@ -10,8 +10,6 @@ import icalendar
 import utils.timeframe as timeframe
 import utils.parsing   as parsing
 
-events = []
-
 def _parseFile(fd):
     '''Read in a single ICS file from a filedescriptor'''
 
@@ -39,7 +37,6 @@ def _parseFile(fd):
 def getEvents(start, end, dirOrFileName):
     '''Return a tupel (icalendar.Event, datetime.datetime) parsed
        from a locale file or diretory'''
-    global events
     
     srcDir = ""
     if os.path.isdir(dirOrFileName):
@@ -47,7 +44,8 @@ def getEvents(start, end, dirOrFileName):
         files = os.listdir(dirOrFileName)
     else:
         files  = [dirOrFileName]
-
+    
+    events = []
     for f in files:
         if not f.endswith(".ics"):
             continue
@@ -68,7 +66,8 @@ def getEvents(start, end, dirOrFileName):
     timestamps = [ x.get('dtstart').dt for x in events ]
     return events
 
-def getEventByID(uid):
+def getEventById(uid, dirOrFileName):
+    events = getEvents(None, None, dirOrFileName)
     for e in events:
         if e.get("UID") == uid:
             return e
