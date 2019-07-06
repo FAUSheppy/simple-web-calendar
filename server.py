@@ -152,7 +152,7 @@ if __name__ == "__main__":
     #  set backend #
     if args.backend == "filesystem":
         backend = backends.filesystem
-        icsDataPath = args.fs_backend_path
+        backendparam = args.fs_backend_path
     else:
         print("Unsupportet backend", file=sys.stderr)
         sys.exit(1)
