@@ -5,14 +5,13 @@ import re
 import pytz
 import locale
 import flask
-import flaskext.zodb
 
 import icalendar
 
 import utils.timeframe as timeframe
 import utils.parsing   as parsing
 
-def _parseFile(filename):
+def _parseSingleFile(filename):
     '''Read in a single ICS file from a filedescriptor'''
 
     with open(filename, 'rb') as f:
@@ -22,7 +21,7 @@ def _parseFile(filename):
             
             # only select events #
             if type(component) == icalendar.Event:
-                ret += [component]
+                events += [component]
                 dtLocStart = parsing.localizeDatetime(component.get('dtstart').dt)
                 dtLocEnd   = parsing.localizeDatetime(component.get('dtend').dt)
 
@@ -34,26 +33,24 @@ def _parseFile(filename):
 
     return events
 
-def getEvents(start, end, dirOrFileName):
-    '''Return a tupel (icalendar.Event, datetime.datetime) parsed
-       from a locale file or diretory'''
-    
+def _parse(path):
+
     # get all files to be read #
     srcDir = ""
-    if os.path.isdir(dirOrFileName):
-        srcDir = dirOrFileName
-        files = os.listdir(dirOrFileName)
+    if os.path.isdir(path):
+        srcDir = path
+        files = os.listdir(path)
     else:
-        files  = [dirOrFileName]
+        files  = [path]
    
     # get events from files #
     events = []
     for fname in files:
-        if not f.endswith(".ics"):
+        if not fname.endswith(".ics"):
             continue
-        events += _parseFile(os.path.join(srcDir, fname))
+        events += _parseSingleFile(os.path.join(srcDir, fname))
 
-    # link phone numbers
+    # link phone numbers #
     for e in events:
         try:
             # phone numbers will be encoded as html, use markup to prevent escaping #
@@ -62,12 +59,32 @@ def getEvents(start, end, dirOrFileName):
             pass
 
     # sort events
-    events = sorted(events, key=lambda x: x.get('dtstart').dt)
-    return events
+    return sorted(events, key=lambda x: x.get('dtstart').dt)
 
-def getEventById(uid, dirOrFileName):
-    events = getEvents(None, None, dirOrFileName)
-    for e in events:
-        if e.get("UID") == uid:
-            return e
-    return None
+def getEvents(start, end, db, path):
+    '''Return a tupel (icalendar.Event, datetime.datetime) parsed
+       from a locale file or diretory'''
+    
+    if not db.get("eventsByDate"):
+        events      = _parse(path)
+        db["times"] = [ x.get("dtstart").dt for x in events ]
+        db["eventsByDate"] = events
+
+    return timeframe.selectTimeframe(db["eventsByDate"], db["times"], start, end)
+
+def getEventById(uid, db, path):
+
+    if not db.get("eventsByUID"):
+        if db.get("eventsByDate"):
+            events = db["eventsByDate"]
+        else:
+            events = _parse(path)
+   
+        # build dict #
+        eventDict = dict()
+        for e in events:
+            eventDict.update({e.get("UID"):e})
+
+        db["eventsByUID"] = eventDict
+    
+    return db["eventsByUID"][uid]
