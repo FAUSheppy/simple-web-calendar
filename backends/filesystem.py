@@ -5,56 +5,53 @@ import re
 import pytz
 import locale
 import flask
+import flaskext.zodb
 
 import icalendar
 
 import utils.timeframe as timeframe
 import utils.parsing   as parsing
 
-def _parseFile(fd):
+def _parseFile(filename):
     '''Read in a single ICS file from a filedescriptor'''
 
-    ret = []
-    gcal = icalendar.Calendar.from_ical(fd.read())
-    for component in gcal.walk():
-        
-        # only select events #
-        if type(component) == icalendar.Event:
-            ret += [component]
-            dtLocStart = parsing.localizeDatetime(component.get('dtstart').dt)
-            dtLocEnd   = parsing.localizeDatetime(component.get('dtend').dt)
+    with open(filename, 'rb') as f:
+        events = []
+        gcal = icalendar.Calendar.from_ical(f.read())
+        for component in gcal.walk():
+            
+            # only select events #
+            if type(component) == icalendar.Event:
+                ret += [component]
+                dtLocStart = parsing.localizeDatetime(component.get('dtstart').dt)
+                dtLocEnd   = parsing.localizeDatetime(component.get('dtend').dt)
 
-            component.get("dtstart").dt = dtLocStart
-            component.get("dtend").dt   = dtLocEnd
+                component.get("dtstart").dt = dtLocStart
+                component.get("dtend").dt   = dtLocEnd
 
-        else:
-            pass
+            else:
+                pass
 
-    # close file-descriptor #
-    fd.close()
-
-    return ret 
+    return events
 
 def getEvents(start, end, dirOrFileName):
     '''Return a tupel (icalendar.Event, datetime.datetime) parsed
        from a locale file or diretory'''
     
+    # get all files to be read #
     srcDir = ""
     if os.path.isdir(dirOrFileName):
         srcDir = dirOrFileName
         files = os.listdir(dirOrFileName)
     else:
         files  = [dirOrFileName]
-    
+   
+    # get events from files #
     events = []
-    for f in files:
+    for fname in files:
         if not f.endswith(".ics"):
             continue
-        events += _parseFile(open(os.path.join(srcDir ,f),'rb'))
-
-
-    # sort events
-    events = sorted(events,key=lambda x: x.get('dtstart').dt)
+        events += _parseFile(os.path.join(srcDir, fname))
 
     # link phone numbers
     for e in events:
@@ -63,9 +60,9 @@ def getEvents(start, end, dirOrFileName):
             e['description'] = flask.Markup(parsing.searchAndAmorPhoneNumbers(e['description']))
         except KeyError:
             pass
-    
-    # simplify search as we wont change events
-    timestamps = [ x.get('dtstart').dt for x in events ]
+
+    # sort events
+    events = sorted(events, key=lambda x: x.get('dtstart').dt)
     return events
 
 def getEventById(uid, dirOrFileName):
