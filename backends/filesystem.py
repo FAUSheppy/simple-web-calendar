@@ -7,6 +7,9 @@ import locale
 
 import icalendar
 
+import utils.timeframe as timeframe
+import utils.parsing   as parsing
+
 def _parseFile(fd):
     '''Read in a single ICS file from a filedescriptor'''
 
@@ -17,7 +20,12 @@ def _parseFile(fd):
         # only select events #
         if type(component) == icalendar.Event:
             ret += [component]
-            dtObject = normDT(component.get('dtstart').dt)
+            dtLocStart = parsing.localizeDatetime(component.get('dtstart').dt)
+            dtLocEnd   = parsing.localizeDatetime(component.get('dtend').dt)
+
+            component.get("dtstart").dt = dtLocStart
+            component.get("dtend").dt   = dtLocEnd
+
         else:
             pass
 
@@ -26,7 +34,7 @@ def _parseFile(fd):
 
     return ret 
 
-def getEventTimestampsTupel(dirOrFileName):
+def getEvents(start, end, dirOrFileName):
     '''Return a tupel (icalendar.Event, datetime.datetime) parsed
        from a locale file or diretory'''
 
@@ -47,18 +55,15 @@ def getEventTimestampsTupel(dirOrFileName):
 
 
     # sort events
-    events = sorted(events,key=lambda x: normDT(x.get('dtstart').dt))
+    events = sorted(events,key=lambda x: x.get('dtstart').dt)
 
     # link phone numbers
     for e in events:
         try:
-            e['description'] = searchAndAmorPhoneNumbers(e['description'])
+            e['description'] = parsing.searchAndAmorPhoneNumbers(e['description'])
         except KeyError:
             pass
     
     # simplify search as we wont change events
-    timestamps = [ normDT(x.get('dtstart').dt) for x in events ]
-    return (events, timestamps)
-
-def getEvents(start, end, dirOrFileName):
-    return getEventTimestampsTupel(dirOrFileName)[0]
+    timestamps = [ x.get('dtstart').dt for x in events ]
+    return events
