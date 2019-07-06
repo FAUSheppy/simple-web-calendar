@@ -8,16 +8,18 @@
   </head>
   <body>
 
-    <!-- URLs for swiping -->
-    <div class="hidden" id="nextDay">{{ nextDay }}</div>
-    <div class="hidden" id="prevDay">{{ prevDay }}</div>
+    <!-- hidden URLs for ussage in javascript -->
+    <div class="hidden" id="nextDay">{{ nextDayLink }}</div>
+    <div class="hidden" id="prevDay">{{ prevDayLink }}</div>
 
+    <!-- Navbar -->
     <div class="menubar">                                                                           
-        <a class=menubarLink href="{backLink}"> &laquo &laquo Monatsübersicht &laquo &laquo </a>
+        <a class=menubarLink href={{ thisMonthLink }}> 
+            &laquo &laquo Monatsübersicht &laquo &laquo
+        </a>
     </div>
-    <div class="menubarDate" id="menubarDate">
-        <div class=currentDate>{{ dateOfView }}</a>
-    </div>
+    
+    <!-- main events container -->
     <div class="row">
         <div class="column1">
         
@@ -40,10 +42,16 @@
                     <i>{{ e.get("LOCATION") }}</i>
                 </p>
                 <br>
-                <a href=/eventview?uid={{ e.get("UID") }}>Details<a>
+                <a href=/eventview?uid={{ e.get("UID") }}>Details</a>
             </div>
         {% endfor %}
         </div>
     </div>
+
+    <!-- navbar at bottom -->
+    <div class="menubarDate" id="menubarDate">
+        <div class=currentDate>{{ dateOfView }}</div>
+    </div>
+
   </body>
 </html>

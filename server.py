@@ -4,6 +4,7 @@ import flask
 
 import sys
 import argparse
+import locale
 
 import backends.filesystem
 import utils.timeframe
@@ -21,6 +22,10 @@ app = flask.Flask("epic-open-calendar-frontend")
 oneMillisecond  = datetime.timedelta(milliseconds=1)
 oneMonth        = dateutil.relativedelta(months=1)
 oneDay          = dateutil.relativedelta(days=1)
+
+# prefomated links #
+dayLinkFormatString   = "/dayview?year={}&month={}&day={}"
+monthLinkFormatString = "/monthview?year={}&month={}"
 
 @app.route("/")
 def htmlRedirect():
@@ -48,8 +53,8 @@ def monthView():
         eventsOnDay[e.get('dtstart').dt.day % totalDaysInMonth] = True
 
     # generate navigation links
-    hrefPrevMonth = "/monthview?year={}&month={}".format(prevMonth.year, prevMonth.month)
-    hrefNextMonth = "/monthview?year={}&month={}".format(nextMonth.year, nextMonth.month)
+    hrefPrevMonth = monthLinkFormatString.format(prevMonth.year, prevMonth.month)
+    hrefNextMonth = monthLinkFormatString.format(nextMonth.year, nextMonth.month)
 
     weekDayPaddingEnd = (7 - (totalDaysInMonth + firstDayWeekdayCount)%7 )%7
 
@@ -70,7 +75,16 @@ def dayView():
     year  = int(flask.request.args.get("year"))
 
     start  = datetime.datetime(year, month, day, tzinfo=pytz.utc)
-    end    = datetime.datetime(year, month, day, tzinfo=pytz.utc) + oneDay - oneMillisecond 
+    end    = start + oneDay - oneMillisecond 
+
+    prevDay = (start - oneDay)
+    nextDay = (start + oneDay)
+    
+    hrefPrevDay   = dayLinkFormatString.format(prevDay.year, prevDay.month, prevDay.day)
+    hrefNextDay   = dayLinkFormatString.format(nextDay.year, nextDay.month, nextDay.day)
+    hrefThisMonth = monthLinkFormatString.format(start.year, start.month)
+    
+    dateOfViewString = start.strftime("%A, %d. %B %Y")
 
     events = backend.getEvents(start, end, backendparam)
 
@@ -84,8 +98,10 @@ def dayView():
 
     return flask.render_template("day-view.html", events=events, \
                                     preparedTimeStrings=preparedTimeStrings, \
-                                    prevDay="TODO",\
-                                    nextDay="TODO")
+                                    prevDayLink=hrefPrevDay, \
+                                    nextDayLink=hrefNextDay, \
+                                    thisMonthLink=hrefThisMonth, \
+                                    dateOfView=dateOfViewString)
 
 @app.route("/eventview")
 def eventView():
@@ -104,9 +120,13 @@ if __name__ == "__main__":
                         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
     # general parameters #
-    parser.add_argument("-i", "--interface", default="0.0.0.0", help="Interface to listen on")
-    parser.add_argument("-p", "--port",      default="5000", help="Port to listen on")
-    parser.add_argument("-b", "--backend",   default="filesystem", help="Backend to use")
+    parser.add_argument("-i", "--interface", default="0.0.0.0",     help="Interface to listen on")
+    parser.add_argument("-p", "--port",      default="5000",        help="Port to listen on")
+    parser.add_argument("-b", "--backend",   default="filesystem",  help="Backend to use")
+
+    # localization #
+    parser.add_argument("--locale-de", action='store_const', const=True, \
+                            help="Use german localization for dates etc.")
 
     # backend specific parameters #
     parser.add_argument("--auth-file", default="auth.token", \
@@ -117,6 +137,10 @@ if __name__ == "__main__":
                             help="Path for locale file if backend 'filesystem' is used")
     
     args = parser.parse_args()
+
+    # set localization #
+    if args.locale_de:
+        locale.setlocale(locale.LC_TIME, "de_DE.utf8")
 
     #  set backend #
     if args.backend == "filesystem":
