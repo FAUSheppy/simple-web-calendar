@@ -3,12 +3,13 @@
 }
 
 body {
-  background: #749d9e; 
+  /*
   background: -webkit-linear-gradient(#749d9e, #b3a68b)!important; 
   background: -o-linear-gradient(#749d9e, #b3a68b)!important; 
   background: -moz-linear-gradient(#749d9e, #b3a68b)!important; 
   background: linear-gradient(#749d9e, #b3a68b)!important;
-  background: #332f2e; 
+  */
+  background: #749d9e; 
 }
 
 /* font-size viewport dependant for mobile */
