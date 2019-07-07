@@ -2,7 +2,7 @@
 This script can create static web-pages from any ICS-calendar file. It's original purpose was to be used as a read only calendar on mobile devices in conjunction with the [radicale calendar backend](https://radicale.org/). It is still in active development.
 
 # Live Demo
-A live demo filled with data from random events in Frankfurt can be found on [demo-calendar.atlantishq.de](demo-calendar.atlantishq.de). 
+A live demo filled with data from random events in Frankfurt can be found on [demo-calendar.atlantishq.de](https://demo-calendar.atlantishq.de). 
 
 # Usage
 
