@@ -177,8 +177,8 @@ a {
         max-width: 1200px;
         float: unset;
         margin-top: 20px;
-        margin: auto;
-        float: left;
+        margin-left:  auto;
+        margin-right: auto;
         width: 100%;
         padding: 40px;
         background-image: linear-gradient(white,#ebbbca);
