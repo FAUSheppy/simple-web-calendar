@@ -9,6 +9,11 @@ a{
   color: inherit;
 }
 
+/* don't display line in mobile view */
+hr{
+  display: none;
+}
+
 /* container for the main calendar and headerbar */
 .calendar-box {
   width: 100%;
@@ -78,6 +83,11 @@ a{
   line-height:9.5vw;
 }
 
+/* weekday-name */
+.weekday-name{
+  font-style: italic !important;
+}
+
 /* pseudo container to fix margin-padding some browsers */
 .day-container{
     overflow: auto;
@@ -109,14 +119,14 @@ a{
 }
 
 /* set all vw values to absolute */
-@media(min-width: 1000px){
+@media(min-width: 800px){
     
   .headerbar{
     margin-bottom: 60px;
   }
 
   .calendar-box {
-    max-width: 1000px;
+    max-width: 800px;
     border-radius: 10px; 
     margin-bottom: 20px; 
   }
@@ -142,12 +152,12 @@ a{
   }
   
   .calendar-box span {
-    font:        50px 'Roboto'; 
-    margin-top:  20px;
+    font:        50px;
+    margin-top:  10px;
     margin-left: 20px;
-    width:       115px; 
-    height:      100px; 
-    line-height: 85px;
+    width:       90px; 
+    height:      70px; 
+    line-height: 60px; /* relates to height */
   }
   
   .circle-enclosed {
@@ -156,10 +166,18 @@ a{
   }
   
   .currentDate {
-    font:   50px 'Roboto'; 
+    font:   50px; 
     margin-top:     60px; 
     margin-bottom:  10px; 
     letter-spacing: unset;
+  }
+
+  hr{
+    display: block;
+    width:   90%;
+    height:  2px;
+    background-color: white;
+    margin-top: -50px;
   }
   
 }
