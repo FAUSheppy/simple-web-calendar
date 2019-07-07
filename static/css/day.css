@@ -2,6 +2,15 @@
     box-sizing: border-box;
 }
 
+body {
+  background: #749d9e; 
+  background: -webkit-linear-gradient(#749d9e, #b3a68b)!important; 
+  background: -o-linear-gradient(#749d9e, #b3a68b)!important; 
+  background: -moz-linear-gradient(#749d9e, #b3a68b)!important; 
+  background: linear-gradient(#749d9e, #b3a68b)!important;
+  background: #332f2e; 
+}
+
 /* font-size viewport dependant for mobile */
 h2 {
     font-size: 5vw;
@@ -113,4 +122,75 @@ a {
     display: none;
 }
 
+@media(min-width: 800px){
 
+    h2 {
+        font-size: 20px;
+    }
+    
+    p {
+        margin-left: 10px;
+        font-size: 20px;
+    }
+
+    a { 
+        font-size: 20px;
+    } 
+
+    .row {
+        width: 60%;
+        margin: auto;
+        margin-bottom: 80px;
+        margin-top: 20px;
+        max-width: 600px;
+    }
+    
+    .column1 {
+        margin-bottom: 10px;
+    }
+    
+    .column2 {
+        margin-bottom: 10px;
+    }
+    
+    .rectangle {
+        height: 240px;
+        padding: 10px;
+    }
+    
+    .currentDate {
+        font-size: 20px;
+        font-weight:300; 
+        display:block; 
+        margin-top: 5px; 
+        margin-bottom: 5px; 
+        text-align: center; 
+        letter-spacing:1px;
+    }
+    
+    /* for events */
+    .eventview {
+        font-size: 10px;
+        float: left;
+        width: 100%;
+        padding: 40px;
+        background-image: linear-gradient(white,#ebbbca);
+        text-align: left;
+    }
+    
+    .menubarLink {
+        font-size: 40px !important;
+        text-decoration: none !important;
+    }
+    
+    .menubar {
+    	padding: 10px;
+    }
+    
+    .menubarDate {
+    	padding: 10px;
+        width: 100%;
+		margin-left: -8px;
+    }
+    
+}
