@@ -18,6 +18,7 @@ backend = backends.filesystem
 backendparam = "./data/"
 
 app = flask.Flask("epic-open-calendar-frontend")
+db  = dict()
 
 oneMillisecond  = datetime.timedelta(milliseconds=1)
 oneMonth        = dateutil.relativedelta(months=1)
@@ -44,7 +45,7 @@ def monthView():
     prevMonth = start - oneMonth
     nextMonth = start + oneMonth
 
-    events = backend.getEvents(start, end, backendparam)
+    events = backend.getEvents(start, end, db, backendparam)
     
     # mark all days with event #
     firstDayWeekdayCount, totalDaysInMonth = calendar.monthrange(year, month)
@@ -86,7 +87,7 @@ def dayView():
     
     dateOfViewString = start.strftime("%A, %d. %B %Y")
 
-    events = backend.getEvents(start, end, backendparam)
+    events = backend.getEvents(start, end, db, backendparam)
 
     preparedTimeStrings = []
     for e in events:
@@ -106,7 +107,7 @@ def dayView():
 @app.route("/eventview")
 def eventView():
     eventID = flask.request.args.get("uid")
-    event   = backend.getEventById(eventID, backendparam)
+    event   = backend.getEventById(eventID, db, backendparam)
 
     if not event:
         return flask.Response("", status=404)
