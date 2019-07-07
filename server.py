@@ -49,9 +49,10 @@ def monthView():
     
     # mark all days with event #
     firstDayWeekdayCount, totalDaysInMonth = calendar.monthrange(year, month)
-    eventsOnDay = [ False for x in range(0, totalDaysInMonth)]
+    # totalDaysInMonth - 1 to create 0-indexed array #
+    eventsOnDay = [ False for x in range(0, totalDaysInMonth - 1)]
     for e in events:
-        eventsOnDay[e.get('dtstart').dt.day % totalDaysInMonth] = True
+        eventsOnDay[(e.get('dtstart').dt.day % totalDaysInMonth) - 1] = True
 
     # generate navigation links
     hrefPrevMonth = monthLinkFormatString.format(prevMonth.year, prevMonth.month)
