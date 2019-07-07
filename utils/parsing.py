@@ -39,4 +39,9 @@ def searchAndAmorPhoneNumbers(string):
         #remeber induced offset for removed characters
         counter = len(ret) - len(string)
 
+    # markup special characters  #
+    ret = ret.replace("\r", "")
+    ret = ret.replace("\n", "<br>")
+    ret = ret.replace("\\t", "&nbsp;&nbsp;&nbsp;&nbsp;")
+
     return ret
