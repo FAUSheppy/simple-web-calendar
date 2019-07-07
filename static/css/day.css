@@ -65,6 +65,7 @@ a {
 	overflow: hidden;
 
     padding: 2vw;
+    padding-bottom: 6vw;
 }
 .rectange:hover { 
     color: yellow;
