@@ -19,7 +19,7 @@ span{
     margin-top: 5px;
     width: 100%;
     display: inline-block;
-	line-height: 40px; /* 75% of height */
+    line-height: 40px; /* 75% of height */
     font-size: 20;
 }
 
@@ -45,13 +45,13 @@ span{
 }
 
 input[type="checkbox"]{
-	width: 40px; /*Desired width*/
-	height: 40px; /*Desired height*/
+    width: 40px; /*Desired width*/
+    height: 40px; /*Desired height*/
 
-	background: grey;
-	border-radius: 10px;	
-	
-	cursor: pointer;
+    background: grey;
+    border-radius: 10px;    
+    
+    cursor: pointer;
 }
 
 .main-title{
@@ -70,13 +70,13 @@ input[type="checkbox"]{
 }
 
 .create-overlay {
-	position:	fixed;
-	display:	none;
-	top:		15%;
-	left:		15%;
-	right:		15%;
-	bottom:		15%;
-	z-index:	2;
-	background-color: rgba(0,0,0,0.8);
+    position:    fixed;
+    display:    none;
+    top:        15%;
+    left:        15%;
+    right:        15%;
+    bottom:        15%;
+    z-index:    2;
+    background-color: rgba(0,0,0,0.8);
 }
 

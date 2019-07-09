@@ -1,91 +1,91 @@
 /* set background color */
 body {
-  background-color:#282423;
+    background-color:#282423;
 }
 
 /* disable link color/decoration */
 a{
-  text-decoration: none;
-  color: inherit;
+    text-decoration: none;
+    color: inherit;
 }
 
 /* don't display line in mobile view */
 hr{
-  display: none;
+    display: none;
 }
 
 /* container for the main calendar and headerbar */
 .calendar-box {
-  width: 100%;
-  height: 100%;
-  padding:0 10px 10px 10px; 
-  box-sizing:border-box!important; 
-  background: #749d9e; 
-  background: -webkit-linear-gradient(#749d9e, #b3a68b)!important; 
-  background: -o-linear-gradient(#749d9e, #b3a68b)!important; 
-  background: -moz-linear-gradient(#749d9e, #b3a68b)!important; 
-  background: linear-gradient(#749d9e, #b3a68b)!important;
-  background:#332f2e; 
-  border-radius:5px; 
-  overflow:hidden; 
-  display:block; 
-  margin-bottom:5vw; 
-  box-shadow:0 0 10px #201d1c; 
-  margin:0 auto; 
+    width: 100%;
+    height: 100%;
+    padding:0 10px 10px 10px; 
+    box-sizing:border-box!important; 
+    background: #749d9e; 
+    background: -webkit-linear-gradient(#749d9e, #b3a68b)!important; 
+    background: -o-linear-gradient(#749d9e, #b3a68b)!important; 
+    background: -moz-linear-gradient(#749d9e, #b3a68b)!important; 
+    background: linear-gradient(#749d9e, #b3a68b)!important;
+    background:#332f2e; 
+    border-radius:5px; 
+    overflow:hidden; 
+    display:block; 
+    margin-bottom:5vw; 
+    box-shadow:0 0 10px #201d1c; 
+    margin:0 auto; 
 }
 
 /* header or nav-bar */
 .headerbar {
-  overflow: hidden;
-  text-align: center;
+    overflow: hidden;
+    text-align: center;
 }
 
 /* month selection (next/prev/current)  in the headerbar */
 .month-selection {
-  font:5vw 'Roboto'; 
-  font-weight:700; 
-  color:#f7f3eb; 
-  display:unset; 
-  margin:18px 0 0 0; 
-  text-transform:uppercase; 
-  text-align:center; 
-  letter-spacing:1px;
+    font:5vw 'Roboto'; 
+    font-weight:700; 
+    color:#f7f3eb; 
+    display:unset; 
+    margin:18px 0 0 0; 
+    text-transform:uppercase; 
+    text-align:center; 
+    letter-spacing:1px;
 }
 
 /* sub selections for the months */
 .bigLink{
-  font-size: 10vw;
+    font-size: 10vw;
 }
 
 .prev{
-  color: white;
-  margin-right: 5vw !important;
+    color: white;
+    margin-right: 5vw !important;
 }
 .next{
-	/* dunno why margin is fucked up */
-	color: white;
-	margin-left: 7vw !important;
+    /* dunno why margin is fucked up */
+    color: white;
+    margin-left: 7vw !important;
 }
 
 /* a day in the month */
 .calendar-box span {
-  font:4vw 'Roboto'; 
-  font-weight:400; 
-  margin-top:1vw;
-  margin-left:1vw;
-  color:#f7f3eb; 
-  text-align:center; 
-  width:12vw; 
-  height:10vw; 
-  display:inline-block; 
-  float:left; 
-  overflow:hidden; 
-  line-height:9.5vw;
+    font:4vw 'Roboto'; 
+    font-weight:400; 
+    margin-top:1vw;
+    margin-left:1vw;
+    color:#f7f3eb; 
+    text-align:center; 
+    width:12vw; 
+    height:10vw; 
+    display:inline-block; 
+    float:left; 
+    overflow:hidden; 
+    line-height:9.5vw;
 }
 
 /* weekday-name */
 .weekday-name{
-  font-style: italic !important;
+    font-style: italic !important;
 }
 
 /* pseudo container to fix margin-padding some browsers */
@@ -95,89 +95,89 @@ hr{
 
 /* a weekday not in the selected month */
 .day-padding {
-  opacity: 0.3; 
-  content: 'o';
+    opacity: 0.3; 
+    content: 'o';
 }
 
 /* a day that has events */
 .circle-enclosed {
-  border:0.2vw solid #f7f3eb; 
-  box-sizing:border-box!important; 
-  border-radius:200vw!important;
+    border:0.2vw solid #f7f3eb; 
+    box-sizing:border-box!important; 
+    border-radius:200vw!important;
 }
 
 /* current date displayed at the bottomg */
 .currentDate {
-  font:4vw 'Roboto'; 
-  font-weight:300; 
-  color:#f7f3eb; 
-  display:block; 
-  margin-top: 1vw; 
-  margin-bottom: 1vw; 
-  text-align:center; 
-  letter-spacing:1px;
+    font:4vw 'Roboto'; 
+    font-weight:300; 
+    color:#f7f3eb; 
+    display:block; 
+    margin-top: 1vw; 
+    margin-bottom: 1vw; 
+    text-align:center; 
+    letter-spacing:1px;
 }
 
 /* set all vw values to absolute */
 @media(min-width: 800px){
+      
+    .headerbar{
+        margin-bottom: 60px;
+    }
+  
+    .calendar-box {
+        max-width: 800px;
+        border-radius: 10px; 
+        margin-bottom: 20px; 
+    }
     
-  .headerbar{
-    margin-bottom: 60px;
-  }
-
-  .calendar-box {
-    max-width: 800px;
-    border-radius: 10px; 
-    margin-bottom: 20px; 
-  }
+    .month-selection {
+        font: 80px 'Roboto';
+        margin: 30px 0 0 0; 
+        letter-spacing: unset;
+    }
+    
+    .bigLink{
+        font-size: 80px;
+    }
+    
+    .prev{
+        font-size: 120px;
+        margin-right: 80px;
+    }
   
-  .month-selection {
-    font: 80px 'Roboto';
-    margin: 30px 0 0 0; 
-    letter-spacing: unset;
-  }
+    .next{
+        font-size: 120px;
+        margin-left: 80px;
+    }
+    
+    .calendar-box span {
+        font-size:   50px;
+        margin-top:  10px;
+        margin-left: 20px;
+        width:       90px; 
+        height:      70px; 
+        line-height: 60px; /* relates to height */
+    }
+    
+    .circle-enclosed {
+        border: 3px solid #f7f3eb; 
+        border-radius: 50px !important;
+    }
+    
+    .currentDate {
+        font-size:      40px; 
+        margin-top:     60px; 
+        margin-bottom:  10px; 
+        letter-spacing: unset;
+    }
   
-  .bigLink{
-    font-size: 80px;
-  }
-  
-  .prev{
-    font-size: 120px;
-    margin-right: 80px;
-  }
-
-  .next{
-    font-size: 120px;
-  	margin-left: 80px;
-  }
-  
-  .calendar-box span {
-    font-size:   50px;
-    margin-top:  10px;
-    margin-left: 20px;
-    width:       90px; 
-    height:      70px; 
-    line-height: 60px; /* relates to height */
-  }
-  
-  .circle-enclosed {
-    border: 3px solid #f7f3eb; 
-    border-radius: 50px !important;
-  }
-  
-  .currentDate {
-    font-size:      40px; 
-    margin-top:     60px; 
-    margin-bottom:  10px; 
-    letter-spacing: unset;
-  }
-
-  hr{
-    display: block;
-    width:   90%;
-    height:  2px;
-    background-color: white;
-    margin-top: -50px;
-  }
-  
+    hr{
+        display: block;
+        width:   90%;
+        height:  2px;
+        background-color: white;
+        margin-top: -50px;
+    }
+ 
 }
