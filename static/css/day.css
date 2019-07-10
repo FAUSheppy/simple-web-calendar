@@ -66,6 +66,10 @@ a {
 
     padding: 2vw;
     padding-bottom: 6vw;
+
+    /* allow absolute positioning within the container */
+    position: relative;
+
 }
 .rectange:hover { 
     color: yellow;
@@ -128,6 +132,12 @@ a {
 
 .hidden {
     display: none;
+}
+
+.details-link{
+    position: absolute;
+    bottom: 2vw;
+    right:  2vw;
 }
 
 @media(min-width: 800px){
@@ -205,5 +215,9 @@ a {
         width: 100%;
         margin-left: -8px;
     }
-    
+
+    .details-link{
+        bottom: 15px;
+        right:  20px;
+    }
 }

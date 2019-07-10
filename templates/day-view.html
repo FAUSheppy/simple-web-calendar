@@ -38,11 +38,9 @@
             <div class=rectangle>
                 <p>
                     {{ e.get("SUMMARY") }}
-                    <br>
                     <i>{{ e.get("LOCATION") }}</i>
                 </p>
-                <br>
-                <a href=/eventview?uid={{ e.get("UID") }}>Details</a>
+                <a class="details-link" href=/eventview?uid={{ e.get("UID") }}>Details</a>
             </div>
         {% endfor %}
         </div>
