@@ -22,11 +22,15 @@ db  = dict()
 
 oneMillisecond  = datetime.timedelta(milliseconds=1)
 oneMonth        = dateutil.relativedelta(months=1)
+oneWeek         = dateutil.relativedelta(days=7)
 oneDay          = dateutil.relativedelta(days=1)
 
 # prefomated links #
 dayLinkFormatString   = "/dayview?year={}&month={}&day={}"
 monthLinkFormatString = "/monthview?year={}&month={}"
+
+# constants #
+SELECT_DAY_OF_WEEK = 2
 
 @app.route("/")
 def htmlRedirect():
@@ -46,7 +50,7 @@ def monthView():
     nextMonth = start + oneMonth
 
     events = backend.getEvents(start, end, db, backendparam)
-    
+
     # mark all days with event #
     firstDayWeekdayCount, totalDaysInMonth = calendar.monthrange(year, month)
     # totalDaysInMonth - 1 to create 0-indexed array #
@@ -70,6 +74,39 @@ def monthView():
                                         paddingStart=firstDayWeekdayCount, \
                                         paddingEnd=weekDayPaddingEnd)
 
+@app.route("/weekview")
+def weekView():
+    day   = int(flask.request.args.get("day"))
+    month = int(flask.request.args.get("month"))
+    year  = int(flask.request.args.get("year"))
+
+    # select first day in month if arg is missing #
+    if not day:
+        day = 0
+
+    selected    = datetime.datetime(year, month, day, tzinfo=pytz.utc)
+    startOfWeek = selected - datetime.timedelta(days=selected.isocalendar()[SELECT_DAY_OF_WEEK])
+    end         = startOfWeek + oneWeek - oneMillisecond
+
+    prevDay = "NOT IMPLEMENTED"
+    nextDay = "NOT IMPLEMENTED"
+
+    hrefPrevDay   = "NOT IMPLEMENTED"
+    hrefNextDay   = "NOT IMPLEMENTED"
+    hrefThisMonth = "NOT IMPLEMENTED"
+
+    dateOfViewString = "NOT IMPLEMENTED"
+
+    events = backend.getEvents(startOfWeek, end, db, backendparam)
+    preparedTimeStrings = utils.preparedTimeStrings(events)
+
+    return flask.render_template("week-view.html", events=events, \
+                                    preparedTimeStrings=preparedTimeStrings, \
+                                    prevDayLink=hrefPrevDay, \
+                                    nextDayLink=hrefNextDay, \
+                                    thisMonthLink=hrefThisMonth, \
+                                    dateOfView=dateOfViewString)
+
 @app.route("/dayview")
 def dayView():
     day   = int(flask.request.args.get("day"))
@@ -77,15 +114,15 @@ def dayView():
     year  = int(flask.request.args.get("year"))
 
     start  = datetime.datetime(year, month, day, tzinfo=pytz.utc)
-    end    = start + oneDay - oneMillisecond 
+    end    = start + oneDay - oneMillisecond
 
     prevDay = (start - oneDay)
     nextDay = (start + oneDay)
-    
+
     hrefPrevDay   = dayLinkFormatString.format(prevDay.year, prevDay.month, prevDay.day)
     hrefNextDay   = dayLinkFormatString.format(nextDay.year, nextDay.month, nextDay.day)
     hrefThisMonth = monthLinkFormatString.format(start.year, start.month)
-    
+
     dateOfViewString = start.strftime("%A, %d. %B %Y")
 
     events = backend.getEvents(start, end, db, backendparam)
@@ -117,7 +154,7 @@ def sendStatic(path):
     return flask.send_from_directory('static', path)
 
 if __name__ == "__main__":
-    
+
     parser = argparse.ArgumentParser(description='Start open-leaderboard',
                         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
@@ -137,7 +174,7 @@ if __name__ == "__main__":
                             help="Remote url when using backend remote or google")
     parser.add_argument("--fs-backend-path", default="data", \
                             help="Path for locale file if backend 'filesystem' is used")
-    
+
     args = parser.parse_args()
 
     # set localization #
