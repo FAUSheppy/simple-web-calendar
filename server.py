@@ -98,7 +98,7 @@ def weekView():
     dateOfViewString = "NOT IMPLEMENTED"
 
     events = backend.getEvents(startOfWeek, end, db, backendparam)
-    preparedTimeStrings = utils.preparedTimeStrings(events)
+    preparedTimeStrings = utils.prepareTimeStrings(events)
 
     return flask.render_template("week-view.html", events=events, \
                                     preparedTimeStrings=preparedTimeStrings, \
