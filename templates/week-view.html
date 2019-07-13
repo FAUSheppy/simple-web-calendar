@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" >
+  <head>
+    <meta charset="UTF-8">
+    {% include 'head.html' %}
+    <link rel="stylesheet" href="/static/css/day.css">
+    <script defer src="/static/js/site.js"></script>
+  </head>
+  <body>
+
+    <!-- hidden URLs for ussage in javascript -->
+    <div class="hidden" id="nextDay">{{ nextDayLink }}</div>
+    <div class="hidden" id="prevDay">{{ prevDayLink }}</div>
+
+    <!-- Navbar -->
+    <div class="menubar">                                                                           
+        <a class=menubarLink href={{ thisMonthLink }}> 
+            &laquo &laquo Monatsübersicht &laquo &laquo
+        </a>
+    </div>
+    
+    <!-- main events container -->
+    <div class="row">
+        <div class="column1">
+        
+        {# times-strings will be created in advance because     #}
+        {# because of some quirks with the behaviour of all-day #}
+        {# and repeating event in different calendars           #}
+
+        {% for s in preparedTimeStrings %}
+            <div class=rectangle>
+                <p>{{ s }}</p>
+            </div>
+        {% endfor %}
+        </div>
+        <div class="column2">
+        {% for e in events %}
+            <div class=rectangle>
+                <p>
+                    {{ e.get("SUMMARY") }}
+                    <br>
+                    <i>{{ e.get("LOCATION") }}</i>
+                </p>
+                <br>
+                <a href=/eventview?uid={{ e.get("UID") }}>Details</a>
+            </div>
+        {% endfor %}
+        </div>
+        <div class="column1">
+        
+        {# times-strings will be created in advance because     #}
+        {# because of some quirks with the behaviour of all-day #}
+        {# and repeating event in different calendars           #}
+
+        {% for s in preparedTimeStrings %}
+            <div class=rectangle>
+                <p>{{ s }}</p>
+            </div>
+        {% endfor %}
+        </div>
+        <div class="column2">
+        {% for e in events %}
+            <div class=rectangle>
+                <p>
+                    {{ e.get("SUMMARY") }}
+                    <br>
+                    <i>{{ e.get("LOCATION") }}</i>
+                </p>
+                <br>
+                <a href=/eventview?uid={{ e.get("UID") }}>Details</a>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+
+    <!-- navbar at bottom -->
+    <div class="menubarDate" id="menubarDate">
+        <div class=currentDate>{{ dateOfView }}</div>
+    </div>
+
+  </body>
+</html>
