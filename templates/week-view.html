@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     {% include 'head.html' %}
     <link rel="stylesheet" href="/static/css/day.css">
+    <link rel="stylesheet" href="/static/css/week.css">
     <script defer src="/static/js/site.js"></script>
   </head>
   <body>
@@ -20,54 +21,21 @@
     </div>
     
     <!-- main events container -->
-    <div class="row">
-        <div class="column1">
-        
-        {# times-strings will be created in advance because     #}
-        {# because of some quirks with the behaviour of all-day #}
-        {# and repeating event in different calendars           #}
-
-        {% for s in preparedTimeStrings %}
-            <div class=rectangle>
-                <p>{{ s }}</p>
-            </div>
-        {% endfor %}
-        </div>
-        <div class="column2">
-        {% for e in events %}
-            <div class=rectangle>
-                <p>
-                    {{ e.get("SUMMARY") }}
+    <div class="row unlock-size">
+        {% for eventList in weekEventLists %}
+            <div class="column2 lock-size">
+            <div class="rectangle weekday-name"> WEEKDAY </div>
+            {% for e in eventList %}
+                <div class="rectangle weekday">
+                    <p>
+                        {{ e.get("SUMMARY") }}
+                        {# <br> #}
+                        {# <i>{{ e.get("LOCATION") }}</i> #}
+                    </p>
                     <br>
-                    <i>{{ e.get("LOCATION") }}</i>
-                </p>
-                <br>
-                <a href=/eventview?uid={{ e.get("UID") }}>Details</a>
-            </div>
-        {% endfor %}
-        </div>
-        <div class="column1">
-        
-        {# times-strings will be created in advance because     #}
-        {# because of some quirks with the behaviour of all-day #}
-        {# and repeating event in different calendars           #}
-
-        {% for s in preparedTimeStrings %}
-            <div class=rectangle>
-                <p>{{ s }}</p>
-            </div>
-        {% endfor %}
-        </div>
-        <div class="column2">
-        {% for e in events %}
-            <div class=rectangle>
-                <p>
-                    {{ e.get("SUMMARY") }}
-                    <br>
-                    <i>{{ e.get("LOCATION") }}</i>
-                </p>
-                <br>
-                <a href=/eventview?uid={{ e.get("UID") }}>Details</a>
+                    {# <a href=/eventview?uid={{ e.get("UID") }}>Details</a> #}
+                </div>
+            {% endfor %}
             </div>
         {% endfor %}
         </div>

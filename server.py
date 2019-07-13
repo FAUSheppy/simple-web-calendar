@@ -98,10 +98,14 @@ def weekView():
     dateOfViewString = "NOT IMPLEMENTED"
 
     events = backend.getEvents(startOfWeek, end, db, backendparam)
-    preparedTimeStrings = utils.parsing.prepareTimeStrings(events)
+    
+    # create event lists for each day #
+    weekEventLists = [ list() for x in range(0, 7) ]
+    for e in events:
+        weekEventLists[e.get('dtstart').dt.isocalendar()[SELECT_DAY_OF_WEEK]] += [e]
 
-    return flask.render_template("week-view.html", events=events, \
-                                    preparedTimeStrings=preparedTimeStrings, \
+    return flask.render_template("week-view.html", weekEventLists=weekEventLists, \
+                                    preparedTimeStrings="NOT IMPLEMENTED", \
                                     prevDayLink=hrefPrevDay, \
                                     nextDayLink=hrefNextDay, \
                                     thisMonthLink=hrefThisMonth, \
