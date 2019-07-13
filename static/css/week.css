@@ -1,0 +1,18 @@
+.weekday-name{
+    height: auto !important;
+    text-align: center;
+    font-style: italic;
+}
+.weekday{
+    font-size: 20px !important;
+}
+.lock-size{
+    width: 13.7% !important;
+    margin-left: 0.5%;
+}
+.unlock-size{
+    width: unset !important;    
+    max-width: unset !important;
+}
+@media(min-width: 800px){
+}
