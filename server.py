@@ -102,7 +102,7 @@ def weekView():
     # create event lists for each day #
     weekEventLists = [ list() for x in range(0, 7) ]
     for e in events:
-        weekEventLists[e.get('dtstart').dt.isocalendar()[SELECT_DAY_OF_WEEK]] += [e]
+        weekEventLists[e.get('dtstart').dt.isocalendar()[SELECT_DAY_OF_WEEK]-1] += [e]
 
     return flask.render_template("week-view.html", weekEventLists=weekEventLists, \
                                     preparedTimeStrings="NOT IMPLEMENTED", \
