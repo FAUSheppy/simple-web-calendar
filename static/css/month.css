@@ -42,7 +42,7 @@ hr{
 
 /* month selection (next/prev/current)  in the headerbar */
 .month-selection {
-    font:5vw 'Roboto'; 
+    font: 7vw 'Roboto'; 
     font-weight:700; 
     color:#f7f3eb; 
     display:unset; 
@@ -58,13 +58,16 @@ hr{
 }
 
 .prev{
-    color: white;
-    margin-right: 5vw !important;
+    float: left;
+    margin-left: 2vw;
+    margin-top: -3vw;
 }
+
 .next{
     /* dunno why margin is fucked up */
-    color: white;
-    margin-left: 7vw !important;
+    float: right;
+    margin-right: 2vw;
+    margin-top: -3vw;
 }
 
 /* a day in the month */
