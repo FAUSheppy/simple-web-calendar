@@ -45,3 +45,13 @@ def searchAndAmorPhoneNumbers(string):
     ret = ret.replace("\\t", "&nbsp;&nbsp;&nbsp;&nbsp;")
 
     return ret
+
+def prepareTimeStrings(events):
+	preparedTimeStrings = []
+	for e in events:
+	    time = e.get('dtstart').dt
+	    if type(time) == datetime.date:
+	        preparedTimeStrings += ["All Day"]
+	    else:
+	        preparedTimeStrings += [time.strftime("%H:%M")]
+	return preparedTimeStrings

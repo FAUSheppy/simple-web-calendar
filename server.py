@@ -89,14 +89,7 @@ def dayView():
     dateOfViewString = start.strftime("%A, %d. %B %Y")
 
     events = backend.getEvents(start, end, db, backendparam)
-
-    preparedTimeStrings = []
-    for e in events:
-        time = e.get('dtstart').dt
-        if type(time) == datetime.date:
-            preparedTimeStrings += ["All Day"]
-        else:
-            preparedTimeStrings += [time.strftime("%H:%M")]
+    preparedTimeStrings = utils.prepareTimeStrings(events)
 
     return flask.render_template("day-view.html", events=events, \
                                     preparedTimeStrings=preparedTimeStrings, \
