@@ -50,7 +50,7 @@ def monthView():
     # mark all days with event #
     firstDayWeekdayCount, totalDaysInMonth = calendar.monthrange(year, month)
     # totalDaysInMonth - 1 to create 0-indexed array #
-    eventsOnDay = [ False for x in range(0, totalDaysInMonth - 1)]
+    eventsOnDay = [ False for x in range(0, totalDaysInMonth)]
     for e in events:
         eventsOnDay[(e.get('dtstart').dt.day % totalDaysInMonth) - 1] = True
 
