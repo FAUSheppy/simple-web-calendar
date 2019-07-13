@@ -135,7 +135,7 @@ hr{
     }
     
     .month-selection {
-        font: 80px 'Roboto';
+        font: 65px 'Roboto';
         margin: 30px 0 0 0; 
         letter-spacing: unset;
     }
@@ -146,12 +146,14 @@ hr{
     
     .prev{
         font-size: 120px;
-        margin-right: 80px;
+        margin-left: 20px;
+        margin-top: -55px;
     }
   
     .next{
         font-size: 120px;
-        margin-left: 80px;
+        margin-right: 20px;
+        margin-top: -55px;
     }
     
     .calendar-box span {
