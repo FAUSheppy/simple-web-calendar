@@ -76,13 +76,15 @@ def monthView():
 
 @app.route("/weekview")
 def weekView():
-    day   = int(flask.request.args.get("day"))
+    day   = flask.request.args.get("day")
     month = int(flask.request.args.get("month"))
     year  = int(flask.request.args.get("year"))
 
     # select first day in month if arg is missing #
     if not day:
-        day = 0
+        day = 1
+    else:
+        day = int(day)
 
     selected    = datetime.datetime(year, month, day, tzinfo=pytz.utc)
     startOfWeek = selected - datetime.timedelta(days=selected.isocalendar()[SELECT_DAY_OF_WEEK])
@@ -97,6 +99,9 @@ def weekView():
 
     dateOfViewString = "NOT IMPLEMENTED"
 
+    # get locale week names #
+    weekdayNames = ["BUFFER"] + list(calendar.day_name)
+
     events = backend.getEvents(startOfWeek, end, db, backendparam)
     
     # create event lists for each day #
@@ -105,6 +110,7 @@ def weekView():
         weekEventLists[e.get('dtstart').dt.isocalendar()[SELECT_DAY_OF_WEEK]-1] += [e]
 
     return flask.render_template("week-view.html", weekEventLists=weekEventLists, \
+                                    weekdayNames=weekdayNames, \
                                     preparedTimeStrings="NOT IMPLEMENTED", \
                                     prevDayLink=hrefPrevDay, \
                                     nextDayLink=hrefNextDay, \

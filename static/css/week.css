@@ -1,10 +1,18 @@
+p{
+    margin-top: unset !important;
+    margin-left: 1vw !important;
+}
 .weekday-name{
     height: auto !important;
-    text-align: center;
-    font-style: italic;
+    text-align: center !important;
+    font-style: italic !important;
+    background: #d15c89 !important;
+    margin-bottom: 1vw;
 }
 .weekday{
     font-size: 20px !important;
+    height: 190px !important;
+    padding: unset !important;
 }
 .lock-size{
     width: 13.7% !important;
@@ -14,5 +22,23 @@
     width: unset !important;    
     max-width: unset !important;
 }
+.week-event-time{
+    margin-left: 1vw;
+    text-align: left;
+    margin-bottom: 1vw;
+    font-style: italic;
+}
 @media(min-width: 800px){
+    .week-event-time{
+        margin-left: 2px;
+        margin-bottom: 5px;
+        margin-top: 5px;
+        background: plum;
+    }
+    p{
+        margin-left: 5px;;
+    }
+    .weekday-name{
+        margin-bottom: 5px;
+    }
 }
