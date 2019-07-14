@@ -18,9 +18,10 @@ p{
     width: 13.7% !important;
     margin-left: 0.5%;
 }
-.unlock-size{
+.weekday-rows{
     width: unset !important;    
     max-width: unset !important;
+    min-width:
 }
 .week-event-time{
     margin-left: 1vw;
