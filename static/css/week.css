@@ -21,7 +21,7 @@ p{
 .weekday-rows{
     width: unset !important;    
     max-width: unset !important;
-    min-width:
+    min-width: 900px;
 }
 .week-event-time{
     margin-left: 1vw;
