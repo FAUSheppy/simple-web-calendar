@@ -8,16 +8,20 @@
   <body>
 
     <!-- hidden URLs for ussage in javascript -->
+    {% if nextDayLink and prevDayLink %}
     <div class="hidden" id="nextDay">{{ nextDayLink }}</div>
     <div class="hidden" id="prevDay">{{ prevDayLink }}</div>
+    {% endif %}
 
     <!-- Navbar -->
+    {% if thisMonthLink %}
     <div class="menubar">                                                                           
         <a class=menubarLink href={{ thisMonthLink }}> 
             &laquo &laquo Monatsübersicht &laquo &laquo
         </a>
     </div>
-    
+    {% endif %}
+
     <!-- main events container -->
     <div class="row">
         <div class="column1">
@@ -46,9 +50,11 @@
     </div>
 
     <!-- navbar at bottom -->
+    {% if dateOfView %}
     <div class="menubarDate" id="menubarDate">
         <div class=currentDate>{{ dateOfView }}</div>
     </div>
+    {% endif %}
 
   </body>
 </html>

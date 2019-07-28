@@ -46,12 +46,17 @@ def searchAndAmorPhoneNumbers(string):
 
     return ret
 
-def prepareTimeStrings(events):
-	preparedTimeStrings = []
-	for e in events:
-	    time = e.get('dtstart').dt
-	    if type(time) == datetime.date:
-	        preparedTimeStrings += ["All Day"]
-	    else:
-	        preparedTimeStrings += [time.strftime("%H:%M")]
-	return preparedTimeStrings
+def prepareTimeStrings(events, showdate=False):
+    preparedTimeStrings = []
+    for e in events:
+        time = e.get('dtstart').dt
+        if type(time) == datetime.date:
+            preparedTimeStrings += ["All Day"]
+        else:
+            isToday = dt.date() == datetime.today()
+            if isToday or showdate:
+                preparedTimeStrings += [time.strftime("%H:%M")]
+            else:
+                preparedTimeStrings += [time.strftime("%H:%M - %w, %d, %b")]
+
+    return preparedTimeStrings

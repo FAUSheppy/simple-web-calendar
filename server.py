@@ -159,6 +159,17 @@ def eventView():
     return flask.render_template("single-event-view.html", event=event,
                                     backlinkDayView=backlinkDayView)
 
+#### API ####
+@app.route("/upcoming")
+def upcoming():
+    start = datetime.datetime.fromtimestamp(flask.request.args.get("from"))
+    end   = datetime.datetime.fromtimestamp(flask.request.args.get("to"))
+
+    events = backend.getEvents(start, end, db, backendparam)
+    preparedTimeStrings = utils.parsing.prepareTimeStrings(events)
+
+    return flask.render_template("day-view.html", events=events, preparedTimeStrings=preparedTimeStrings)
+
 @app.route("/static/<path:path>")
 def sendStatic(path):
     return flask.send_from_directory('static', path)
