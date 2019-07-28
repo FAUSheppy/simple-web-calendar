@@ -195,6 +195,8 @@ if __name__ == "__main__":
                             help="Remote url when using backend remote or google")
     parser.add_argument("--fs-backend-path", default="data", \
                             help="Path for locale file if backend 'filesystem' is used")
+    parser.add_argument("--preheat", action='store_const', default=False, const=True, \
+                            help="Preheat the backend")
 
     args = parser.parse_args()
 
@@ -212,6 +214,9 @@ if __name__ == "__main__":
 
     #  set backend variables #
 
+    # backend preheat #
+    if args.preheat:
+        backend._parse(backendparam)
 
     # startup #
     args = parser.parse_args()
