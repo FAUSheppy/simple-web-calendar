@@ -13,11 +13,6 @@ function append(){
         return
     }
 
-    links = doc.getElementsByTagName("a")
-    for(i=1; i<links.length; i++){
-        links[i].style.textDecoration = "underline"
-    }
-
     var menubar = doc.getElementsByClassName("menubar")[0]
     menubar.innerText = "Heute"
 
@@ -28,13 +23,7 @@ function append(){
     document.body.innerHTML += doc.body.innerHTML
 }
 
-function runShit(){
-
-    /* install service worker */
-    //if ('serviceWorker' in navigator && location.protocol != "file:") {
-    //    navigator.serviceWorker.register('js/worker.js')
-    //}
-
+function setCurrentDate(){
     /* input time */
     element = document.getElementById("time")
     strftime = {weekday: 'long', month: 'long', day: 'numeric', year: 'numeric', hour: "2-digit", minute: "2-digit", timeZoneName: "short"};
@@ -42,8 +31,10 @@ function runShit(){
     if(element){
         element.textContent = time
     }
+}
 
-    /* highlight current day */
+function highlightCurrentDay(){
+
     var date = new Date()
     month = date.getMonth() + 1
     if(month < 10){
@@ -56,7 +47,10 @@ function runShit(){
         }
     }
 
-    /* upcoming */
+}
+
+functionLoadUpcomingEvents(){
+
     if(window.location.href.includes("month-")){
       link = "/day-" + date.getFullYear()   + "&" +
                        monthStr             + "&" +
@@ -66,15 +60,6 @@ function runShit(){
       xhttp.open("GET", link, true);
       xhttp.send();
     }
-}
-
-function goOffline(event) {
-    el = document.getElementById("offlineInfo")
-    el.style.display="block"
-}
-function goOnline(event) {
-    el = document.getElementById("offlineInfo")
-    el.style.display="none"
 }
 
 function addSwipeListeners() {
