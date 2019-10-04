@@ -14,6 +14,8 @@ function highlightCurrentDay(){
     month = date.getMonth() + 1
     if(month < 10){
         monthStr = "0" + month.toString()
+    }else{
+        monthStr = month.toString()
     }
     if(window.location.href.includes("&" + monthStr)){
         element = document.getElementById("day-"+date.getDate())
