@@ -53,7 +53,7 @@ def prepareTimeStrings(events, showdate=False):
         if type(time) == datetime.date:
             preparedTimeStrings += ["All Day"]
         else:
-            isToday = dt.date() == datetime.today()
+            isToday = time.date() == datetime.today()
             if isToday or showdate:
                 preparedTimeStrings += [time.strftime("%H:%M")]
             else:
