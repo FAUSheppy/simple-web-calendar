@@ -22,11 +22,14 @@ def _parseSingleFile(filename):
             # only select events #
             if type(component) == icalendar.Event:
                 events += [component]
-                dtLocStart = parsing.localizeDatetime(component.get('dtstart').dt)
-                dtLocEnd   = parsing.localizeDatetime(component.get('dtend').dt)
 
+                dtLocStart = parsing.localizeDatetime(component.get('dtstart').dt)
+                dtLocEndComponent = component.get('dtend')
                 component.get("dtstart").dt = dtLocStart
-                component.get("dtend").dt   = dtLocEnd
+
+                if dtLocEndComponent:
+                    dtLocEnd   = parsing.localizeDatetime(component.get('dtend').dt)
+                    component.get("dtend").dt   = dtLocEnd
 
             else:
                 pass
