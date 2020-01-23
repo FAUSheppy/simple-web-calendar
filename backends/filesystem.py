@@ -1,15 +1,19 @@
 #!/usr/bin/python3
 import os
 import re
+import uuid
 
 import pytz
 import locale
 import flask
 
 import icalendar
+from datetime import datetime
 
 import utils.timeframe as timeframe
 import utils.parsing   as parsing
+
+forceReload = False
 
 def _parseSingleFile(filename):
     '''Read in a single ICS file from a filedescriptor'''
@@ -67,8 +71,11 @@ def _parse(path):
 def getEvents(start, end, db, path):
     '''Return a tupel (icalendar.Event, datetime.datetime) parsed
        from a locale file or diretory'''
+
+    global forceReload
     
-    if not db.get("eventsByDate"):
+    if not db.get("eventsByDate") or forceReload:
+        forceReload = False
         events      = _parse(path)
         db["times"] = [ x.get("dtstart").dt for x in events ]
         db["eventsByDate"] = events
@@ -93,4 +100,30 @@ def getEventById(uid, db, path):
     return db["eventsByUID"][uid]
 
 def createEvent(title, description, location, startStr, endStr, etype=None):
-    print(title, description, location, startStr, endStr, etype)
+
+    global forceReload
+
+    cal = icalendar.Calendar()
+
+    # generate Event #
+    event = icalendar.Event()
+    event["uid"] = uuid.uuid4()
+    print(startStr)
+    event["dtstart"] = datetime.strptime(startStr, "%Y-%m-%d").strftime("%Y%m%dT000000Z")
+    event["SUMMARY"] = title
+
+    if endStr:
+        dtEnd = datetime.strptime(endStr, "%Y-%m-%d") 
+        event["dtend"] = dtEnd.strftime("%Y%m%dT000000Z")
+    if location:
+        event["location"] = location
+    if etype:
+        event["etype"] = etype
+    if description:
+        event["DESCRIPTION"] = description
+
+    cal.add_component(event)
+    uuidStr = str(event["uid"]) + ".ics"
+    with open(os.path.join("data/", uuidStr), "wb") as f:
+        f.write(cal.to_ical())
+        forceReload = True
