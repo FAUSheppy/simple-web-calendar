@@ -1,53 +1,28 @@
 <script>
     function cancle(){
-		window.location.replace(window.location.origin);
-	}
+    	 document.getElementById("event-form").reset()
+    }
 
-    function submitt(){
-		options = document.getElementsByClassName("option")
-		optString = ""
-        count = 0
-		for(x in options){
-			if(options[x].value){
-				if(x != 0){
-					optString += ","
-				}
-				optString += options[x].value
-                count++;
-			}
-		}
-
-        var eventName        = document.getElementById("event-name").value
-        var eventLocation    = document.getElementById("event-location").value
-        var eventDescription = document.getElementById("event-description").value
-        var eventStartTime   = document.getElementById("event-start").value
-        var eventEndTime     = document.getElementById("event-end").value
-        var eventCategory    = document.getElementById("event-type").value
-
-        if(eventName == ""){
-            alert("Event must have a name!")
-            return
-        }else if(eventStartTime == "" || eventEndTime == ""){
-            alert("Event must have a start and an end-time!")
-            return
-	}
+    function submit(){
+        document.getElementById("event-form").submit()
+    }
 </script>
 <div id="main-container" class="main-container">
     <div class="main-title">
         Kalendereintrag bearbeiten
     <div>
-	<div class="options-container" id="options-container">
-		<span> Name:          <input id="poll-name-input" type="text" class="option-input"> </span>
-		<span> Beschreibung:  <input id="question-input"  type="text" class="option-input"> </span>
-		<span> Ort:           <input id="question-input"  type="text" class="option-input"> </span>
+    <form class="options-container" id="event-form" method="POST">
+        <span> Name:          <input name="title"       type="text" class="option-input"> </span>
+        <span> Beschreibung:  <input name="description" type="text" class="option-input"> </span>
+        <span> Ort:           <input name="location"    type="text" class="option-input"> </span>
         <hr>
-		<span> Startzeit:   <input type="text" class="option-input option"> </span>
-		<span> Endzeit:     <input type="text" class="option-input option"> </span>
-		<span> Kategorie:   <input type="text" class="option-input option"> </span>
-	</div>
+        <span> Startzeit:   <input type="date" name="start" class="option-input"> </span>
+        <span> Endzeit:     <input type="date" name="end"   class="option-input"> </span>
+        <span> Kategorie:   <input type="text" name="type"  class="option-input"> </span>
+    </form>
     <hr>
-	<div id="button-container" class="button-container">
-		<button onclick="submitt()">Erstellen</button>
-		<button onclick="cancle()">Abbrechen</button>
-	</div>
+    <div id="button-container" class="button-container">
+        <button onclick="submit()">Erstellen</button>
+        <button onclick="cancle()">Abbrechen</button>
+    </div>
 </div>

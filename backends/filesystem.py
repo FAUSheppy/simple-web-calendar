@@ -91,3 +91,6 @@ def getEventById(uid, db, path):
         db["eventsByUID"] = eventDict
     
     return db["eventsByUID"][uid]
+
+def createEvent(title, description, location, startStr, endStr, etype=None):
+    print(title, description, location, startStr, endStr, etype)

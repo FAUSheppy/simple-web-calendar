@@ -174,6 +174,17 @@ def upcoming():
 def sendStatic(path):
     return flask.send_from_directory('static', path)
 
+
+@app.route("/eventcreate", methods=["GET","POST"])
+def eventCreate():
+    if flask.request.method == "POST":
+        params = flask.request.args
+        backend.createEvent(params.get("title"), params.get("description"),
+                            params.get("location"), params.get("start"),
+                            params.get("end"), params.get("type"))
+
+    return flask.render_template("eventCreate.html")
+
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description='Start open-leaderboard',
