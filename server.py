@@ -178,7 +178,7 @@ def sendStatic(path):
 @app.route("/eventcreate", methods=["GET","POST"])
 def eventCreate():
     if flask.request.method == "POST":
-        params = flask.request.args
+        params = flask.request.form
         backend.createEvent(params.get("title"), params.get("description"),
                             params.get("location"), params.get("start"),
                             params.get("end"), params.get("type"))
