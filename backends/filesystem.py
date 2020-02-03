@@ -22,7 +22,7 @@ def _parseSingleFile(filename):
         events = []
         gcal = icalendar.Calendar.from_ical(f.read())
         for component in gcal.walk():
-            
+
             # only select events #
             if type(component) == icalendar.Event:
                 events += [component]
@@ -49,7 +49,7 @@ def _parse(path):
         files = os.listdir(path)
     else:
         files  = [path]
-   
+
     # get events from files #
     events = []
     for fname in files:
@@ -73,7 +73,7 @@ def getEvents(start, end, db, path):
        from a locale file or diretory'''
 
     global forceReload
-    
+
     if not db.get("eventsByDate") or forceReload:
         forceReload = False
         events      = _parse(path)
