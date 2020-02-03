@@ -12,12 +12,8 @@ function highlightCurrentDay(){
 
     var date = new Date()
     month = date.getMonth() + 1
-    if(month < 10){
-        monthStr = "0" + month.toString()
-    }else{
-        monthStr = month.toString()
-    }
-    if(window.location.href.includes("&" + monthStr)){
+    console.log("&"+month)
+    if(window.location.href.includes("&month=" + month)){
         element = document.getElementById("day-"+date.getDate())
         if(element){
           element.style.background = "orange"
@@ -26,34 +22,6 @@ function highlightCurrentDay(){
 
 }
 
-function functionLoadUpcomingEvents(){
-
-    if(window.location.href.includes("month-")){
-      link = "/day-" + date.getFullYear()   + "&" +
-                       monthStr             + "&" +
-                       date.getDate()       + ".html"
-      var xhttp = new XMLHttpRequest();
-      xhttp.onreadystatechange = append;
-      xhttp.open("GET", link, true);
-      xhttp.send();
-    }
-
-    /* create pseudo doc for selection */
-    var doc = new DOMParser().parseFromString(this.responseText,"text/html")
-
-    if(!doc.body.innerHTML){
-        return
-    }
-
-    var menubar = doc.getElementsByClassName("menubar")[0]
-    menubar.innerText = "Heute"
-
-    var elem = doc.getElementById("menubarDate");
-    elem.parentNode.removeChild(elem);
-
-    /* put it together */
-    document.body.innerHTML += doc.body.innerHTML
-}
-
 /* execute defered operations */
 setCurrentDate()
+highlightCurrentDay()
