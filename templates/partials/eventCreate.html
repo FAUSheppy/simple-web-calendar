@@ -3,12 +3,25 @@
         Kalendereintrag bearbeiten
     </div>
     <form class="options-container" id="event-form" method="POST">
-        <span> Name:          <input type="text"	name="title"       	class="option-input"> </span>
-        <span> Ort:           <input type="text"	name="location"    	class="option-input"> </span>
-        <span> Startzeit:     <input type="date" 	name="start" 		class="option-input"> </span>
-        <span> Endzeit:       <input type="date" 	name="end"  		class="option-input"> </span>
-        <span> Kategorie:     <input type="text" 	name="type"  		class="option-input"> </span>
-        <span> Beschreibung:<br><input type="text" 	name="description" 	class="text-input"> </span>
+        <span class=eventcreate-small> <div class=option-name>Name: 	</div> <input type="text"	name="title"       	class="option-input"> </span>
+        <span class=eventcreate-small> <div class=option-name>Ort:      </div> <input type="text"	name="location"    	class="option-input"> </span>
+        
+		<!-- Startzeit -->
+		<span class=eventcreate-small>
+			<div class=option-name>Startzeit:</div>
+			<input type="date" name="start-date" class="option-input">
+			<input type="time" name="start-time" class="option-input">
+		</span>
+        
+		<!-- Endzeit -->
+		<span class=eventcreate-small>
+			<div class=option-name>Endzeit:</div>
+			<input type="date" name="end-date" class="option-input">
+			<input type="time" name="end-time" class="option-input">
+		</span>
+		
+        <span class=eventcreate-small> <div class=option-name>Kategorie:</div> <input type="text" 	name="type"  		class="option-input"> </span>
+        <span> Beschreibung:<br><textarea rows="4" cols="100" name="description"></textarea></span>
     </form>
     <hr>
     <div id="button-container" class="button-container">
