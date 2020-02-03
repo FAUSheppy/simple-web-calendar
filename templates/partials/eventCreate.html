@@ -1,23 +1,23 @@
-<div class="event-create-container">
+<div class="event-create-container" id="eventcreate-dropdown-container">
     <div class=event-create-title>
         Kalendereintrag bearbeiten
     </div>
-    <form class="options-container" id="event-form" method="POST">
+    <form class="options-container" id="event-form" method="POST" action="/eventcreate">
         <span class=eventcreate-small> <div class=option-name>Name: 	</div> <input type="text"	name="title"       	class="option-input"> </span>
         <span class=eventcreate-small> <div class=option-name>Ort:      </div> <input type="text"	name="location"    	class="option-input"> </span>
         
 		<!-- Startzeit -->
 		<span class=eventcreate-small>
 			<div class=option-name>Startzeit:</div>
-			<input type="date" name="start-date" class="option-input">
-			<input type="time" name="start-time" class="option-input">
+			<input id="start-date-picker" type="date" name="start-date" class="option-input">
+			<input type="time" name="start-time" class="option-input" value="00:00">
 		</span>
         
 		<!-- Endzeit -->
 		<span class=eventcreate-small>
 			<div class=option-name>Endzeit:</div>
-			<input type="date" name="end-date" class="option-input">
-			<input type="time" name="end-time" class="option-input">
+			<input id="end-date-picker" type="date" name="end-date" class="option-input">
+			<input type="time" name="end-time" class="option-input" value="00:00">
 		</span>
 		
         <span class=eventcreate-small> <div class=option-name>Kategorie:</div> <input type="text" 	name="type"  		class="option-input"> </span>
@@ -29,6 +29,6 @@
         <button onclick="cancle()">Abbrechen</button>
     </div>
 </div>
-<div class="dropdown-button" id="ventcreate-dropdown-button">
+<div class="dropdown-button" id="eventcreate-dropdown-button">
 	+
 </div>
