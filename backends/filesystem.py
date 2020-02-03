@@ -103,17 +103,23 @@ def createEvent(title, description, location, startDate, startTime, endDate, end
 
     global forceReload
 
+    INPUT_TIME_FORMAT = "%Y-%m-%d%H%M"
+    ICAL_TIME_FORMAT  = "%Y%m%dT%H%M00Z"
+
     cal = icalendar.Calendar()
+
+    fullStartDateString = startDate + startTime
+    fullEndDateString   = endDate + endTime
 
     # generate Event #
     event = icalendar.Event()
     event["uid"] = uuid.uuid4()
-    event["dtstart"] = datetime.strptime(startDate, "%Y-%m-%d").strftime("%Y%m%dT000000Z")
+    event["dtstart"] = datetime.strptime(fullStartDateString, INPUT_TIME_FORMAT).strftime(ICAL_TIME_FORMAT)
     event["SUMMARY"] = title
 
     if endDate:
-        dtEnd = datetime.strptime(endDate, "%Y-%m-%d")
-        event["dtend"] = dtEnd.strftime("%Y%m%dT000000Z")
+        dtEnd = datetime.strptime(fullEndDateString, INPUT_TIME_FORMAT)
+        event["dtend"] = dtEnd.strftime(ICAL_TIME_FORMAT)
     if location:
         event["location"] = location
     if etype:
