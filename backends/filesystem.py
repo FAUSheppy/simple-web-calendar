@@ -89,17 +89,17 @@ def getEventById(uid, db, path):
             events = db["eventsByDate"]
         else:
             events = _parse(path)
-   
+
         # build dict #
         eventDict = dict()
         for e in events:
             eventDict.update({e.get("UID"):e})
 
         db["eventsByUID"] = eventDict
-    
+
     return db["eventsByUID"][uid]
 
-def createEvent(title, description, location, startStr, endStr, etype=None):
+def createEvent(title, description, location, startDate, startTime, endDate, endTime, etype=None):
 
     global forceReload
 
@@ -108,12 +108,11 @@ def createEvent(title, description, location, startStr, endStr, etype=None):
     # generate Event #
     event = icalendar.Event()
     event["uid"] = uuid.uuid4()
-    print(startStr)
-    event["dtstart"] = datetime.strptime(startStr, "%Y-%m-%d").strftime("%Y%m%dT000000Z")
+    event["dtstart"] = datetime.strptime(startDate, "%Y-%m-%d").strftime("%Y%m%dT000000Z")
     event["SUMMARY"] = title
 
-    if endStr:
-        dtEnd = datetime.strptime(endStr, "%Y-%m-%d") 
+    if endDate:
+        dtEnd = datetime.strptime(endDate, "%Y-%m-%d")
         event["dtend"] = dtEnd.strftime("%Y%m%dT000000Z")
     if location:
         event["location"] = location

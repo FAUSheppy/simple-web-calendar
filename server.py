@@ -103,7 +103,7 @@ def weekView():
     weekdayNames = ["BUFFER"] + list(calendar.day_name)
 
     events = backend.getEvents(startOfWeek, end, db, backendparam)
-    
+
     # create event lists for each day #
     weekEventLists = [ list() for x in range(0, 7) ]
     for e in events:
@@ -179,11 +179,12 @@ def sendStatic(path):
 def eventCreate():
     if flask.request.method == "POST":
         params = flask.request.form
+        print(params.get("end-time"))
         backend.createEvent(params.get("title"), params.get("description"),
-                            params.get("location"), params.get("start"),
-                            params.get("end"), params.get("type"))
+                            params.get("location"), params.get("start-date"), params.get("start-time"),
+                            params.get("end-date"), params.get("end-time"), params.get("type"))
 
-    return flask.render_template("eventCreate.html")
+    return "OK"
 
 if __name__ == "__main__":
 
