@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/static/css/week.css">
     <link rel="stylesheet" href="/static/css/eventCreate.css">
     <script src="/static/js/eventCreate.js" defer></script>
+    <script src="/static/js/monthview.js" defer></script>
   </head>
   <body>
     {% include 'partials/eventCreate.html' %}
@@ -29,14 +30,16 @@
             <div class="rectangle weekday-name">{{ weekdayNames[loop.index] }}</div>
             {% for e in eventList %}
                 <div class="rectangle weekday">
-                    <div class="week-event-time">12:00</div>
+		    {% set time = e.get('dtstart').dt %}
+		    {% set timeend = e.get('dtend').dt %}
+            	    {% set timeStr = time.strftime("%H:%M") %}
+		    <div class="week-event-time">{{ timeStr }}{% if timeend %} - {{ timeend.strftime("%H:%M") }}{% endif %}</div>
                     <p>
-                        {{ e.get("SUMMARY") }}
-                        {# <br> #}
-                        {# <i>{{ e.get("LOCATION") }}</i> #}
+                        <i>@{{ e.get("LOCATION") }}</i>
+                        <br>
+			{{ e.get("SUMMARY") }}<br>
                     </p>
-                    <br>
-                    {# <a href=/eventview?uid={{ e.get("UID") }}>Details</a> #}
+                    <a style="float: right; text-decoration: underline; font-size: 20px; margin-right: 5px;" href=/eventview?uid={{ e.get("UID") }}>Details</a>
                 </div>
             {% endfor %}
             </div>
