@@ -1,18 +1,7 @@
 document.getElementById('start-date-picker').valueAsDate = new Date();
 document.getElementById('end-date-picker').valueAsDate   = new Date();
 
-function cancle(){
-	document.getElementById("event-form").reset()
-	document.getElementById("eventcreate-dropdown-container").style.visibility = 'hidden'
-	document.getElementById("eventcreate-dropdown-container").style.opacity = 0
-	document.getElementById("eventcreate-dropdown-button").style.opacity 	= 1
-}
-
-function submit(){
-	document.getElementById("event-form").submit()
-}
-
-document.getElementById("eventcreate-dropdown-button").addEventListener('click', function(e){
+function toggleDropdown(){
 	el = document.getElementById("eventcreate-dropdown-container")
 	if(el.style.visibility == 'visible'){
 		el.style.opacity = 0
@@ -23,4 +12,23 @@ document.getElementById("eventcreate-dropdown-button").addEventListener('click',
 		el.style.opacity = 1
 		document.getElementById("eventcreate-dropdown-button").style.opacity = 0.6
 	}
+}
+
+function postSubmitHandler(){
+	console.log("test")
+}
+
+function cancle(){
+	document.getElementById("event-form").reset()
+	toggleDropdown()
+}
+
+function submit(){
+	document.getElementById("event-form").submit()
+	document.getElementById("event-form").reset()
+	toggleDropdown()
+}
+
+document.getElementById("eventcreate-dropdown-button").addEventListener('click', function(e){
+	toggleDropdown()
 });

@@ -175,7 +175,7 @@ def sendStatic(path):
     return flask.send_from_directory('static', path)
 
 
-@app.route("/eventcreate", methods=["GET","POST"])
+@app.route("/eventcreate", methods=["POST"])
 def eventCreate():
     if flask.request.method == "POST":
         params = flask.request.form
@@ -184,7 +184,7 @@ def eventCreate():
                             params.get("location"), params.get("start-date"), params.get("start-time"),
                             params.get("end-date"), params.get("end-time"), params.get("type"))
 
-    return "OK"
+    return "", 204
 
 if __name__ == "__main__":
 

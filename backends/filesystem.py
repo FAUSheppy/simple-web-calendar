@@ -103,13 +103,13 @@ def createEvent(title, description, location, startDate, startTime, endDate, end
 
     global forceReload
 
-    INPUT_TIME_FORMAT = "%Y-%m-%d%H%M"
-    ICAL_TIME_FORMAT  = "%Y%m%dT%H%M00Z"
+    INPUT_TIME_FORMAT = "%Y-%m-%d-%H:%M"
+    ICAL_TIME_FORMAT  = "%Y%m%dT%H%M%SZ"
 
     cal = icalendar.Calendar()
 
-    fullStartDateString = startDate + startTime
-    fullEndDateString   = endDate + endTime
+    fullStartDateString = "{}-{}".format(startDate, startTime)
+    fullEndDateString   = "{}-{}".format(endDate, endTime)
 
     # generate Event #
     event = icalendar.Event()
