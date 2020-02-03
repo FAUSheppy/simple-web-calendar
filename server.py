@@ -10,7 +10,8 @@ import backends.filesystem
 import utils.timeframe
 
 import datetime
-import dateutil.relativedelta as dateutil
+import dateutil.relativedelta
+import dateutil.tz
 import calendar
 import pytz
 
@@ -21,9 +22,9 @@ app = flask.Flask("epic-open-calendar-frontend")
 db  = dict()
 
 oneMillisecond  = datetime.timedelta(milliseconds=1)
-oneMonth        = dateutil.relativedelta(months=1)
-oneWeek         = dateutil.relativedelta(days=7)
-oneDay          = dateutil.relativedelta(days=1)
+oneMonth        = dateutil.relativedelta.relativedelta(months=1)
+oneWeek         = dateutil.relativedelta.relativedelta(days=7)
+oneDay          = dateutil.relativedelta.relativedelta(days=1)
 
 # prefomated links #
 dayLinkFormatString   = "/dayview?year={}&month={}&day={}"
