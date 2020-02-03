@@ -1,0 +1,25 @@
+    <div class="row">
+        <div class="column1">
+        
+        {# times-strings will be created in advance because     #}
+        {# because of some quirks with the behaviour of all-day #}
+        {# and repeating event in different calendars           #}
+
+        {% for s in preparedTimeStrings %}
+            <div class=rectangle>
+                <p>{{ s }}</p>
+            </div>
+        {% endfor %}
+        </div>
+        <div class="column2">
+        {% for e in events %}
+            <div class=rectangle>
+                <p>
+                    {{ e.get("SUMMARY") }}
+                    <i>{{ e.get("LOCATION") }}</i>
+                </p>
+                <a class="details-link" href=/eventview?uid={{ e.get("UID") }}>Details</a>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
