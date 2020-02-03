@@ -3,30 +3,31 @@
         Kalendereintrag erstellen
     </div>
     <form class="options-container" id="event-form" method="POST" action="/eventcreate">
-        <span class=eventcreate-small> <div class=option-name>Name: 	</div> <input type="text"	name="title"       	class="option-input"> </span>
+        <span class=eventcreate-small> <div class=option-name>Name: 	</div> <input type="text"	name="title"       	class="option-input" required> </span>
         <span class=eventcreate-small> <div class=option-name>Ort:      </div> <input type="text"	name="location"    	class="option-input"> </span>
         
 		<!-- Startzeit -->
 		<span class=eventcreate-small>
 			<div class=option-name>Startzeit:</div>
-			<input id="start-date-picker" type="date" name="start-date" class="option-input">
-			<input type="time" name="start-time" class="option-input" value="00:00">
+			<input id="start-date-picker" type="date" name="start-date" class="option-input" onchange="checkEndDate(event)" required>
+			<input id="start-time-picker" type="time" name="start-time" class="option-input" onchange="checkEndDate(event)" value="00:00" required>
 		</span>
         
 		<!-- Endzeit -->
 		<span class=eventcreate-small>
 			<div class=option-name>Endzeit:</div>
-			<input id="end-date-picker" type="date" name="end-date" class="option-input">
-			<input type="time" name="end-time" class="option-input" value="00:00">
+			<input id="end-date-picker" type="date" name="end-date" class="option-input" onchange="checkStartDate(event)">
+			<input id="end-time-picker" type="time" name="end-time" class="option-input" onchange="checkStartDate(event)" value="00:00">
 		</span>
 		
         <span class=eventcreate-small> <div class=option-name>Kategorie:</div> <input type="text" 	name="type"  		class="option-input"> </span>
         <span> Beschreibung:<br><textarea rows="4" cols="50" name="description"></textarea></span>
+    	<div id="button-container" class="button-container">
+	    <input value="Erstellen"    type=submit></input>
+    	    <input value="Zurücksetzen" type=reset></input>
+    	    <button onclick="cancle()">Abbrechen</button>
+    	</div>
     </form>
-    <div id="button-container" class="button-container">
-        <button onclick="submit()">Erstellen</button>
-        <button onclick="cancle()">Abbrechen</button>
-    </div>
 </div>
 <div class="dropdown-button" id="eventcreate-dropdown-button">
 	+
