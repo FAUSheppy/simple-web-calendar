@@ -1,0 +1,8 @@
+{% for e in events %}
+    <span class=event>
+	    <div class=eventStart> {{ e.get("dtstart").dt.strftime("%d.%m - %H:%M") }} </div>
+	    <div class=eventTitle> {{ e.get("title")	}} </div>
+		<div class=eventLocation> {% if e.get("location") %} {{ e.get("title") }} {{ end }}	</div>
+	    <div class=eventDescription> {{ e.get("description")	}} </div>
+    <span>
+{% endfor %}

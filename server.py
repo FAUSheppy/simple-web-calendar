@@ -168,13 +168,23 @@ def eventView():
 #### API ####
 @app.route("/upcoming")
 def upcoming():
-    start = datetime.datetime.fromtimestamp(flask.request.args.get("from"))
-    end   = datetime.datetime.fromtimestamp(flask.request.args.get("to"))
+    startStr = flask.request.args.get("from")
+    if startStr:
+        start = datetime.datetime.fromtimestamp(int(startStr))
+    else:
+        start = datetime.utcnow()
+
+    endStr = flask.request.args.get("to")
+    if endStr:
+        end = datetime.datetime.fromtimestamp(int(endStr))
+    else:
+        end = start + datetime.timedelta(days=60)
+
+    start = start.replace(tzinfo=dateutil.tz.tzlocal())
+    end   = end.replace(tzinfo=dateutil.tz.tzlocal())
 
     events = backend.getEvents(start, end, db, backendparam)
-    preparedTimeStrings = utils.parsing.prepareTimeStrings(events)
-
-    return flask.render_template("day-view.html", events=events, preparedTimeStrings=preparedTimeStrings)
+    return flask.render_template("partials/upcoming.html", events=events)
 
 @app.route("/static/<path:path>")
 def sendStatic(path):
