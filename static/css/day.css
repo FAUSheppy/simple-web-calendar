@@ -97,6 +97,7 @@ a {
 
 /* for events */
 .eventview {
+    overflow-wrap: break-word;
     font-size: 4vw;
     float: left;
     width: 100%;
