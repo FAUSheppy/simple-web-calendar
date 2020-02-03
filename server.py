@@ -64,6 +64,10 @@ def monthView():
 
     weekDayPaddingEnd = (7 - (totalDaysInMonth + firstDayWeekdayCount)%7 )%7
 
+    events              = backend.getEvents(start, end, db, backendparam)
+    preparedTimeStrings = utils.parsing.prepareTimeStrings(events)
+    todayView           = flask.Markup(flask.render_template('partials/eventRow.html', events=events, preparedTimeStrings=preparedTimeStrings))
+
     return flask.render_template("month-view-mobile.html", \
                                         year=year, \
                                         month=month, \
@@ -72,7 +76,8 @@ def monthView():
                                         hrefNextMonth=hrefNextMonth, \
                                         currentMonthString=start.strftime("%B"), \
                                         paddingStart=firstDayWeekdayCount, \
-                                        paddingEnd=weekDayPaddingEnd)
+                                        paddingEnd=weekDayPaddingEnd, \
+                                        todayView=todayView)
 
 @app.route("/weekview")
 def weekView():

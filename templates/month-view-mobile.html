@@ -3,8 +3,9 @@
   <head>
     {% include 'head.html' %}
     <link rel="stylesheet" href="/static/css/month.css">
-	<link rel="stylesheet" href="/static/css/eventCreate.css">
-	<script src="/static/js/eventCreate.js" defer></script>
+    <link rel="stylesheet" href="/static/css/eventCreate.css">
+    <link rel="stylesheet" href="/static/css/day.css">
+    <script src="/static/js/eventCreate.js" defer></script>
     <script src="/static/js/monthview.js" defer></script>
   </head>
   <body>
@@ -57,6 +58,11 @@
         <div class="currentDate" id="time">
               Datum/Uhrzeit nicht verfügbar.
         </div>
-        </div>
+    </div>
+
+    <div class=menubar style="margin-top: 5px;margin-bottom:0px;">
+    	<div class=menubarLink>Heute</div>
+    </div>
+    {{ todayView }}
   </body>
 </html>

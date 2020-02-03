@@ -124,7 +124,7 @@ a {
     padding: 2vw;
     position: fixed;
     bottom: 0;
-    z-index: 999;
+    z-index: 3;
     margin-right: 1vw;
     width: 100%;
     margin-left: -8px;
@@ -138,6 +138,7 @@ a {
     position: absolute;
     bottom: 2vw;
     right:  2vw;
+    text-decoration: underline;
 }
 
 @media(min-width: 800px){

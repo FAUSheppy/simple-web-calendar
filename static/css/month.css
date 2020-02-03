@@ -1,6 +1,6 @@
 /* set background color */
 body {
-    background-color:#282423;
+    background-color:#282423 !important;
 }
 
 /* disable link color/decoration */

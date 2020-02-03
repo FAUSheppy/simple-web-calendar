@@ -89,6 +89,7 @@ textarea {
 	border-radius: 5px;
 	font-size: 50px;
 	background-color: red;
+	z-index: 5;
 }
 
 @media(max-width: 1000px){
