@@ -220,7 +220,7 @@ if __name__ == "__main__":
     parser.add_argument("--auth-file", default="auth.token", \
                             help="Auth file for backend if nessesary")
     parser.add_argument("--remote-url", default=None, \
-                            help="Remote url when using backend remote or google")
+                            help="Remote url when using backend caldav (or google)")
     parser.add_argument("--fs-backend-path", default="data", \
                             help="Path for locale file if backend 'filesystem' is used")
     parser.add_argument("--preheat", action='store_const', default=False, const=True, \
@@ -236,6 +236,12 @@ if __name__ == "__main__":
     if args.backend == "filesystem":
         backend = backends.filesystem
         backendparam = args.fs_backend_path
+    elif args.backend == "google":
+        backend = backends.remoteGoogle
+        backendparam = (args.remote_url, args.auth_file)
+    elif args.backend == "caldav":
+        backend = backends.remoteICS
+        backendparam = (args.remote_url, args.auth_file)
     else:
         print("Unsupportet backend", file=sys.stderr)
         sys.exit(1)
