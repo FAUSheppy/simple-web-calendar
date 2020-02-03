@@ -13,11 +13,6 @@ button{
 	align: center;
 }
 
-hr{
-    margin-top: 20px;
-    border-color: black;
-}
-
 span{
     margin-top: 5px;
     width: 100%;
@@ -54,7 +49,7 @@ textarea {
 }
 
 .option-name {
-	width: 30%;
+	width: 28%;
 	float: left;
 }
 
@@ -66,14 +61,22 @@ textarea {
 }
 
 .event-create-container {
-    display: none;
+    /*display: none;*/
+    visibility: hidden;
     position: absolute;
 	margin-left: 5%;
-    background-color: #f9f9f9;
-	padding: 5px;
     z-index: 1;
     width:  90%;
-	font-size: 25px;
+	font-size: 20px;
+    background-color: orange;
+    border-radius: 10px;
+    padding: 20px;
+    max-width: 900px;
+    transition: opacity 250ms linear;
+}
+
+.event-create-title {
+    font-size: 35px;
 }
 
 .dropdown-button{
@@ -86,4 +89,27 @@ textarea {
 	border-radius: 5px;
 	font-size: 50px;
 	background-color: red;
+}
+
+@media(max-width: 1000px){
+    .event-create-title {
+        font-size: 5vw;
+    }
+    .event-create-container {
+    	font-size: 4vw;
+        border-radius: 1vw;
+        padding: 4vw;
+    }
+    .button-container {
+        margin: auto;
+    	width:  10vw;
+    }
+    button{
+        font-size: 7vw;
+    }
+    span{
+        margin-top: 1vw;
+        font-size: 2vw;
+        line-height: unset;
+    }
 }

@@ -1,6 +1,6 @@
-<div class="event-create-container" id="eventcreate-dropdown-container">
+<div class="event-create-container" id="eventcreate-dropdown-container" style="visibility: hidden; opacity: 0;">
     <div class=event-create-title>
-        Kalendereintrag bearbeiten
+        Kalendereintrag erstellen
     </div>
     <form class="options-container" id="event-form" method="POST" action="/eventcreate">
         <span class=eventcreate-small> <div class=option-name>Name: 	</div> <input type="text"	name="title"       	class="option-input"> </span>
@@ -21,9 +21,8 @@
 		</span>
 		
         <span class=eventcreate-small> <div class=option-name>Kategorie:</div> <input type="text" 	name="type"  		class="option-input"> </span>
-        <span> Beschreibung:<br><textarea rows="4" cols="100" name="description"></textarea></span>
+        <span> Beschreibung:<br><textarea rows="4" cols="50" name="description"></textarea></span>
     </form>
-    <hr>
     <div id="button-container" class="button-container">
         <button onclick="submit()">Erstellen</button>
         <button onclick="cancle()">Abbrechen</button>
