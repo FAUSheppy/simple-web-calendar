@@ -1,0 +1,18 @@
+<div class="event-create-container">
+    <div class=event-create-title>
+        Kalendereintrag bearbeiten
+    </div>
+    <form class="options-container" id="event-form" method="POST">
+        <span> Name:          <input type="text"	name="title"       	class="option-input"> </span>
+        <span> Ort:           <input type="text"	name="location"    	class="option-input"> </span>
+        <span> Startzeit:     <input type="date" 	name="start" 		class="option-input"> </span>
+        <span> Endzeit:       <input type="date" 	name="end"  		class="option-input"> </span>
+        <span> Kategorie:     <input type="text" 	name="type"  		class="option-input"> </span>
+        <span> Beschreibung:<br><input type="text" 	name="description" 	class="text-input"> </span>
+    </form>
+    <hr>
+    <div id="button-container" class="button-container">
+        <button onclick="submit()">Erstellen</button>
+        <button onclick="cancle()">Abbrechen</button>
+    </div>
+</div>
