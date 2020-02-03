@@ -5,8 +5,11 @@
     {% include 'head.html' %}
     <link rel="stylesheet" href="/static/css/day.css">
     <link rel="stylesheet" href="/static/css/week.css">
+    <link rel="stylesheet" href="/static/css/eventCreate.css">
+    <script src="/static/js/eventCreate.js" defer></script>
   </head>
   <body>
+    {% include 'partials/eventCreate.html' %}
 
     <!-- hidden URLs for ussage in javascript -->
     <div class="hidden" id="nextDay">{{ nextDayLink }}</div>

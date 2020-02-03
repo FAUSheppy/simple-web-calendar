@@ -3,8 +3,11 @@
   <head>
     {% include 'head.html' %}
     <link rel="stylesheet" href="/static/css/day.css">
+    <link rel="stylesheet" href="/static/css/eventCreate.css">
+    <script src="/static/js/eventCreate.js" defer></script>
   </head>
   <body>
+    {% include 'partials/eventCreate.html' %}
     <div class="menubar">                                                                           
       <a class=menubarLink href="{{ backlinkDayView }}">
         &laquo &laquo Tagesübersicht &laquo &laquo

@@ -4,8 +4,12 @@
     <meta charset="UTF-8">
     {% include 'head.html' %}
     <link rel="stylesheet" href="/static/css/day.css">
+    <link rel="stylesheet" href="/static/css/eventCreate.css">
+    <script src="/static/js/eventCreate.js" defer></script>
   </head>
   <body>
+
+    {% include 'partials/eventCreate.html' %}
 
     <!-- hidden URLs for ussage in javascript -->
     {% if nextDayLink and prevDayLink %}
