@@ -34,7 +34,7 @@ def _parse(path):
         with open(os.path.join(srcDir, fname), 'rb') as f:
             events += utils.parsing.parseEventData(f.read())
 
-    return sorted(events, key=lambda x: x.get('dtstart').dt)
+    return sorted(events, key=lambda x: utils.parsing.localizeDatetime(x.get('dtstart').dt))
 
 def getEvents(start, end, db, path):
     '''Return a tupel (icalendar.Event, datetime.datetime) parsed
