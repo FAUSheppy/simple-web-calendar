@@ -12,8 +12,8 @@ function highlightCurrentDay(){
 
     var date = new Date()
     month = date.getMonth() + 1
-    console.log("&"+month)
-    if(window.location.href.includes("&month=" + month)){
+    year = date.getFullYear()
+    if(window.location.href.includes("month=" + month) && window.location.href.includes("year=" + year)){
         element = document.getElementById("day-"+date.getDate())
         if(element){
           element.style.background = "orange"
