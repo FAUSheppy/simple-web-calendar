@@ -210,7 +210,7 @@ def eventCreate():
 
 if __name__ == "__main__":
 
-    parser = argparse.ArgumentParser(description='Start open-leaderboard',
+    parser = argparse.ArgumentParser(description='Calender webfront and gateway',
                         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
     # general parameters #
