@@ -31,4 +31,4 @@ def getEvents(start, end, db, backendparam):
     returnEvents = []
     for event in unparsedEvents:
         returnEvents += utils.parsing.parseEventData(event.data)
-    return sorted(returnEvents, key=lambda x: x.get('dtstart').dt)
+    return sorted(returnEvents, key=lambda x: utils.parsing.localizeDatetime(x.get('dtstart').dt))
