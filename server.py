@@ -8,7 +8,7 @@ import locale
 
 import backends.filesystem
 import backends.hybrid
-import backends.remoteICS
+import backends.remoteCaldav
 import utils.timeframe
 
 import datetime
@@ -258,7 +258,7 @@ if __name__ == "__main__":
         backend = backends.filesystem
         backendparam = args.fs_backend_path
     elif args.backend == "caldav":
-        backend = backends.remoteICS
+        backend = backends.remoteCaldav
         if not args.remote_url:
             raise ValueError("Missing Remote URL")
         backendparam = (args.remote_url, user, pw)

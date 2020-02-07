@@ -1,6 +1,6 @@
 #!/usr/bin/python3
-import backends.remoteICS  as remote
-import backends.filesystem as locale
+import backends.remoteCaldav as remote
+import backends.filesystem   as locale
 
 def getEvents(start, end, db, backendparam):
         path, url, user, pw = backendparam
