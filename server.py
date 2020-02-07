@@ -7,6 +7,8 @@ import argparse
 import locale
 
 import backends.filesystem
+import backends.hybrid
+import backends.remoteICS
 import utils.timeframe
 
 import datetime
@@ -212,9 +214,9 @@ if __name__ == "__main__":
                         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
     # general parameters #
-    parser.add_argument("-i", "--interface", default="0.0.0.0",     help="Interface to listen on")
-    parser.add_argument("-p", "--port",      default="5000",        help="Port to listen on")
-    parser.add_argument("-b", "--backend",   default="filesystem",  help="Backend to use")
+    parser.add_argument("-i", "--interface", default="0.0.0.0", help="Interface to listen on")
+    parser.add_argument("-p", "--port", default="5000", help="Port to listen on")
+    parser.add_argument("-b", "--backend", default="filesystem", help="Eithter filesystem, hybrid or caldav")
 
     # localization #
     parser.add_argument("--locale-de", action='store_const', const=True, \
@@ -222,13 +224,11 @@ if __name__ == "__main__":
 
     # backend specific parameters #
     parser.add_argument("--auth-file", default="auth.token", \
-                            help="Auth file for backend if nessesary")
+                            help="Authentication file for backend (caldav/hybrid(")
     parser.add_argument("--remote-url", default=None, \
-                            help="Remote url when using backend caldav (or google)")
+                            help="Remote url (caldav/hybrid)")
     parser.add_argument("--fs-backend-path", default="data", \
-                            help="Path for locale file if backend 'filesystem' is used")
-    parser.add_argument("--preheat", action='store_const', default=False, const=True, \
-                            help="Preheat the backend")
+                            help="Path for locale directory (filesystem/hybrid)")
 
     args = parser.parse_args()
 
@@ -240,21 +240,15 @@ if __name__ == "__main__":
     if args.backend == "filesystem":
         backend = backends.filesystem
         backendparam = args.fs_backend_path
-    elif args.backend == "google":
-        backend = backends.remoteGoogle
-        backendparam = (args.remote_url, args.auth_file)
     elif args.backend == "caldav":
         backend = backends.remoteICS
         backendparam = (args.remote_url, args.auth_file)
+    elif args.backend == "hybrid":
+        backend = backends.hybrid
+        backendparam = (args.fs_backend_path, args.remote_url, args.auth_file)
     else:
         print("Unsupportet backend", file=sys.stderr)
         sys.exit(1)
-
-    #  set backend variables #
-
-    # backend preheat #
-    if args.preheat:
-        backend._parse(backendparam)
 
     # startup #
     args = parser.parse_args()
