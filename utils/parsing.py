@@ -4,9 +4,11 @@ import bisect
 from icalendar import Event, Calendar
 from datetime import timedelta, datetime, date, tzinfo
 import calendar
+import icalendar
 import pytz
 import unidecode
 import locale
+import flask
 
 def localizeDatetime(dt):
     '''Make a datetime object timezone localized'''
@@ -56,3 +58,26 @@ def prepareTimeStrings(events, showdate=False):
             preparedTimeStrings += [time.strftime("%H:%M")]
 
     return preparedTimeStrings
+
+def parseEventData(eventData):
+    events = []
+    gcal = icalendar.Calendar.from_ical(eventData)
+    for component in gcal.walk():
+        if type(component) == icalendar.Event:
+            events += [component]
+            dtLocStart = localizeDatetime(component.get('dtstart').dt)
+            dtLocEndComponent = component.get('dtend')
+            if dtLocEndComponent:
+                dtLocEnd   = localizeDatetime(component.get('dtend').dt)
+                component.get("dtend").dt   = dtLocEnd
+
+    print(events)
+    # link phone numbers #
+    for e in events:
+        try:
+            # phone numbers will be encoded as html, use markup to prevent escaping #
+            e['description'] = flask.Markup(searchAndAmorPhoneNumbers(e['description']))
+        except KeyError:
+            pass
+
+    return sorted(events, key=lambda x: x.get('dtstart').dt)

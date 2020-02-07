@@ -201,7 +201,6 @@ def sendStatic(path):
 def eventCreate():
     if flask.request.method == "POST":
         params = flask.request.form
-        print(params.get("end-time"))
         event = backend.createEvent(params.get("title"), params.get("description"),
                             params.get("location"), params.get("start-date"), params.get("start-time"),
                             params.get("end-date"), params.get("end-time"), params.get("type"))
@@ -224,7 +223,7 @@ if __name__ == "__main__":
                             help="Use german localization for dates etc.")
 
     # backend specific parameters #
-    parser.add_argument("--auth-file", default="auth.token", \
+    parser.add_argument("--auth-file", default=None, \
                             help="Authentication file for backend (caldav/hybrid(")
     parser.add_argument("--remote-url", default=None, \
                             help="Remote url (caldav/hybrid)")
@@ -243,7 +242,14 @@ if __name__ == "__main__":
         backendparam = args.fs_backend_path
     elif args.backend == "caldav":
         backend = backends.remoteICS
-        backendparam = (args.remote_url, args.auth_file)
+        user, pw = (None, None)
+        if not args.remote_url:
+            raise ValueError("Missing Remote URL")
+        if args.auth_file:
+            with open(args.auth_file) as f:
+                user, pw =  f.read().strip("\n").split(",")
+        backendparam = (args.remote_url, user, pw)
+
     elif args.backend == "hybrid":
         backend = backends.hybrid
         backendparam = (args.fs_backend_path, args.remote_url, args.auth_file)
