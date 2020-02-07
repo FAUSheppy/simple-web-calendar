@@ -18,7 +18,7 @@ import calendar
 import pytz
 
 backend = backends.filesystem
-backendparam = "./data/"
+backendparam = None
 
 app = flask.Flask("epic-open-calendar-frontend")
 db  = dict()
@@ -253,7 +253,6 @@ if __name__ == "__main__":
         if not args.remote_url:
             raise ValueError("Missing Remote URL")
         backendparam = (args.remote_url, user, pw)
-
     elif args.backend == "hybrid":
         backend = backends.hybrid
         backendparam = (args.fs_backend_path, args.remote_url, user, pw)
