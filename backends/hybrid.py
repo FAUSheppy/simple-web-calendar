@@ -13,5 +13,6 @@ def getEventById(uid, db, backendparam):
 def createEvent(title, description, location, startDate, \
                     startTime, endDate, endTime, etype=None, backendparam=None):
         path, url, authFile = backendparam
-        remote.writeEvent(title, description, location, startDate,\
+        event = remote.writeEvent(title, description, location, startDate,\
                                     startTime, endDate, endTime, etype, (url, authFile))
+        return event

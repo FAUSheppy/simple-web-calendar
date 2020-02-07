@@ -202,9 +202,10 @@ def eventCreate():
     if flask.request.method == "POST":
         params = flask.request.form
         print(params.get("end-time"))
-        backend.createEvent(params.get("title"), params.get("description"),
+        event = backend.createEvent(params.get("title"), params.get("description"),
                             params.get("location"), params.get("start-date"), params.get("start-time"),
                             params.get("end-date"), params.get("end-time"), params.get("type"))
+        db.update({event.uid:event})
 
     return "", 204
 

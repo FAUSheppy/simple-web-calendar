@@ -132,3 +132,5 @@ def createEvent(title, description, location, startDate, startTime, endDate, end
     with open(os.path.join("data/", uuidStr), "wb") as f:
         f.write(cal.to_ical())
         forceReload = True
+
+    return event
