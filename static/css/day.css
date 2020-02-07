@@ -142,6 +142,24 @@ a {
     text-decoration: underline;
 }
 
+.dropdown-button-overwrite{
+    margin-bottom: 80px !important;
+    border-style: solid;
+    border-color: #323232;
+}
+
+
+@media(max-width: 800px){
+    .dropdown-button-overwrite{
+        margin-bottom: 15vw !important;
+        padding-left: 4vw !important;
+        padding-right: 4vw !important;
+        font-size: 9vw !important;
+        right: unset !important;
+        margin-left: 2% !important;
+    }
+}
+
 @media(min-width: 800px){
 
     h2 {
@@ -187,6 +205,7 @@ a {
         text-align: center; 
         letter-spacing:1px;
     }
+
     
     /* for events */
     .eventview {
