@@ -6,7 +6,7 @@ function toggleDropdown(){
 	if(el.style.visibility == 'visible'){
 		el.style.opacity = 0
 		el.style.visibility = 'hidden'
-		document.getElementById("eventcreate-dropdown-button").style.opacity = 1
+		document.getElementById("eventcreate-dropdown-button").style.opacity = ""
 	}else{
 		el.style.visibility = 'visible'
 		el.style.opacity = 1

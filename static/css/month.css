@@ -9,6 +9,10 @@ a{
     color: inherit;
 }
 
+a:hover{
+    opacity: 0.5;
+}
+
 /* don't display line in mobile view */
 hr{
     display: none;

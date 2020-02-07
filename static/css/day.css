@@ -29,6 +29,10 @@ a {
     text-align: right;
 } 
 
+a:hover{
+    opacity: 0.5;
+}
+
 /* Create two columns that floats next to each other */
 .column1 {
     float: left;

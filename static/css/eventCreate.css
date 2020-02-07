@@ -78,6 +78,10 @@ textarea {
 	z-index: 5;
 }
 
+.dropdown-button:hover{
+    opacity: 0.5;
+}
+
 .middle-button{
     margin-left: 5%;
     margin-right: 5%;
