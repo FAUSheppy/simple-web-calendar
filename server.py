@@ -9,6 +9,7 @@ import locale
 import backends.filesystem
 import backends.hybrid
 import backends.remoteCaldav
+import backends.remoteICS
 import utils.timeframe
 
 import datetime
@@ -257,6 +258,12 @@ if __name__ == "__main__":
     if args.backend == "filesystem":
         backend = backends.filesystem
         backendparam = args.fs_backend_path
+    if args.backend == "remoteics":
+        backend = backends.remoteICS
+        if not args.read_only:
+            READ_ONLY = True
+            print("remoteICS does not support editing, setting readonly", file=sys.stderr)
+        backendparam = args.remote_url
     elif args.backend == "caldav":
         backend = backends.remoteCaldav
         if not args.remote_url:
