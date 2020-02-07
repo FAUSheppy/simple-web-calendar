@@ -9,8 +9,8 @@
             		{% else %}
             		    @ {{ e.get("LOCATION") }}
             		{% endif %}
-                {{ end }}
+                {% endif %}
         </div>
-	    <div class=eventDescription> {{ e.get("description")	}} </div>
+	<div class=eventDescription> {{ e.get("description") }} </div>
     <span>
 {% endfor %}

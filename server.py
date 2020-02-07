@@ -183,7 +183,7 @@ def upcoming():
     if startStr:
         start = datetime.datetime.fromtimestamp(int(startStr))
     else:
-        start = datetime.utcnow()
+        start = datetime.datetime.utcnow()
 
     endStr = flask.request.args.get("to")
     if endStr:
