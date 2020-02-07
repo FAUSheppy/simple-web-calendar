@@ -9,6 +9,8 @@ import pytz
 import unidecode
 import locale
 import flask
+import urllib
+import uuid
 
 def localizeDatetime(dt):
     '''Make a datetime object timezone localized'''
@@ -59,6 +61,10 @@ def prepareTimeStrings(events, showdate=False):
 
     return preparedTimeStrings
 
+def mapLinkFromLocation(location):
+    baseUrl = "https://www.google.com/maps/dir/?api=1&{}"
+    return baseUrl.format(urllib.parse.quote(location, safe=""))
+
 def parseEventData(eventData):
     events = []
     gcal = icalendar.Calendar.from_ical(eventData)
@@ -78,6 +84,14 @@ def parseEventData(eventData):
             e['description'] = flask.Markup(searchAndAmorPhoneNumbers(e['description']))
         except KeyError:
             pass
+
+    # try to create google maps links #
+    for e in events:
+        try:
+            e.update({"gmaplink":mapLinkFromLocation(e['location'])})
+        except KeyError:
+            pass
+
 
     return sorted(events, key=lambda x: x.get('dtstart').dt)
 
