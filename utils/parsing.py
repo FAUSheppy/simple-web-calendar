@@ -95,7 +95,7 @@ def parseEventData(eventData):
             pass
 
 
-    return sorted(events, key=lambda x: x.get('dtstart').dt)
+    return events
 
 def buildIcalEvent(title, description, location, startDate, startTime, endDate, endTime, etype=None):
     '''Create an icalendar event'''
