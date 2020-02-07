@@ -23,6 +23,12 @@ p {
     overflow: hidden;
     text-align: start;
 }
+
+.small-link{
+    font-size: 2vw !important;
+    text-decoration: underline !important;
+}
+
 a { 
     font-size: 5vw;
     color: inherit;

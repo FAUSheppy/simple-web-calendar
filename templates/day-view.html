@@ -46,7 +46,13 @@
             <div class=rectangle>
                 <p>
                     {{ e.get("SUMMARY") }}
-                    <i>{{ e.get("LOCATION") }}</i>
+                    <i>
+            			{% if e.get("gmaplink") %}
+            			<a class="small-link" href="{{ e.get("gmaplink") }}"> @{{ e.get("LOCATION") }} </a>
+            			{% else %}
+            				@{{ e.get("LOCATION") }}
+            			{% endif %}
+                    </i>
                 </p>
                 <a class="details-link" href=/eventview?uid={{ e.get("UID") }}>Details</a>
             </div>

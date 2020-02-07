@@ -2,7 +2,15 @@
     <span class=event>
 	    <div class=eventStart> {{ e.get("dtstart").dt.strftime("%d.%m - %H:%M") }} </div>
 	    <div class=eventTitle> {{ e.get("title")	}} </div>
-		<div class=eventLocation> {% if e.get("location") %} {{ e.get("title") }} {{ end }}	</div>
+		<div class=eventLocation> 
+                {% if e.get("location") %} 
+            		{% if e.get("gmaplink") %}
+            			<a href="{{ e.get("gmaplink") }}"> @{{ e.get("LOCATION") }} </a>
+            		{% else %}
+            		    @ {{ e.get("LOCATION") }}
+            		{% endif %}
+                {{ end }}
+        </div>
 	    <div class=eventDescription> {{ e.get("description")	}} </div>
     <span>
 {% endfor %}
