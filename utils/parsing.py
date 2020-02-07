@@ -71,7 +71,6 @@ def parseEventData(eventData):
                 dtLocEnd   = localizeDatetime(component.get('dtend').dt)
                 component.get("dtend").dt   = dtLocEnd
 
-    print(events)
     # link phone numbers #
     for e in events:
         try:

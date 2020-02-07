@@ -14,7 +14,10 @@ def getEventById(uid, db, backendparam):
     client = caldav.DAVClient(url=url, username=user, password=pw)
     authenticatedClient = client.principal()
     defaultCal = authenticatedClient.calendars()[0]
-    return utils.parsing.parseEventData(defaultCal.event_by_uid(uid).data)
+    events = utils.parsing.parseEventData(defaultCal.event_by_uid(uid).data)
+    if len(events) != 1:
+        raise ValueError("UID query return more than one event.")
+    return events[0]
 
 def getEvents(start, end, db, backendparam):
     url, user, pw = backendparam
@@ -25,5 +28,4 @@ def getEvents(start, end, db, backendparam):
     returnEvents = []
     for event in unparsedEvents:
         returnEvents += utils.parsing.parseEventData(event.data)
-    print(returnEvents[0])
     return returnEvents
