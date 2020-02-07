@@ -2,37 +2,20 @@ body{
     background: #323232;
 }
 
-button{
-    background-color: red;
-    border-color: red;
-    color: black;
-    font-size: 20px;
-    font-weight: bold;
-	margin-left: auto;
-	margin-right: auto;
-	align: center;
-}
-
 span{
     margin-top: 5px;
     width: 100%;
     display: inline-block;
     line-height: 40px; /* 75% of height */
-    font-size: 20;
-	font-family: italic;
+    font-weight: bold;
 }
 
 .eventcreate-small {
-	width: 45%;
+	width: 100%;
 }
 
-input[type="checkbox"]{
-    width: 40px; /*Desired width*/
+input{
     height: 40px; /*Desired height*/
-
-    background: grey;
-    border-radius: 10px;    
-    
 	font-family: unset;
 	font-size: 25px;
     cursor: pointer;
@@ -44,8 +27,8 @@ textarea {
 }
 
 .button-container {
-    margin: auto;
-	width: 300px;
+    width: 100%;
+    margin-top: 20px;
 }
 
 .option-name {
@@ -64,19 +47,21 @@ textarea {
     /*display: none;*/
     visibility: hidden;
     position: absolute;
-	margin-left: 5%;
     z-index: 1;
-    width:  90%;
+    width:  97%;
 	font-size: 20px;
-    background-color: orange;
+    background: linear-gradient(#749d9e, #b3a68b)!important;
     border-radius: 10px;
     padding: 20px;
     max-width: 900px;
     transition: opacity 250ms linear;
+	font-size: 25px;
 }
 
 .event-create-title {
     font-size: 35px;
+    font-family: monospace;
+    margin-bottom: 10px;
 }
 
 .dropdown-button{
@@ -92,6 +77,11 @@ textarea {
 	z-index: 5;
 }
 
+.middle-button{
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
 @media(max-width: 1000px){
     .event-create-title {
         font-size: 5vw;
@@ -99,18 +89,17 @@ textarea {
     .event-create-container {
     	font-size: 4vw;
         border-radius: 1vw;
-        padding: 4vw;
+        padding: 3vw;
     }
-    .button-container {
-        margin: auto;
-    	width:  10vw;
-    }
-    button{
-        font-size: 7vw;
+    .option-name{
+        width: 20%;
     }
     span{
         margin-top: 1vw;
-        font-size: 2vw;
         line-height: unset;
+    }
+    input{
+        font-size: 4vw;
+        height: unset;
     }
 }
