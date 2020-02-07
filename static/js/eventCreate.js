@@ -52,3 +52,9 @@ function submit(){
 document.getElementById("eventcreate-dropdown-button").addEventListener('click', function(e){
 	toggleDropdown()
 });
+
+function handleSubmit(event) {
+    setTimeout(function(){window.location.reload();},10)
+}
+const form = document.getElementById("event-form")
+form.addEventListener('submit', handleSubmit);
