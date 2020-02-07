@@ -8,6 +8,7 @@ import locale
 import flask
 
 import icalendar
+import calendar
 from datetime import datetime
 
 import utils.timeframe as timeframe

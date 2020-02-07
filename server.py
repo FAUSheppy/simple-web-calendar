@@ -238,23 +238,25 @@ if __name__ == "__main__":
     if args.locale_de:
         locale.setlocale(locale.LC_TIME, "de_DE.utf8")
 
+    # read auth file #
+    user, pw = (None, None)
+    if args.auth_file:
+        with open(args.auth_file) as f:
+            user, pw =  f.read().strip("\n").split(",")
+
     #  set backend #
     if args.backend == "filesystem":
         backend = backends.filesystem
         backendparam = args.fs_backend_path
     elif args.backend == "caldav":
         backend = backends.remoteICS
-        user, pw = (None, None)
         if not args.remote_url:
             raise ValueError("Missing Remote URL")
-        if args.auth_file:
-            with open(args.auth_file) as f:
-                user, pw =  f.read().strip("\n").split(",")
         backendparam = (args.remote_url, user, pw)
 
     elif args.backend == "hybrid":
         backend = backends.hybrid
-        backendparam = (args.fs_backend_path, args.remote_url, args.auth_file)
+        backendparam = (args.fs_backend_path, args.remote_url, user, pw)
     else:
         print("Unsupportet backend", file=sys.stderr)
         sys.exit(1)

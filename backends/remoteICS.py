@@ -1,12 +1,15 @@
 import caldav
 import utils.parsing
+import icalendar
 
 def createEvent(event, backendparam):
     url, user, pw = backendparam
     client = caldav.DAVClient(url=url, username=user, password=pw)
     authenticatedClient = client.principal()
     defaultCal = authenticatedClient.calendars()[0]
-    calendar.add_event(event)
+    dummyCal = icalendar.Calendar()
+    dummyCal.add_component(event)
+    defaultCal.add_event(dummyCal.to_ical())
     return event
 
 def getEventById(uid, db, backendparam):

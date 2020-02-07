@@ -3,16 +3,14 @@ import backends.remoteICS  as remote
 import backends.filesystem as locale
 
 def getEvents(start, end, db, backendparam):
-        path, url, authFile = backendparam
+        path, url, user, pw = backendparam
         return locale.getEvents(start, end, db, path)
 
 def getEventById(uid, db, backendparam):
-        path, url, authFile = backendparam
-        return locale.getEventById(uid, pd, path)
+        path, url, user, pw = backendparam
+        return locale.getEventById(uid, db, path)
 
-def createEvent(title, description, location, startDate, \
-                    startTime, endDate, endTime, etype=None, backendparam=None):
-        path, url, authFile = backendparam
-        event = remote.writeEvent(title, description, location, startDate,\
-                                    startTime, endDate, endTime, etype, (url, authFile))
+def createEvent(event, backendparam):
+        path, url, user, pw = backendparam
+        event = remote.createEvent(event, (url, user, pw))
         return event
