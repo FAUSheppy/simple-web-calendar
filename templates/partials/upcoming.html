@@ -5,7 +5,7 @@
 		<div class=eventLocation> 
                 {% if e.get("location") %} 
             		{% if e.get("gmaplink") %}
-            			<a href="{{ e.get("gmaplink") }}"> @{{ e.get("LOCATION") }} </a>
+            			<a href="{{ e.get("gmaplink") }}" target="_blank"> @{{ e.get("LOCATION") }} </a>
             		{% else %}
             		    @ {{ e.get("LOCATION") }}
             		{% endif %}

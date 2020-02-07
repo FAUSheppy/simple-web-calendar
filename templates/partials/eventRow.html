@@ -18,7 +18,7 @@
                     {{ e.get("SUMMARY") }}
                     <i>
                       {% if e.get("gmaplink") %}
-                         <a class="small-link" href="{{ e.get("gmaplink") }}"> @{{ e.get("LOCATION") }} </a>
+                         <a class="small-link"  target="_blank" href="{{ e.get("gmaplink") }}"> @{{ e.get("LOCATION") }} </a>
                       {% else %}
                          @{{ e.get("LOCATION") }}
                       {% endif %}

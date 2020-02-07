@@ -23,7 +23,7 @@
         </b>
         <i>
             {% if event.get("gmaplink") %}
-            <a href="{{ event.get("gmaplink") }}"> Ort: {{ event.get("LOCATION") }} </a>
+            <a target="_blank" href="{{ event.get("gmaplink") }}"> Ort: {{ event.get("LOCATION") }} </a>
             {% else %}
                 Ort: {{ event.get("LOCATION") }}
             {% endif %}
