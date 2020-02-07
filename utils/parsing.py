@@ -62,8 +62,11 @@ def prepareTimeStrings(events, showdate=False):
     return preparedTimeStrings
 
 def mapLinkFromLocation(location):
-    baseUrl = "https://www.google.com/maps/dir/?api=1&{}"
-    return baseUrl.format(urllib.parse.quote(location, safe=""))
+    baseUrl = "https://www.google.com/maps/dir/?api=1&destination={}"
+    locationAdditive = location.replace(" ","+")
+    link = baseUrl.format(urllib.parse.quote(locationAdditive, safe="+"))
+    print(link)
+    return link
 
 def parseEventData(eventData):
     events = []
