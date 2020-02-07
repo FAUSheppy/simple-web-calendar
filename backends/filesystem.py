@@ -15,9 +15,6 @@ import utils
 
 forceReload = False
 
-def _parseSingleFile(filename):
-    '''Read in a single ICS file from a filedescriptor'''
-
 def _parse(path):
 
     # get all files to be read #
@@ -69,37 +66,14 @@ def getEventById(uid, db, path):
 
     return db["eventsByUID"][uid]
 
-def createEvent(title, description, location, startDate, startTime, endDate, endTime, etype=None):
-
+def createEvent(event, backendparam):
     global forceReload
 
-    INPUT_TIME_FORMAT = "%Y-%m-%d-%H:%M"
-    ICAL_TIME_FORMAT  = "%Y%m%dT%H%M%SZ"
-
+    path = backendparam
     cal = icalendar.Calendar()
-
-    fullStartDateString = "{}-{}".format(startDate, startTime)
-    fullEndDateString   = "{}-{}".format(endDate, endTime)
-
-    # generate Event #
-    event = icalendar.Event()
-    event["uid"] = uuid.uuid4()
-    event["dtstart"] = datetime.strptime(fullStartDateString, INPUT_TIME_FORMAT).strftime(ICAL_TIME_FORMAT)
-    event["SUMMARY"] = title
-
-    if endDate:
-        dtEnd = datetime.strptime(fullEndDateString, INPUT_TIME_FORMAT)
-        event["dtend"] = dtEnd.strftime(ICAL_TIME_FORMAT)
-    if location:
-        event["location"] = location
-    if etype:
-        event["etype"] = etype
-    if description:
-        event["DESCRIPTION"] = description
-
     cal.add_component(event)
-    uuidStr = str(event["uid"]) + ".ics"
-    with open(os.path.join("data/", uuidStr), "wb") as f:
+
+    with open(os.path.join(path, str(event["uid"]) + ".ics"), "wb") as f:
         f.write(cal.to_ical())
         forceReload = True
 
