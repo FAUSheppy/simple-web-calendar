@@ -65,7 +65,11 @@ def monthView():
 
     weekDayPaddingEnd = (7 - (totalDaysInMonth + firstDayWeekdayCount)%7 )%7
 
-    events              = backend.getEvents(start, end, db, backendparam)
+    now = datetime.datetime.now()
+    today = datetime.datetime(year=now.year, month=now.month, day=now.day).replace(tzinfo=dateutil.tz.tzlocal())
+    tomorrow = today + datetime.timedelta(hours=23, minutes=59, seconds=59)
+
+    events              = backend.getEvents(today, tomorrow, db, backendparam)
     preparedTimeStrings = utils.parsing.prepareTimeStrings(events)
     todayView           = flask.Markup(flask.render_template('partials/eventRow.html', events=events, preparedTimeStrings=preparedTimeStrings))
 
