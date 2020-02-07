@@ -8,8 +8,9 @@
     <script src="/static/js/eventCreate.js" defer></script>
   </head>
   <body>
-
-    {% include 'partials/eventCreate.html' %}
+    {% if not readonly %}
+        {% include 'partials/eventCreate.html' %}
+    {% endif %}
 
     <!-- hidden URLs for ussage in javascript -->
     {% if nextDayLink and prevDayLink %}

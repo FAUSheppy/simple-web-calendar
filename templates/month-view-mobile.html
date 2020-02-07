@@ -9,7 +9,9 @@
     <script src="/static/js/monthview.js" defer></script>
   </head>
   <body>
-    {% include 'partials/eventCreate.html' %}
+    {% if not readonly %}
+        {% include 'partials/eventCreate.html' %}
+    {% endif %}
     <div class="calendar-box">
         <div class="headerbar">
             <div class="month-selection prev">

@@ -7,7 +7,9 @@
     <script src="/static/js/eventCreate.js" defer></script>
   </head>
   <body>
-    {% include 'partials/eventCreate.html' %}
+    {% if not readonly %}
+        {% include 'partials/eventCreate.html' %}
+    {% endif %}
     <div class="menubar">                                                                           
       <a class=menubarLink href="{{ backlinkDayView }}">
         &laquo &laquo Tagesübersicht &laquo &laquo

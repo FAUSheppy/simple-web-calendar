@@ -19,6 +19,7 @@ import pytz
 
 backend = backends.filesystem
 backendparam = None
+READ_ONLY = False
 
 app = flask.Flask("epic-open-calendar-frontend")
 db  = dict()
@@ -84,7 +85,8 @@ def monthView():
                                         currentMonthString=start.strftime("%B"), \
                                         paddingStart=firstDayWeekdayCount, \
                                         paddingEnd=weekDayPaddingEnd, \
-                                        todayView=todayView)
+                                        todayView=todayView, \
+                                        readonly=READ_ONLY)
 
 @app.route("/weekview")
 def weekView():
@@ -127,7 +129,8 @@ def weekView():
                                     prevDayLink=hrefPrevDay, \
                                     nextDayLink=hrefNextDay, \
                                     thisMonthLink=hrefThisMonth, \
-                                    dateOfView=dateOfViewString)
+                                    dateOfView=dateOfViewString, \
+                                    readonly=READ_ONLY)
 
 @app.route("/dayview")
 def dayView():
@@ -155,7 +158,8 @@ def dayView():
                                     prevDayLink=hrefPrevDay, \
                                     nextDayLink=hrefNextDay, \
                                     thisMonthLink=hrefThisMonth, \
-                                    dateOfView=dateOfViewString)
+                                    dateOfView=dateOfViewString,\
+                                    readonly=READ_ONLY)
 
 @app.route("/eventview")
 def eventView():
@@ -169,7 +173,7 @@ def eventView():
     backlinkDayView = dayLinkFormatString.format(dt.year, dt.month, dt.day)
 
     return flask.render_template("single-event-view.html", event=event,
-                                    backlinkDayView=backlinkDayView)
+                                    backlinkDayView=backlinkDayView, readonly=READ_ONLY)
 
 #### API ####
 @app.route("/upcoming")
@@ -199,6 +203,8 @@ def sendStatic(path):
 
 @app.route("/eventcreate", methods=["POST"])
 def eventCreate():
+    if READ_ONLY:
+        return "Editing disabled by command line option", 401
     if flask.request.method == "POST":
         params = flask.request.form
         event = utils.parsing.buildIcalEvent(params.get("title"), params.get("description"),
@@ -231,8 +237,11 @@ if __name__ == "__main__":
                             help="Remote url (caldav/hybrid)")
     parser.add_argument("--fs-backend-path", default="data", \
                             help="Path for locale directory (filesystem/hybrid)")
+    parser.add_argument("--read-only", action="store_const", default=False, const=True, \
+                            help="Disable Editing the calendar (answer 401 at /eventcreat and disable buttons)")
 
     args = parser.parse_args()
+    READ_ONLY = args.read_only
 
     # set localization #
     if args.locale_de:
