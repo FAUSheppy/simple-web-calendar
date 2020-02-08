@@ -6,7 +6,7 @@ def getEvents(start, end, db, backendparam):
     path, url, user, pw = backendparam
     return locale.getEvents(start, end, db, path)
 
-def getEventById(uid, db, backendparam):
+def getEventById(uid, db, backendparam, noAmor=True):
     path, url, user, pw = backendparam
     return locale.getEventById(uid, db, path)
 

@@ -12,12 +12,12 @@ def createEvent(event, backendparam):
     defaultCal.add_event(dummyCal.to_ical())
     return event
 
-def getEventById(uid, db, backendparam):
+def getEventById(uid, db, backendparam, noAmor=False):
     url, user, pw = backendparam
     client = caldav.DAVClient(url=url, username=user, password=pw)
     authenticatedClient = client.principal()
     defaultCal = authenticatedClient.calendars()[0]
-    events = utils.parsing.parseEventData(defaultCal.event_by_uid(uid).data)
+    events = utils.parsing.parseEventData(defaultCal.event_by_uid(uid).data, noAmor)
     if len(events) != 1:
         raise ValueError("UID query return more than one event.")
     return events[0]

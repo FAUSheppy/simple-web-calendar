@@ -190,7 +190,7 @@ def eventEdit():
     eventID = flask.request.args.get("uid")
     event   = None
     try:
-        event = backend.getEventById(eventID, db, backendparam)
+        event = backend.getEventById(eventID, db, backendparam, noAmor=True)
     except KeyError:
         pass
 

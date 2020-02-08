@@ -67,7 +67,7 @@ def mapLinkFromLocation(location):
     link = baseUrl.format(urllib.parse.quote(locationAdditive, safe="+"))
     return link
 
-def parseEventData(eventData):
+def parseEventData(eventData, noAmor=True):
     events = []
     gcal = icalendar.Calendar.from_ical(eventData)
     for component in gcal.walk():
@@ -79,13 +79,14 @@ def parseEventData(eventData):
                 dtLocEnd   = localizeDatetime(component.get('dtend').dt)
                 component.get("dtend").dt   = dtLocEnd
 
-    # link phone numbers #
-    for e in events:
-        try:
-            # phone numbers will be encoded as html, use markup to prevent escaping #
-            e['description'] = flask.Markup(searchAndAmorPhoneNumbers(e['description']))
-        except KeyError:
-            pass
+    if not noAmor:
+        # link phone numbers #
+        for e in events:
+            try:
+                # phone numbers will be encoded as html, use markup to prevent escaping #
+                e['description'] = flask.Markup(searchAndAmorPhoneNumbers(e['description']))
+            except KeyError:
+                pass
 
     # try to create google maps links #
     for e in events:

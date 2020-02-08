@@ -39,7 +39,7 @@ def getEvents(start, end, db, url):
 
     return timeframe.selectTimeframe(db["eventsByDate"], db["times"], start, end)
 
-def getEventById(uid, db, url):
+def getEventById(uid, db, url, noAmor=False):
 
     if not db.get("eventsByUID"):
         if db.get("eventsByDate"):
