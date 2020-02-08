@@ -242,7 +242,9 @@ def upcoming():
 
 @app.route("/static/<path:path>")
 def sendStatic(path):
-    return flask.send_from_directory('static', path)
+    response = flask.send_from_directory('static', path)
+    response.response.cache_control.max_age = 86400
+    return response
 
 @app.route("/invalidate-cache")
 def invalidateCache():
