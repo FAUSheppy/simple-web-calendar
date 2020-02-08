@@ -18,7 +18,7 @@ import requests
 
 forceReload = False
 
-def _parse(path):
+def _parse(path, noAmor):
 
     # get all files to be read #
     srcDir = ""
@@ -34,7 +34,7 @@ def _parse(path):
         if not fname.endswith(".ics"):
             continue
         with open(os.path.join(srcDir, fname), 'rb') as f:
-            events += utils.parsing.parseEventData(f.read())
+            events += utils.parsing.parseEventData(f.read(), noAmor)
 
     return sorted(events, key=lambda x: utils.parsing.localizeDatetime(x.get('dtstart').dt))
 
@@ -56,9 +56,9 @@ def getEventById(uid, db, path, noAmor=False):
 
     singleFile = os.path.join(path, uid + ".ics")
     if os.path.isfile(singleFile):
-        return _parse(singleFile)[0]
+        return _parse(singleFile, noAmor=noAmor)[0]
     else:
-        events = _parse(path)
+        events = _parse(path, noAmor=noAmor)
         for e in events:
             if e["uid"]:
                 return e

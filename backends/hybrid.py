@@ -8,14 +8,14 @@ def getEvents(start, end, db, backendparam):
 
 def getEventById(uid, db, backendparam, noAmor=False):
     path, url, user, pw = backendparam
-    return locale.getEventById(uid, db, path)
+    return locale.getEventById(uid, db, path, noAmor)
 
 def createEvent(event, backendparam):
     path, url, user, pw = backendparam
     event = remote.createEvent(event, (url, user, pw))
     return event
 
-def modifyEvent(oldEventId, newEvent, backendparam, noAmor=False):
+def modifyEvent(oldEventId, newEvent, backendparam):
     path, url, user, pw = backendparam
     event = remote.modifyEvent(oldEventId, newEvent, (url, user, pw))
     return event
