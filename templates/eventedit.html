@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" >
+  <head>
+    <meta charset="UTF-8">
+    {% include 'head.html' %}
+    <link rel="stylesheet" href="/static/css/day.css">
+    <link rel="stylesheet" href="/static/css/eventCreate.css">
+	<style>
+		.visible{
+			display: block !important;
+			visibility: visible !important;
+		}
+	</style>
+  </head>
+  <body>
+
+     	<!-- Navbar -->
+     	<div class="menubar">                                                                           
+     	    <a class=menubarLink href=/eventview?uid={{ event.get("uid") }}> 
+     	        &laquo &laquo Zurück &laquo &laquo
+     	    </a>
+     	</div>
+    
+		<div class="event-create-container visible">
+		    <div class=event-create-title>
+		        Kalendereintrag ändern
+		    </div>
+		    <form class="options-container" id="event-form" method="POST" action="/eventedit?uid={{ event.get('uid') }}">
+		        <span class=eventcreate-small> <div class=option-name>Name: 	</div> <input type="text"	name="title"       	class="option-input" value={{ event.get('SUMMARY') }} required> </span>
+		        <span class=eventcreate-small> <div class=option-name>Ort:      </div> <input type="text"	name="location"    	class="option-input" value={{ event.get('location') }} ></span>
+		        
+				<!-- Startzeit -->
+				<span class=eventcreate-small>
+					<div class=option-name>Startzeit:</div>
+					<input id="start-date-picker" type="date" name="start-date" class="option-input" onchange="checkEndDate(event)" value="{{ startDate }}" required>
+					<input id="start-time-picker" type="time" name="start-time" class="option-input" onchange="checkEndDate(event)" value="{{ startTime }}" required>
+				</span>
+		        
+				<!-- Endzeit -->
+				<span class=eventcreate-small>
+					<div class=option-name>Endzeit:</div>
+					<input id="end-date-picker" type="date" name="end-date" class="option-input" onchange="checkStartDate(event)" value="{{ endDate }}">
+					<input id="end-time-picker" type="time" name="end-time" class="option-input" onchange="checkStartDate(event)" value="{{ endTime }}">
+				</span>
+				
+		        <span class=eventcreate-small> <div class=option-name>Kategorie:</div> <input type="text" 	name="type" class="option-input" value="{{ event.get('etype') }}"> </span>
+		        <span> Beschreibung:<br><textarea rows="4" cols="30" name="description">{{ event.get('DESCRIPTION') }}</textarea></span>
+		    	<div id="button-container" class="button-container">
+			    <input value="Erstellen"    type=submit></input>
+		    	<input class=middle-button value="Zurücksetzen" type=reset></input>
+		    	<input value="Abbrechen"    type=button onclick="cancle()"></button>
+		    	</div>
+		    </form>
+		</div>
+  </body>
+</html>

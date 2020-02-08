@@ -166,15 +166,48 @@ def dayView():
 def eventView():
     eventID = flask.request.args.get("uid")
     event   = backend.getEventById(eventID, db, backendparam)
-
     if not event:
-        return flask.Response("", status=404)
+        return flask.Response("Event not found", status=404)
 
     dt = event.get("dtstart").dt
     backlinkDayView = dayLinkFormatString.format(dt.year, dt.month, dt.day)
 
     return flask.render_template("single-event-view.html", event=event,
                                     backlinkDayView=backlinkDayView, readonly=READ_ONLY)
+
+@app.route("/eventedit", methods=["GET", "POST"])
+def eventEdit():
+
+    eventID = flask.request.args.get("uid")
+    event   = None
+    try:
+        event = backend.getEventById(eventID, db, backendparam)
+    except KeyError:
+        pass
+
+    if not event:
+        return flask.Response("Event not found.", status=404)
+
+    if READ_ONLY:
+        return "Editing disabled by command line option", 401
+    if flask.request.method == "POST":
+        params = flask.request.form
+        event = utils.parsing.buildIcalEvent(params.get("title"), params.get("description"),
+                                                params.get("location"), params.get("start-date"), 
+                                                params.get("start-time"), params.get("end-date"), 
+                                                params.get("end-time"), params.get("type"), inuid=eventID)
+
+        editedEvent = backend.modifyEvent(eventID, event, backendparam)
+        #db["eventsByUID"].update({eventID:editedEvent})
+        return flask.redirect("/eventview?uid={}&edited=true".format(eventID))
+    else:
+        startDate = event.get("dtstart").dt.strftime("%Y-%m-%d")
+        startTime = event.get("dtstart").dt.strftime("%H:%M")
+        endDate   = event.get("dtend").dt.strftime("%Y-%m-%d")
+        endTime   = event.get("dtend").dt.strftime("%H:%M")
+
+        return flask.render_template("eventedit.html", event=event, startDate=startDate,
+                                        startTime=startTime, endDate=endDate, endTime=endTime)
 
 #### API ####
 @app.route("/upcoming")
@@ -213,7 +246,7 @@ def eventCreate():
                                                 params.get("start-time"), params.get("end-date"), 
                                                 params.get("end-time"), params.get("type"))
         backend.createEvent(event, backendparam)
-        db.update({event["uid"]:event})
+        #db.update({event["uid"]:event})
 
     return "", 204
 

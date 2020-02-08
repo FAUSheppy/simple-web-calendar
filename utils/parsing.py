@@ -97,7 +97,7 @@ def parseEventData(eventData):
 
     return events
 
-def buildIcalEvent(title, description, location, startDate, startTime, endDate, endTime, etype=None):
+def buildIcalEvent(title, description, location, startDate, startTime, endDate, endTime, etype=None, inuid=None):
     '''Create an icalendar event'''
 
     INPUT_TIME_FORMAT = "%Y-%m-%d-%H:%M"
@@ -108,7 +108,11 @@ def buildIcalEvent(title, description, location, startDate, startTime, endDate, 
 
     # generate Event #
     event = icalendar.Event()
-    event["uid"] = uuid.uuid4()
+    if not inuid:
+        event["uid"] = uuid.uuid4()
+    else:
+        event["uid"] = inuid
+
     event["dtstart"] = datetime.strptime(fullStartDateString, INPUT_TIME_FORMAT).strftime(ICAL_TIME_FORMAT)
     event["SUMMARY"] = title
 

@@ -52,20 +52,16 @@ def getEvents(start, end, db, path):
 
 def getEventById(uid, db, path):
 
-    if not db.get("eventsByUID"):
-        if db.get("eventsByDate"):
-            events = db["eventsByDate"]
-        else:
-            events = _parse(path)
-
-        # build dict #
-        eventDict = dict()
+    singleFile = os.path.join(path, uid + ".ics")
+    if os.path.isfile(singleFile):
+        return _parse(singleFile)[0]
+    else:
+        events = _parse(path)
         for e in events:
-            eventDict.update({e.get("UID"):e})
-
-        db["eventsByUID"] = eventDict
-
-    return db["eventsByUID"][uid]
+            if e["uid"]:
+                return e
+        raise KeyError("Event not found")
+    
 
 def createEvent(event, backendparam):
     global forceReload
@@ -80,5 +76,5 @@ def createEvent(event, backendparam):
 
     return event
 
-def modifyEvent(oldEvent, newEvent, backendparam):
-    raise NotImplementedError()
+def modifyEvent(oldEventID, newEvent, backendparam):
+    return createEvent(newEvent, backendparam)
