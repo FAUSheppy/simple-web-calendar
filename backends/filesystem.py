@@ -14,6 +14,8 @@ from datetime import datetime
 import utils.timeframe as timeframe
 import utils
 
+import requests
+
 forceReload = False
 
 def _parse(path):
