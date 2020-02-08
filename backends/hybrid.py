@@ -15,7 +15,7 @@ def createEvent(event, backendparam):
     event = remote.createEvent(event, (url, user, pw))
     return event
 
-def modifyEvent(oldEvent, newEvent, backendparam, noAmor=False):
+def modifyEvent(oldEventId, newEvent, backendparam, noAmor=False):
     path, url, user, pw = backendparam
-    event = remote.modifyEvent(event, (url, user, pw))
+    event = remote.modifyEvent(oldEventId, newEvent, (url, user, pw))
     return event
