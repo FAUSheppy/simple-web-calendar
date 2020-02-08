@@ -258,7 +258,7 @@ if __name__ == "__main__":
     if args.backend == "filesystem":
         backend = backends.filesystem
         backendparam = args.fs_backend_path
-    if args.backend == "remoteics":
+    elif args.backend == "remoteics":
         backend = backends.remoteICS
         if not args.read_only:
             READ_ONLY = True
