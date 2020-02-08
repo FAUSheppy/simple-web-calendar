@@ -33,5 +33,11 @@ def getEvents(start, end, db, backendparam):
         returnEvents += utils.parsing.parseEventData(event.data)
     return sorted(returnEvents, key=lambda x: utils.parsing.localizeDatetime(x.get('dtstart').dt))
 
-def modifyEvent(oldEvent, newEvent, backendparam):
-    raise NotImplementedError
+def modifyEvent(oldEventId, newEvent, backendparam):
+    url, user, pw = backendparam
+    client = caldav.DAVClient(url=url, username=user, password=pw)
+    authenticatedClient = client.principal()
+    defaultCal = authenticatedClient.calendars()[0]
+    dummyCal = icalendar.Calendar()
+    dummyCal.add_component(newEvent)
+    defaultCal.add_event(dummyCal.to_ical())
