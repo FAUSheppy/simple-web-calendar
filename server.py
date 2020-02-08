@@ -225,7 +225,7 @@ if __name__ == "__main__":
     # general parameters #
     parser.add_argument("-i", "--interface", default="0.0.0.0", help="Interface to listen on")
     parser.add_argument("-p", "--port", default="5000", help="Port to listen on")
-    parser.add_argument("-b", "--backend", default="filesystem", help="Eithter filesystem, hybrid or caldav")
+    parser.add_argument("-b", "--backend", default="filesystem", help="fileystem|caldav|remoteics|hybrid")
 
     # localization #
     parser.add_argument("--locale-de", action='store_const', const=True, \
