@@ -32,3 +32,6 @@ def getEvents(start, end, db, backendparam):
     for event in unparsedEvents:
         returnEvents += utils.parsing.parseEventData(event.data)
     return sorted(returnEvents, key=lambda x: utils.parsing.localizeDatetime(x.get('dtstart').dt))
+
+def modifyEvent(oldEvent, newEvent, backendparam):
+    raise NotImplementedError

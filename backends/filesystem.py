@@ -79,3 +79,6 @@ def createEvent(event, backendparam):
         forceReload = True
 
     return event
+
+def modifyEvent(oldEvent, newEvent, backendparam):
+    raise NotImplementedError()

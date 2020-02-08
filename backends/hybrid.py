@@ -14,3 +14,6 @@ def createEvent(event, backendparam):
         path, url, user, pw = backendparam
         event = remote.createEvent(event, (url, user, pw))
         return event
+
+def modifyEvent(oldEvent, newEvent, backendparam):
+        raise NotImplementedError() 

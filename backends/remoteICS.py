@@ -58,3 +58,6 @@ def getEventById(uid, db, url):
 
 def createEvent(event, backendparam):
     raise AssertionError("Edits not Supportet for this backend.")
+
+def modifyEvent(oldEvent, newEvent, backendparam):
+    raise AssertionError("Edits not Supportet for this backend.")
