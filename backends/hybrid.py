@@ -4,7 +4,7 @@ import backends.filesystem   as locale
 
 def getEvents(start, end, db, backendparam):
     path, url, user, pw = backendparam
-    return locale.getEvents(start, end, db, path)
+    return remote.getEvents(start, end, db, (url, user, pw))
 
 def getEventById(uid, db, backendparam, noAmor=True):
     path, url, user, pw = backendparam
