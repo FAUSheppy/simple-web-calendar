@@ -200,7 +200,6 @@ def eventEdit():
     if READ_ONLY:
         return "Editing disabled by command line option", 401
 
-    cache.clear()
     if flask.request.method == "POST":
         params = flask.request.form
         event = utils.parsing.buildIcalEvent(params.get("title"), params.get("description"),
@@ -209,6 +208,7 @@ def eventEdit():
                                                 params.get("end-time"), params.get("type"), inuid=eventID)
 
         editedEvent = backend.modifyEvent(eventID, event, backendparam)
+        cache.clear()
         return flask.redirect("/eventview?uid={}&edited=true".format(eventID))
     else:
         startDate = event.get("dtstart").dt.strftime("%Y-%m-%d")
