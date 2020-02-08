@@ -26,8 +26,8 @@
 		        Kalendereintrag ändern
 		    </div>
 		    <form class="options-container" id="event-form" method="POST" action="/eventedit?uid={{ event.get('uid') }}">
-		        <span class=eventcreate-small> <div class=option-name>Name: 	</div> <input type="text"	name="title"       	class="option-input" value={{ event.get('SUMMARY') }} required> </span>
-		        <span class=eventcreate-small> <div class=option-name>Ort:      </div> <input type="text"	name="location"    	class="option-input" value={{ event.get('location') }} ></span>
+		        <span class=eventcreate-small> <div class=option-name>Name: 	</div> <input type="text"	name="title"       	class="option-input" value="{{ event.get('SUMMARY') }}" required> </span>
+		        <span class=eventcreate-small> <div class=option-name>Ort:      </div> <input type="text"	name="location"    	class="option-input" value="{{ event.get('location') }}" ></span>
 		        
 				<!-- Startzeit -->
 				<span class=eventcreate-small>
