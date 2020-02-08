@@ -52,7 +52,7 @@ def getEvents(start, end, db, path):
 
     return timeframe.selectTimeframe(db["eventsByDate"], db["times"], start, end)
 
-def getEventById(uid, db, path):
+def getEventById(uid, db, path, noAmor=False):
 
     singleFile = os.path.join(path, uid + ".ics")
     if os.path.isfile(singleFile):
