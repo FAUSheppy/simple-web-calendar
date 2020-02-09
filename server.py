@@ -283,13 +283,13 @@ if __name__ == "__main__":
 
     # backend specific parameters #
     parser.add_argument("--auth-file", default=None, \
-                            help="Authentication file for backend (caldav/hybrid(")
+                            help="Authentication file for backend (caldav/hybrid)")
     parser.add_argument("--remote-url", default=None, \
                             help="Remote url (caldav/hybrid)")
     parser.add_argument("--fs-backend-path", default="data", \
                             help="Path for locale directory (filesystem/hybrid)")
     parser.add_argument("--read-only", action="store_const", default=False, const=True, \
-                            help="Disable Editing the calendar (answer 401 at /eventcreat and disable buttons)")
+                            help="Disable editing the calendar (reply 401 in API and disable buttons)")
 
     args = parser.parse_args()
     READ_ONLY = args.read_only
