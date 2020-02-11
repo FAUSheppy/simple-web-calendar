@@ -18,7 +18,7 @@ import requests
 
 forceReload = False
 
-def _parse(path, noAmor):
+def _parse(path, noAmor=False):
 
     # get all files to be read #
     srcDir = ""
