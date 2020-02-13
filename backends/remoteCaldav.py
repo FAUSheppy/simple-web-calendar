@@ -30,7 +30,7 @@ def getEvents(start, end, db, backendparam):
     unparsedEvents = defaultCal.date_search(start, end)
     returnEvents = []
     for event in unparsedEvents:
-        returnEvents += utils.parsing.parseEventData(event.data)
+        returnEvents += utils.parsing.parseEventData(event.data, start, end)
     return sorted(returnEvents, key=lambda x: utils.parsing.localizeDatetime(x.get('dtstart').dt))
 
 def modifyEvent(oldEventId, newEvent, backendparam):

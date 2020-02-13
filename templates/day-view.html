@@ -56,7 +56,11 @@
             			{% endif %}
                     </i>
                 </p>
-                <a class="details-link" href=/eventview?uid={{ e.get("UID") }}>Details</a>
+                {% if e.get("RRULE") %}
+                    <div class="details-link" style="text-decoration: underline;">Repeating Event</div>
+                {% else %}
+                    <a class="details-link" href=/eventview?uid={{ e.get("UID") }}>Details</a>
+                {% endif %}
             </div>
         {% endfor %}
         </div>

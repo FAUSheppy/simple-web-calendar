@@ -11,6 +11,7 @@ import locale
 import flask
 import urllib
 import uuid
+import dateutil.rrule as rrule
 
 def localizeDatetime(dt):
     '''Make a datetime object timezone localized'''
@@ -67,7 +68,7 @@ def mapLinkFromLocation(location):
     link = baseUrl.format(urllib.parse.quote(locationAdditive, safe="+"))
     return link
 
-def parseEventData(eventData, noAmor=True):
+def parseEventData(eventData, start=None, end=None, noAmor=True):
     events = []
     gcal = icalendar.Calendar.from_ical(eventData)
     for component in gcal.walk():
@@ -95,6 +96,20 @@ def parseEventData(eventData, noAmor=True):
         except KeyError:
             pass
 
+    # fix recurring events #
+    if start and end:
+        recurringEvents = []
+        for e in events:
+            ruleInEvent = e.get('rrule')
+            if ruleInEvent:
+                ruleStr = ruleInEvent.to_ical().decode("utf-8")
+                rule = rrule.rrulestr(ruleStr, dtstart=e.get('dtstart').dt)
+                recurringEventDates = rule.between(start, end)
+                print(recurringEventDates) 
+
+    # filter out original recurring events #
+    events = list(filter(lambda e: e.get('rrule'), events))
+    print(events)
 
     return events
 

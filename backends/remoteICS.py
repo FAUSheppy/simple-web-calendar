@@ -17,7 +17,7 @@ import requests
 
 forceReload = False
 
-def _importEvents(url):
+def _importEvents(url, start=None, end=None):
     response = requests.request("GET", url)
     events  = utils.parsing.parseEventData(response.text)
     events  = sorted(events, key=lambda x: utils.parsing.localizeDatetime(x.get('dtstart').dt))

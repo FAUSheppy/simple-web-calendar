@@ -277,8 +277,7 @@ def staticCacheList():
     cssDir = os.path.join(app.static_folder, 'css')
     cssFiles = ["/static/{}/{}".format("css", s) for s in os.listdir(cssDir)]
     
-    print(jsFiles + cssFiles + "/")
-    data = json.dumps(jsFiles + cssFiles)
+    data = json.dumps(jsFiles + cssFiles + ["/"])
     
     response = flask.Response(data, mimetype='application/json')
     response.headers["Cache-Control"] = "no-cache"

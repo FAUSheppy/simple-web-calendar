@@ -18,7 +18,7 @@ import requests
 
 forceReload = False
 
-def _parse(path, noAmor=False):
+def _parse(path, start=None, end=None, noAmor=False):
 
     # get all files to be read #
     srcDir = ""
@@ -34,7 +34,7 @@ def _parse(path, noAmor=False):
         if not fname.endswith(".ics"):
             continue
         with open(os.path.join(srcDir, fname), 'rb') as f:
-            events += utils.parsing.parseEventData(f.read(), noAmor)
+            events += utils.parsing.parseEventData(f.read(), start, end, noAmor)
 
     return sorted(events, key=lambda x: utils.parsing.localizeDatetime(x.get('dtstart').dt))
 
@@ -46,7 +46,7 @@ def getEvents(start, end, db, path):
 
     if not db.get("eventsByDate") or forceReload:
         forceReload = False
-        events      = _parse(path)
+        events      = _parse(path, start, end)
         db["times"] = [ x.get("dtstart").dt for x in events ]
         db["eventsByDate"] = events
 
