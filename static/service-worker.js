@@ -73,7 +73,7 @@ function fromNetwork(request, timeout) {
 }
 
 function fromCache(request) {
-	const cacheRequestFailed = new Response("You are offline and the requested isn't availible. Please return to the previous page if possible. (or connect to the internet).", {"status" : 408, "headers" : {"Content-Type" : "text/plain"}});
+	const cacheRequestFailed = new Response("You are offline and the requested isn't available. Please return to the previous page if possible. (or connect to the internet).", {"status" : 408, "headers" : {"Content-Type" : "text/plain"}});
 	return caches.open(CACHE).then(function (cache) {
 		return cache.match(request).then(function(matching){
 			if(matching){
