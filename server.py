@@ -309,9 +309,10 @@ def dynamicCacheList():
     dayLinks = []
     for x in range(1, calendar.monthrange(year, month)[1] + 1):
         dayLinks += [ dayLinkFormatString.format(year, month, x) ]
-    
-    data = json.dumps(dayLinks + eventLinks)
-    
+
+    monthLinks = [ monthLinkFormatString.format(year, month) ]
+
+    data = json.dumps(dayLinks + eventLinks + monthLinks)
     response = flask.Response(data, mimetype='application/json')
     response.headers["Cache-Control"] = "no-cache"
     return response
