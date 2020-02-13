@@ -10,6 +10,8 @@
     {% if not readonly %}
         {% include 'partials/eventCreate.html' %}
     {% endif %}
+	
+	{% include 'partials/offlineIdentifier.html' %}
     <div class="menubar">                                                                           
       <a class=menubarLink href="{{ backlinkDayView }}">
         &laquo &laquo Tagesübersicht &laquo &laquo
@@ -39,7 +41,7 @@
         <div class=description>
             {{ event.get("DESCRIPTION") }}
         </div>
-        <a style="float: right;" href=/eventedit?uid={{ event.get("uid") }}>Edit</a>
+        <a id="event-edit-link" style="float: right;" href=/eventedit?uid={{ event.get("uid") }}>Edit</a>
       </div>
     </div>
    </body>

@@ -17,6 +17,8 @@ import dateutil.relativedelta
 import dateutil.tz
 import calendar
 import pytz
+import json
+import os
 
 import flask_caching as fcache
 
@@ -42,6 +44,7 @@ monthLinkFormatString = "/monthview?year={}&month={}"
 # constants #
 SELECT_DAY_OF_WEEK = 2
 
+
 @app.route("/")
 def htmlRedirect():
     # do html redirect because some browsers (i.e. safari) #
@@ -59,11 +62,12 @@ def monthView():
 
     prevMonth = start - oneMonth
     nextMonth = start + oneMonth
-
+    
     events = backend.getEvents(start, end, db, backendparam)
-
+    
     # mark all days with event #
     firstDayWeekdayCount, totalDaysInMonth = calendar.monthrange(year, month)
+    
     # totalDaysInMonth - 1 to create 0-indexed array #
     eventsOnDay = [ False for x in range(0, totalDaysInMonth)]
     for e in events:
@@ -246,10 +250,72 @@ def sendStatic(path):
     response.response.cache_control.max_age = 86400
     return response
 
+@app.route("/service-worker.js")
+def serviceWorker(): #must be served from root
+    return app.send_static_file('service-worker.js')
+
 @app.route("/invalidate-cache")
 def invalidateCache():
     cache.clear()
     return "",204
+
+@app.route("/static-cache-status")
+def staticCacheStatus():
+    return "",304
+
+@app.route("/dynamic-cache-status")
+def dynamicCacheStatus():
+    return "",304
+    
+@app.route("/get-static-precache")
+def staticCacheList():
+
+    jsDir  = os.path.join(app.static_folder, 'js')
+    jsFiles = ["/static/{}/{}".format("js", s) for s in os.listdir(jsDir)]
+    jsFiles = list(filter(lambda x: "service-worker" not in x, jsFiles))
+    
+    cssDir = os.path.join(app.static_folder, 'css')
+    cssFiles = ["/static/{}/{}".format("css", s) for s in os.listdir(cssDir)]
+    
+    print(jsFiles + cssFiles + "/")
+    data = json.dumps(jsFiles + cssFiles)
+    
+    response = flask.Response(data, mimetype='application/json')
+    response.headers["Cache-Control"] = "no-cache"
+    return response
+
+@app.route("/get-dynamic-precache")
+def dynamicCacheList():
+    
+    #day   = int(flask.request.args.get("day"))
+    if flask.request.args.get("server-decides"):
+        month = datetime.datetime.today().month
+        year  = datetime.datetime.today().year
+    else:
+        month = int(flask.request.args.get("month"))
+        year  = int(flask.request.args.get("year"))
+    
+    start  = datetime.datetime(year, month, day=1, tzinfo=pytz.utc)
+    end    = start + oneMonth - oneMillisecond
+
+    prevMonth = start - oneMonth
+    nextMonth = start + oneMonth
+    
+    # generate event links #
+    events     = backend.getEvents(start, end, db, backendparam)
+    eventLinks = [ "/eventview?uid=" + e["uid"] for e in events ]
+    
+    # generate day links #
+    dayLinks = []
+    for x in range(1, calendar.monthrange(year, month)[1] + 1):
+        dayLinks += [ dayLinkFormatString.format(year, month, x) ]
+    
+    data = json.dumps(dayLinks + eventLinks)
+    
+    response = flask.Response(data, mimetype='application/json')
+    response.headers["Cache-Control"] = "no-cache"
+    return response
+    
 
 @app.route("/eventcreate", methods=["POST"])
 def eventCreate():
@@ -265,7 +331,9 @@ def eventCreate():
                                                 params.get("end-time"), params.get("type"))
         backend.createEvent(event, backendparam)
 
-    return "", 204
+    response = flask.response("", status=204)
+    response.headers["Cache-Control"] = "no-cache"
+    return response
 
 if __name__ == "__main__":
 

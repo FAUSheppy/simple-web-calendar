@@ -13,7 +13,8 @@
     {% if not readonly %}
         {% include 'partials/eventCreate.html' %}
     {% endif %}
-
+	
+	{% include 'partials/offlineIdentifier.html' %}
     <!-- hidden URLs for ussage in javascript -->
     <div class="hidden" id="nextDay">{{ nextDayLink }}</div>
     <div class="hidden" id="prevDay">{{ prevDayLink }}</div>

@@ -11,6 +11,8 @@
     {% if not readonly %}
         {% include 'partials/eventCreate.html' %}
     {% endif %}
+	
+	{% include 'partials/offlineIdentifier.html' %}
 
     <!-- hidden URLs for ussage in javascript -->
     {% if nextDayLink and prevDayLink %}

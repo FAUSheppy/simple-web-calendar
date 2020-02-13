@@ -14,6 +14,8 @@
   </head>
   <body>
 
+		{% include 'partials/offlineIdentifier.html' %}
+		
      	<!-- Navbar -->
      	<div class="menubar">                                                                           
      	    <a class=menubarLink href=/eventview?uid={{ event.get("uid") }}> 
@@ -46,7 +48,7 @@
 		        <span class=eventcreate-small> <div class=option-name>Kategorie:</div> <input type="text" 	name="type" class="option-input" value="{{ event.get('etype') }}"> </span>
 		        <span> Beschreibung:<br><textarea rows="4" cols="30" name="description">{{ event.get('DESCRIPTION') }}</textarea></span>
 		    	<div id="button-container" class="button-container">
-			    <input value="Ändern"    type=submit></input>
+			    <input id="submit-button" value="Ändern"    type=submit></input>
 		    	</div>
 		    </form>
 		</div>
