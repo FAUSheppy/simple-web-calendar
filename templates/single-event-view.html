@@ -41,7 +41,11 @@
         <div class=description>
             {{ event.get("DESCRIPTION") }}
         </div>
-        <a id="event-edit-link" style="float: right;" href=/eventedit?uid={{ event.get("uid") }}>Edit</a>
+		{% if event.get("lockEdit") %}
+			<div id="event-edit-link" style="float: right; text-decoration: underline;">Editing not availible</div>
+		{% else %}
+			<a id="event-edit-link" style="float: right;" href=/eventedit?uid={{ event.get("uid") }}>Edit</a>
+		{% endif %}
       </div>
     </div>
    </body>

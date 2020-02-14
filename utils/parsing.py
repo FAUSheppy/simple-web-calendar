@@ -95,25 +95,73 @@ def parseEventData(eventData, start=None, end=None, noAmor=True):
             e.update({"gmaplink":mapLinkFromLocation(e['location'])})
         except KeyError:
             pass
+    
+    # add field lockEdit for all events #
+    for e in events:
+        try:
+            e.update({"lockEdit":False})
+        except KeyError:
+            pass
 
     # fix recurring events #
     if start and end:
         recurringEvents = []
         for e in events:
+            
             ruleInEvent = e.get('rrule')
-            if ruleInEvent:
-                ruleStr = ruleInEvent.to_ical().decode("utf-8")
-                rule = rrule.rrulestr(ruleStr, dtstart=e.get('dtstart').dt)
-                recurringEventDates = rule.between(start, end)
-                print(recurringEventDates) 
+            if not ruleInEvent:
+                continue
+
+            # decode recurrence rule #
+            ruleStr = ruleInEvent.to_ical().decode("utf-8")
+            rule = rrule.rrulestr(ruleStr, dtstart=e.get('dtstart').dt)
+            
+            # get occuring dates in range #
+            recurringEventDates = rule.between(start.replace(tzinfo=None), end.replace(tzinfo=None))
+            if e.get('dtend'):
+                eventLength = e.get('dtend').dt - e.get('dtstart').dt
+            else:
+                eventLength = datetime.timedelta(seconds=0)
+
+            # create new events for occuring dates #
+            for date in recurringEventDates:
+                relativeEndDate = date + eventLength
+                recurringEvents += [cloneIcalEvent(e, startDatetime=date, endDatetime=relativeEndDate)]
+
+        # add newly generated events #
+        if len(recurringEvents) >= 1:
+            events += recurringEvents
 
     # filter out original recurring events #
-    events = list(filter(lambda e: e.get('rrule'), events))
-    print(events)
-
+    events = list(filter(lambda e: not e.get('rrule'), events))
     return events
 
-def buildIcalEvent(title, description, location, startDate, startTime, endDate, endTime, etype=None, inuid=None):
+class PseudeDatetimeComponent:
+    def __init__(self, dt):
+        self.dt = dt
+
+def cloneIcalEvent(event, startDatetime=None, endDatetime=None):
+    
+    if not startDatetime:
+        startDatetime = event.get("dtstart").dt
+    if not endDatetime:
+        endDatetime = event.get("dtend").dt
+    if not endDatetime:
+        endDatetime = startDatetime
+
+    startTime = startDatetime.strftime("%H:%M")
+    endTime   = startDatetime.strftime("%H:%M")
+    startDate = startDatetime.strftime("%Y-%m-%d")
+    endDate   = startDatetime.strftime("%Y-%m-%d")
+    event = buildIcalEvent(event.get("SUMMARY"), event.get("DESCRIPTION"), event.get("LOCATION"),
+                            startDate, startTime, endDate, endTime, lockEdit=True, inuid=event.get("UID"))
+
+    # fake actualy calendar component #
+    event["dtstart"] = PseudeDatetimeComponent(startDatetime.replace(tzinfo=pytz.utc))
+    event["dtend"]   = PseudeDatetimeComponent(endDatetime.replace(tzinfo=pytz.utc))
+    return event
+
+def buildIcalEvent(title, description, location, startDate, startTime, endDate, endTime, etype=None, inuid=None, lockEdit=False):
     '''Create an icalendar event'''
 
     INPUT_TIME_FORMAT = "%Y-%m-%d-%H:%M"
@@ -131,7 +179,9 @@ def buildIcalEvent(title, description, location, startDate, startTime, endDate, 
 
     event["dtstart"] = datetime.strptime(fullStartDateString, INPUT_TIME_FORMAT).strftime(ICAL_TIME_FORMAT)
     event["SUMMARY"] = title
-
+    
+    event["lockEdit"] = lockEdit
+    
     if endDate:
         dtEnd = datetime.strptime(fullEndDateString, INPUT_TIME_FORMAT)
         event["dtend"] = dtEnd.strftime(ICAL_TIME_FORMAT)

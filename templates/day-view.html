@@ -56,8 +56,8 @@
             			{% endif %}
                     </i>
                 </p>
-                {% if e.get("RRULE") %}
-                    <div class="details-link" style="text-decoration: underline;">Repeating Event</div>
+                {% if e.get("RRULE") or e.get("lockEdit") %}
+                    <div class="details-link" style="text-decoration: underline;">Detailansicht nicht verfügbar</div>
                 {% else %}
                     <a class="details-link" href=/eventview?uid={{ e.get("UID") }}>Details</a>
                 {% endif %}

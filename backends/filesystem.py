@@ -60,9 +60,9 @@ def getEventById(uid, db, path, noAmor=False):
     else:
         events = _parse(path, noAmor=noAmor)
         for e in events:
-            if e["uid"]:
+            if e["uid"] == uid:
                 return e
-        raise KeyError("Event not found")
+        return None
     
 
 def createEvent(event, backendparam):

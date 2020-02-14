@@ -24,7 +24,11 @@
                       {% endif %}
 					</i>
                 </p>
-                <a class="details-link" href=/eventview?uid={{ e.get("UID") }}>Details</a>
+                {% if e.get("RRULE") or e.get("lockEdit") %}
+                    <div class="details-link" style="text-decoration: underline;">Detailansicht nicht verfügbar</div>
+                {% else %}
+                    <a class="details-link" href=/eventview?uid={{ e.get("UID") }}>Details</a>
+                {% endif %}
             </div>
         {% endfor %}
         </div>
