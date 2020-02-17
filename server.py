@@ -273,10 +273,22 @@ def staticCacheList():
     response.headers["Cache-Control"] = "no-cache"
     return response
 
+#TODO
+@app.route("/register-update")
+def registerUpdatedEvent():
+    data = json.dumps([])
+    response = flask.Response(data, mimetype='application/json')
+    response.headers["Cache-Control"] = "no-cache"
+    return response
+
 @app.route("/get-dynamic-precache")
 def dynamicCacheList():
     
-    #day   = int(flask.request.args.get("day"))
+    lastUpdate = flask.request.args.get("lastUpdate")
+    lastUpdateDatetime = datetime.datetime.now()
+    if lastUpdate:
+        lastUpdate = datetime.stptime("%y%m%d-%H%M")
+
     if flask.request.args.get("server-decides"):
         month = datetime.datetime.today().month
         year  = datetime.datetime.today().year
@@ -292,6 +304,7 @@ def dynamicCacheList():
     
     # generate event links #
     events     = backend.getEvents(start, end, db, backendparam)
+    #events     = filter(lambda e: # TODO last modified #
     eventLinks = [ "/eventview?uid=" + e["uid"] for e in events ]
     
     # generate day links #
