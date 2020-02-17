@@ -20,15 +20,11 @@ import pytz
 import json
 import os
 
-import flask_caching as fcache
-
 backend = backends.filesystem
 backendparam = None
 READ_ONLY = False
 
 app = flask.Flask("epic-open-calendar-frontend")
-cache = fcache.Cache(app, config={'CACHE_TYPE': 'simple'})
-cache.init_app(app)
 
 db  = dict()
 
@@ -52,7 +48,6 @@ def htmlRedirect():
     return flask.render_template("redirectRoot.html", dt=datetime.datetime.now())
 
 @app.route("/monthview")
-@cache.cached(timeout=7200, query_string=True)
 def monthView():
     month = int(flask.request.args.get("month"))
     year  = int(flask.request.args.get("year"))
@@ -100,7 +95,6 @@ def monthView():
                                         readonly=READ_ONLY)
 
 @app.route("/weekview")
-@cache.cached(timeout=7200, query_string=True)
 def weekView():
     day   = flask.request.args.get("day")
     month = int(flask.request.args.get("month"))
@@ -145,7 +139,6 @@ def weekView():
                                     readonly=READ_ONLY)
 
 @app.route("/dayview")
-@cache.cached(timeout=7200, query_string=True)
 def dayView():
     day   = int(flask.request.args.get("day"))
     month = int(flask.request.args.get("month"))
@@ -175,7 +168,6 @@ def dayView():
                                     readonly=READ_ONLY)
 
 @app.route("/eventview")
-@cache.cached(timeout=7200, query_string=True)
 def eventView():
     eventID = flask.request.args.get("uid")
     event   = backend.getEventById(eventID, db, backendparam)
@@ -212,7 +204,6 @@ def eventEdit():
                                                 params.get("end-time"), params.get("type"), inuid=eventID)
 
         editedEvent = backend.modifyEvent(eventID, event, backendparam)
-        cache.clear()
         return flask.redirect("/eventview?uid={}&edited=true".format(eventID))
     else:
         startDate = event.get("dtstart").dt.strftime("%Y-%m-%d")
@@ -256,7 +247,6 @@ def serviceWorker(): #must be served from root
 
 @app.route("/invalidate-cache")
 def invalidateCache():
-    cache.clear()
     return "",204
 
 @app.route("/static-cache-status")
@@ -322,7 +312,6 @@ def eventCreate():
     if READ_ONLY:
         return "Editing disabled by command line option", 401
 
-    cache.clear()
     if flask.request.method == "POST":
         params = flask.request.form
         event = utils.parsing.buildIcalEvent(params.get("title"), params.get("description"),

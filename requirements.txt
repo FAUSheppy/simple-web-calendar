@@ -1,5 +1,4 @@
 icalendar
 flask
-flask-caching
 unidecode
 caldav
