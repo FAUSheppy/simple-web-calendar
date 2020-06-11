@@ -202,7 +202,6 @@ def eventEdit():
                                                 params.get("location"), params.get("start-date"), 
                                                 params.get("start-time"), params.get("end-date"), 
                                                 params.get("end-time"), params.get("type"), inuid=eventID)
-
         editedEvent = backend.modifyEvent(eventID, event, backendparam)
         return flask.redirect("/eventview?uid={}&edited=true".format(eventID))
     else:
@@ -333,7 +332,7 @@ def eventCreate():
                                                 params.get("end-time"), params.get("type"))
         backend.createEvent(event, backendparam)
 
-    response = flask.response("", status=204)
+    response = flask.Response("", status=204)
     response.headers["Cache-Control"] = "no-cache"
     return response
 
